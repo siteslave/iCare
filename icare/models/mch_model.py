@@ -113,6 +113,7 @@ class MchModel:
 
         if rs:
             for r in rs:
+
                 date = []
                 pcares = []
 
