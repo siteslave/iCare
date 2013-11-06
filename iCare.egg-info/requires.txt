@@ -1,0 +1,4 @@
+pyramid
+waitress
+pymongo
+pyramid_mako
