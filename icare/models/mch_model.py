@@ -174,7 +174,56 @@ class MchModel:
 
                 #have two records
                 elif len(date) == 2:
-                    pass
+                    birth = datetime.strptime(r['bdate'], '%Y%m%d')
+                    cc1 = datetime.strptime(date[0], '%Y%m%d')
+                    cc2 = datetime.strptime(date[1], '%Y%m%d')
+
+                    diff_date1 = cc1 - birth
+                    diff_date2 = cc2 - birth
+
+                    #find care1
+
+                    if 1 <= diff_date1.days <= 7:
+                        care1 = datetime.strftime(date[0], '%Y%m%d')
+
+                        care2 = date[1] if 1 <= (diff_date2 - diff_date1) <= 8 else birth + timedelta(days=8)
+                        care3 = date[1] if 9 <= (diff_date2 - diff_date1) <= 16 else birth + timedelta(days=16)
+                        #care2 = birth + timedelta(days=8)
+                        #care3 = birth + timedelta(days=16)
+
+                        care2 = datetime.strftime(care2, '%Y%m%d')
+                        care3 = datetime.strftime(care3, '%Y%m%d')
+                    elif 8 <= diff_date1.days <= 15:
+                        care1 = birth + timedelta(days=7)
+                        care2 = datetime.strftime(date[0], '%Y%m%d')
+                        care3 = date[1]
+                        #care3 = birth + timedelta(days=16)
+
+                        care1 = datetime.strftime(care1, '%Y%m%d')
+                        care3 = datetime.strftime(care3, '%Y%m%d')
+                    elif 16 <= diff_date1.days <= 45:
+                        care1 = birth + timedelta(days=7)
+                        care2 = birth + timedelta(days=8)
+                        care3 = datetime.strftime(date[0], '%Y%m%d')
+
+                        care1 = datetime.strftime(care1, '%Y%m%d')
+                        care2 = datetime.strftime(care2, '%Y%m%d')
+                    else:
+                        care1 = birth + timedelta(days=7)
+                        care2 = birth + timedelta(days=8)
+                        care3 = birth + timedelta(days=16)
+
+                        care1 = datetime.strftime(care1, '%Y%m%d')
+                        care2 = datetime.strftime(care2, '%Y%m%d')
+                        care3 = datetime.strftime(care3, '%Y%m%d')
+
+                    obj = {
+                        'care1': care1,
+                        'care2': care2,
+                        'care3': care3
+                    }
+
+                    pcares.append(obj)
                 #have tree records
                 elif len(date) == 3:
                     pass
