@@ -150,7 +150,7 @@ def get_anc_risk_list(request):
                     'birth': h.to_thai_date(p['birth']),
                     'age': h.count_age(p['birth']),
                     'sex': p['sex'],
-                    'is_risk': r['is_risk'],
+                    'is_risk': r['is_risk'] if 'is_risk' in r else None,
                     'screen_date': scrn,
                     'address': h.get_address(request, p['hid'], p['hospcode'])
                 }
