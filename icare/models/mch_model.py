@@ -1,9 +1,8 @@
 # -*- coding: utf8
-from bson import Code
-
 import pymongo
 from datetime import datetime
 from datetime import timedelta
+
 
 class MchModel:
 
@@ -118,9 +117,9 @@ class MchModel:
                 pcares = []
 
                 pcare = self.get_labor_forecast_detail(r['hospcode'], r['pid'], r['gravida'])
-
-                for p in pcare:
-                    date.append(p['ppcare'])
+                if pcare:
+                    for p in pcare:
+                        date.append(p['ppcare'])
 
                 date.sort()
 
@@ -135,26 +134,50 @@ class MchModel:
 
                     diff_date = cc - birth
                     if 1 <= diff_date.days <= 7:
-                        care1 = datetime.strftime(date[0], '%Y%m%d')
+                        care1 = datetime.strptime(date[0], '%Y%m%d')
                         care2 = birth + timedelta(days=8)
                         care3 = birth + timedelta(days=16)
 
+                        care1 = datetime.strftime(care1, '%Y%m%d')
                         care2 = datetime.strftime(care2, '%Y%m%d')
                         care3 = datetime.strftime(care3, '%Y%m%d')
+
+                        obj = [
+                            {'care1': care1, 'is_forecast': 'N'},
+                            {'care2': care2, 'is_forecast': 'Y'},
+                            {'care3': care3, 'is_forecast': 'Y'}
+                        ]
+
                     elif 8 <= diff_date.days <= 15:
                         care1 = birth + timedelta(days=7)
-                        care2 = datetime.strftime(date[0], '%Y%m%d')
+                        care2 = datetime.strptime(date[0], '%Y%m%d')
                         care3 = birth + timedelta(days=16)
 
                         care1 = datetime.strftime(care1, '%Y%m%d')
+                        care2 = datetime.strftime(care2, '%Y%m%d')
                         care3 = datetime.strftime(care3, '%Y%m%d')
+
+                        obj = [
+                            {'care1': care1, 'is_forecast': 'Y'},
+                            {'care2': care2, 'is_forecast': 'N'},
+                            {'care3': care3, 'is_forecast': 'Y'}
+                        ]
+
                     elif 16 <= diff_date.days <= 45:
                         care1 = birth + timedelta(days=7)
                         care2 = birth + timedelta(days=8)
-                        care3 = datetime.strftime(date[0], '%Y%m%d')
+                        care3 = datetime.strptime(date[0], '%Y%m%d')
 
                         care1 = datetime.strftime(care1, '%Y%m%d')
                         care2 = datetime.strftime(care2, '%Y%m%d')
+                        care3 = datetime.strftime(care3, '%Y%m%d')
+
+                        obj = [
+                            {'care1': care1, 'is_forecast': 'Y'},
+                            {'care2': care2, 'is_forecast': 'Y'},
+                            {'care3': care3, 'is_forecast': 'N'}
+                        ]
+
                     else:
                         care1 = birth + timedelta(days=7)
                         care2 = birth + timedelta(days=8)
@@ -164,11 +187,11 @@ class MchModel:
                         care2 = datetime.strftime(care2, '%Y%m%d')
                         care3 = datetime.strftime(care3, '%Y%m%d')
 
-                    obj = {
-                        'care1': care1,
-                        'care2': care2,
-                        'care3': care3
-                    }
+                        obj = [
+                            {'care1': care1, 'is_forecast': 'Y'},
+                            {'care2': care2, 'is_forecast': 'Y'},
+                            {'care3': care3, 'is_forecast': 'Y'}
+                        ]
 
                     pcares.append(obj)
 
@@ -184,30 +207,54 @@ class MchModel:
                     #find care1
 
                     if 1 <= diff_date1.days <= 7:
-                        care1 = datetime.strftime(date[0], '%Y%m%d')
+                        care1 = datetime.strptime(date[0], '%Y%m%d')
 
-                        care2 = date[1] if 1 <= (diff_date2 - diff_date1) <= 8 else birth + timedelta(days=8)
-                        care3 = date[1] if 9 <= (diff_date2 - diff_date1) <= 16 else birth + timedelta(days=16)
+                        care2 = datetime.strptime(date[1], '%Y%m%d') if 1 <= (diff_date2 - diff_date1).days <= 8 else birth + timedelta(days=8)
+                        care3 = datetime.strptime(date[1], '%Y%m%d') if 9 <= (diff_date2 - diff_date1).days <= 16 else birth + timedelta(days=16)
                         #care2 = birth + timedelta(days=8)
                         #care3 = birth + timedelta(days=16)
 
+                        care1 = datetime.strftime(care1, '%Y%m%d')
                         care2 = datetime.strftime(care2, '%Y%m%d')
                         care3 = datetime.strftime(care3, '%Y%m%d')
+
+                        obj = [
+                            {'care1': care1, 'is_forecast': 'N'},
+                            {'care2': care2, 'is_forecast': 'Y'},
+                            {'care3': care3, 'is_forecast': 'Y'}
+                        ]
+
                     elif 8 <= diff_date1.days <= 15:
                         care1 = birth + timedelta(days=7)
-                        care2 = datetime.strftime(date[0], '%Y%m%d')
+                        care2 = datetime.strptime(date[0], '%Y%m%d')
                         care3 = date[1]
                         #care3 = birth + timedelta(days=16)
 
                         care1 = datetime.strftime(care1, '%Y%m%d')
+                        care2 = datetime.strftime(care2, '%Y%m%d')
                         care3 = datetime.strftime(care3, '%Y%m%d')
+
+                        obj = [
+                            {'care1': care1, 'is_forecast': 'Y'},
+                            {'care2': care2, 'is_forecast': 'N'},
+                            {'care3': care3, 'is_forecast': 'Y'}
+                        ]
+
                     elif 16 <= diff_date1.days <= 45:
                         care1 = birth + timedelta(days=7)
                         care2 = birth + timedelta(days=8)
-                        care3 = datetime.strftime(date[0], '%Y%m%d')
+                        care3 = datetime.strptime(date[0], '%Y%m%d')
 
                         care1 = datetime.strftime(care1, '%Y%m%d')
                         care2 = datetime.strftime(care2, '%Y%m%d')
+                        care3 = datetime.strftime(care3, '%Y%m%d')
+
+                        obj = [
+                            {'care1': care1, 'is_forecast': 'Y'},
+                            {'care2': care2, 'is_forecast': 'Y'},
+                            {'care3': care3, 'is_forecast': 'N'}
+                        ]
+
                     else:
                         care1 = birth + timedelta(days=7)
                         care2 = birth + timedelta(days=8)
@@ -217,19 +264,34 @@ class MchModel:
                         care2 = datetime.strftime(care2, '%Y%m%d')
                         care3 = datetime.strftime(care3, '%Y%m%d')
 
-                    obj = {
-                        'care1': care1,
-                        'care2': care2,
-                        'care3': care3
-                    }
+                        obj = [
+                            {'care1': care1, 'is_forecast': 'Y'},
+                            {'care2': care2, 'is_forecast': 'Y'},
+                            {'care3': care3, 'is_forecast': 'Y'}
+                        ]
 
                     pcares.append(obj)
                 #have tree records
                 elif len(date) == 3:
-                    pass
+                    care1 = datetime.strptime(date[0], '%Y%m%d')
+                    care2 = datetime.strptime(date[1], '%Y%m%d')
+                    care3 = datetime.strptime(date[2], '%Y%m%d')
 
+                    care1 = datetime.strftime(care1, '%Y%m%d')
+                    care2 = datetime.strftime(care2, '%Y%m%d')
+                    care3 = datetime.strftime(care3, '%Y%m%d')
 
-    def update_pcare(self, hospcode, pid, gravida, pcare):
+                    obj = [
+                        {'care1': care1, 'is_forecast': 'Y'},
+                        {'care2': care2, 'is_forecast': 'Y'},
+                        {'care3': care3, 'is_forecast': 'Y'}
+                    ]
+
+                    pcares.append(obj)
+
+                self.update_pcare(r['hospcode'], r['pid'], r['gravida'], pcares)
+
+    def update_pcare(self, hospcode, pid, gravida, pcares):
         self.request.db['labor'].ensure_index('hospcode', pymongo.ASCENDING)
         self.request.db['labor'].ensure_index('pid', pymongo.ASCENDING)
         self.request.db['labor'].ensure_index('gravida', pymongo.ASCENDING)
@@ -240,7 +302,7 @@ class MchModel:
             'gravida': gravida
         }, {
             '$set': {
-                'pcares': pcare
+                'pcares': pcares
             }
         })
 
@@ -249,13 +311,12 @@ class MchModel:
         self.request.db['postnatal'].ensure_index('pid', pymongo.ASCENDING)
         self.request.db['postnatal'].ensure_index('gravida', pymongo.ASCENDING)
 
-        rs = self.request.db['postnatal'].find_one({
+        rs = self.request.db['postnatal'].find({
             'hospcode': hospcode,
             'pid': pid,
             'gravida': gravida
         })
 
-        #print(rs)
         return rs if rs else []
 
     def get_labor_list(self, hospcode):

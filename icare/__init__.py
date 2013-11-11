@@ -125,7 +125,6 @@ def main(global_config, **settings):
         config.add_route('home_save_latlng', '/save_latlng')
         
     def employers_route(config):
-        """docstring for employers_route"""
         config.add_route('employer_get_list', '/get_list')
         config.add_route('employer_get_total', '/get_total')
         config.add_route('employer_save_new', '/save_new')
@@ -150,6 +149,7 @@ def main(global_config, **settings):
         config.add_route('report_anc_search', '/anc/search')
 
         config.add_route('reports_mch_index', '/mch')
+        config.add_route('reports_mch_do_process', '/mch/process')
 
     def admin_route(config):
         config.add_route('admin_users', '/users')

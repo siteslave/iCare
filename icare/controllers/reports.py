@@ -8,6 +8,8 @@ from pyramid.httpexceptions import (
 
 from icare.models.person_model import PersonModel
 from icare.models.report_model import ReportModel
+from icare.models.mch_model import MchModel
+
 from icare.helpers.icare_helper import ICHelper
 
 from bson.objectid import ObjectId
@@ -438,3 +440,22 @@ def report_mch_index_view(request):
         return HTTPFound(location='/admins')
 
     return {'title': u'ทะเบียนเยี่ยมแม่หลังคลอด'}
+
+
+@view_config(route_name='reports_mch_do_process', renderer='json')
+def reports_mch_do_process_view(request):
+    if 'logged' not in request.session:
+        return HTTPFound(location='/signin')
+
+    if request.session['user_type'] == '1':
+        return HTTPFound(location='/admins')
+
+    mch = MchModel(request)
+    #try:
+    #    mch.do_process_forecast(request.session['hospcode'])
+    #    return {'ok': 1}
+    #except Exception as ex:
+    #    return {'ok': 0, 'msg': ex.message}
+
+    mch.do_process_forecast(request.session['hospcode'])
+    return {'ok': 1}

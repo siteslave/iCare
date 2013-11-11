@@ -190,6 +190,7 @@ icare/static/js/jquery.js
 icare/static/js/jquery.maskedinput.min.js
 icare/static/js/jquery.numeric.min.js
 icare/static/js/jquery.paging.min.js
+icare/static/js/moment.min.js
 icare/static/js/numeral.js
 icare/static/js/respond.min.js
 icare/static/js/apps/admins.users.js
@@ -200,6 +201,9 @@ icare/static/js/apps/epidem.js
 icare/static/js/apps/mch.js
 icare/static/js/apps/mch_map.js
 icare/static/js/apps/ncdscreen.js
+icare/static/js/apps/reports_anc.js
+icare/static/js/apps/reports_anc_risk.js
+icare/static/js/apps/reports_mch.js
 icare/static/js/apps/uploads.js
 icare/static/js/apps/wbc02.js
 icare/static/js/apps/wbc35.js
@@ -217,6 +221,9 @@ icare/templates/mch_map.mako
 icare/templates/ncdscreen.mako
 icare/templates/page.mako
 icare/templates/reports.mako
+icare/templates/reports_anc.mako
+icare/templates/reports_anc_risk.mako
+icare/templates/reports_mch.mako
 icare/templates/signin.mako
 icare/templates/uploads.mako
 icare/templates/wbc02.mako
