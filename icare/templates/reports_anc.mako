@@ -28,7 +28,10 @@
         <i class="icon-refresh"></i> ประมวลผล
     </button>
 </form>
-
+<div class="alert alert-warning alert-dismissable">
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+  <strong>หมายเหตุ!</strong> สีแดง หมายถึง วันที่ครบกำหนดฝากครรภ์ (โดยการคำนวณจากวันที่รับบริการ) สีเขียว หมายถึง วันที่ฝากครรภ์ในหน่วยบริการ.
+</div>
 <table class="table table-striped" id="tbl_list">
     <thead>
     <tr>
