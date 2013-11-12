@@ -35,14 +35,16 @@
         <th>เลขบัตรประชาชน</th>
         <th>ชื่อ-สกุล</th>
         <th>อายุ (ปี)</th>
+        <th>วันที่คลอด</th>
         <th>ครั้งที่ 1</th>
         <th>ครั้งที่ 2</th>
         <th>ครั้งที่ 3</th>
+        <th>#</th>
     </tr>
     </thead>
     <tbody>
     <tr>
-        <td colspan="6">...</td>
+        <td colspan="8">...</td>
     </tr>
     </tbody>
 </table>

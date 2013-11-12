@@ -31,6 +31,9 @@ def index_view(request):
 
 @view_config(route_name="reports_anc_risk", renderer="reports_anc_risk.mako")
 def report_anc_risk_view(request):
+    if 'logged' not in request.session:
+        return HTTPFound(location='/signin')
+
     return {'title': u'ผู้ป่วยกลุ่มเสี่ยงที่มารับบริการฝากครรภ์'}
 
 
@@ -451,11 +454,102 @@ def reports_mch_do_process_view(request):
         return HTTPFound(location='/admins')
 
     mch = MchModel(request)
-    #try:
-    #    mch.do_process_forecast(request.session['hospcode'])
-    #    return {'ok': 1}
-    #except Exception as ex:
-    #    return {'ok': 0, 'msg': ex.message}
+    try:
+        mch.do_process_forecast(request.session['hospcode'])
+        return {'ok': 1}
+    except Exception as ex:
+        return {'ok': 0, 'msg': ex.message}
 
-    mch.do_process_forecast(request.session['hospcode'])
-    return {'ok': 1}
+
+@view_config(route_name='report_mch_list', renderer='json', request_method='POST')
+def report_mch_list(request):
+    if 'logged' not in request.session:
+        return HTTPFound(location='/signin')
+
+    if request.session['user_type'] == '1':
+        return HTTPFound(location='/admins')
+
+    start = request.params['start']
+    stop = request.params['stop']
+
+    limit = int(stop) - int(start)
+
+    mch = MchModel(request)
+    person = PersonModel(request)
+
+    if request.params['s'] != "" and request.params['e'] != "":
+        #Get by date
+        start_date = request.params['s']
+        end_date = request.params['e']
+
+        start_date = start_date.split('/')
+        end_date = end_date.split('/')
+
+        sy = int(start_date[2]) - 543
+        ey = int(end_date[2]) - 543
+
+        start_date = str(sy) + start_date[1] + start_date[0]
+        end_date = str(ey) + end_date[1] + end_date[0]
+
+        rs = mch.get_labor_forecast_filter_list(request.session['hospcode'], start_date, end_date, int(start), int(limit))
+    else:
+        rs = mch.get_labor_forecast_list(request.session['hospcode'], int(start), int(limit))
+
+    if rs:
+        rows = []
+
+        for r in rs:
+            p = person.get_person_detail(r['pid'], r['hospcode'])
+            obj = {
+                'fullname': p['name'] + '  ' + p['lname'],
+                'cid': p['cid'],
+                'birth': h.to_thai_date(p['birth']),
+                'age': h.count_age(p['birth']),
+                'sex': p['sex'],
+                'bdate': h.to_thai_date(r['bdate']),
+                #'address': h.get_address(request, r['hid'], r['hospcode']),
+                'ppcares': r['ppcares'] if 'ppcares' in r else None
+            }
+
+            rows.append(obj)
+
+        return {'ok': 1, 'rows': rows}
+    else:
+        return {'ok': 0, 'msg': 'ไม่พบรายการ'}
+
+
+@view_config(route_name='report_mch_total', request_method='POST', renderer='json')
+def report_mch_total(request):
+    if 'logged' not in request.session:
+        return {'ok': 0, 'msg': 'Please login.'}
+    else:
+        if request.is_xhr:  # is ajax request
+            csrf_token = request.params['csrf_token']
+            is_token = (csrf_token == unicode(request.session.get_csrf_token()))
+
+            if is_token:
+                mch = MchModel(request)
+
+                if request.params['s'] != "" and request.params['e'] != "":
+                    #Get by date
+                    start_date = request.params['s']
+                    end_date = request.params['e']
+
+                    start_date = start_date.split('/')
+                    end_date = end_date.split('/')
+
+                    sy = int(start_date[2]) - 543
+                    ey = int(end_date[2]) - 543
+
+                    start_date = str(sy) + start_date[1] + start_date[0]
+                    end_date = str(ey) + end_date[1] + end_date[0]
+
+                    total = mch.get_labor_forecast_filter_total(request.session['hospcode'], start_date, end_date)
+
+                    return {'ok': 1, 'total': total}
+                else:
+                    total = mch.get_labor_forecast_total(request.session['hospcode'])
+
+                    return {'ok': 1, 'total': total}
+            else:
+                return {'ok': 0, 'msg': 'Invalid token key'}

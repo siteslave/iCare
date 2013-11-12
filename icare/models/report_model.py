@@ -176,13 +176,3 @@ class ReportModel:
         })
 
         return rs
-
-    #Get all mch list
-    def get_mch_list(self, hospcode):
-        self.request.db['mch'].ensure_index('hospcode', pymongo.ASCENDING)
-        
-        rs = self.request.db['mch'].find({
-            'hospcode': hospcode
-        })
-
-        return rs

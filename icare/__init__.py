@@ -150,6 +150,8 @@ def main(global_config, **settings):
 
         config.add_route('reports_mch_index', '/mch')
         config.add_route('reports_mch_do_process', '/mch/process')
+        config.add_route('report_mch_total', '/mch/total')
+        config.add_route('report_mch_list', '/mch/list')
 
     def admin_route(config):
         config.add_route('admin_users', '/users')

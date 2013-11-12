@@ -114,7 +114,7 @@ class MchModel:
             for r in rs:
 
                 date = []
-                pcares = []
+                obj = []
 
                 pcare = self.get_labor_forecast_detail(r['hospcode'], r['pid'], r['gravida'])
                 if pcare:
@@ -127,11 +127,11 @@ class MchModel:
                 #second >= (birth + 8) <= 15
                 #third >= (birth + 16) <= 45
 
+                birth = datetime.strptime(r['bdate'], '%Y%m%d')
+
                 #have one record
                 if len(date) == 1:
-                    birth = datetime.strptime(r['bdate'], '%Y%m%d')
                     cc = datetime.strptime(date[0], '%Y%m%d')
-
                     diff_date = cc - birth
                     if 1 <= diff_date.days <= 7:
                         care1 = datetime.strptime(date[0], '%Y%m%d')
@@ -143,9 +143,9 @@ class MchModel:
                         care3 = datetime.strftime(care3, '%Y%m%d')
 
                         obj = [
-                            {'care1': care1, 'is_forecast': 'N'},
-                            {'care2': care2, 'is_forecast': 'Y'},
-                            {'care3': care3, 'is_forecast': 'Y'}
+                            {'no': '1', 'date_serv': care1, 'is_forecast': 'N'},
+                            {'no': '2', 'date_serv': care2, 'is_forecast': 'Y'},
+                            {'no': '3', 'date_serv': care3, 'is_forecast': 'Y'}
                         ]
 
                     elif 8 <= diff_date.days <= 15:
@@ -158,9 +158,9 @@ class MchModel:
                         care3 = datetime.strftime(care3, '%Y%m%d')
 
                         obj = [
-                            {'care1': care1, 'is_forecast': 'Y'},
-                            {'care2': care2, 'is_forecast': 'N'},
-                            {'care3': care3, 'is_forecast': 'Y'}
+                            {'no': '1', 'date_serv': care1, 'is_forecast': 'Y'},
+                            {'no': '2', 'date_serv': care2, 'is_forecast': 'N'},
+                            {'no': '3', 'date_serv': care3, 'is_forecast': 'Y'}
                         ]
 
                     elif 16 <= diff_date.days <= 45:
@@ -173,9 +173,9 @@ class MchModel:
                         care3 = datetime.strftime(care3, '%Y%m%d')
 
                         obj = [
-                            {'care1': care1, 'is_forecast': 'Y'},
-                            {'care2': care2, 'is_forecast': 'Y'},
-                            {'care3': care3, 'is_forecast': 'N'}
+                            {'no': '1', 'date_serv': care1, 'is_forecast': 'Y'},
+                            {'no': '2', 'date_serv': care2, 'is_forecast': 'Y'},
+                            {'no': '3', 'date_serv': care3, 'is_forecast': 'N'}
                         ]
 
                     else:
@@ -188,12 +188,10 @@ class MchModel:
                         care3 = datetime.strftime(care3, '%Y%m%d')
 
                         obj = [
-                            {'care1': care1, 'is_forecast': 'Y'},
-                            {'care2': care2, 'is_forecast': 'Y'},
-                            {'care3': care3, 'is_forecast': 'Y'}
+                            {'no': '1', 'date_serv': care1, 'is_forecast': 'Y'},
+                            {'no': '2', 'date_serv': care2, 'is_forecast': 'Y'},
+                            {'no': '3', 'date_serv': care3, 'is_forecast': 'Y'}
                         ]
-
-                    pcares.append(obj)
 
                 #have two records
                 elif len(date) == 2:
@@ -219,9 +217,9 @@ class MchModel:
                         care3 = datetime.strftime(care3, '%Y%m%d')
 
                         obj = [
-                            {'care1': care1, 'is_forecast': 'N'},
-                            {'care2': care2, 'is_forecast': 'Y'},
-                            {'care3': care3, 'is_forecast': 'Y'}
+                            {'no': '1', 'date_serv': care1, 'is_forecast': 'N'},
+                            {'no': '2', 'date_serv': care2, 'is_forecast': 'Y'},
+                            {'no': '3', 'date_serv': care3, 'is_forecast': 'Y'}
                         ]
 
                     elif 8 <= diff_date1.days <= 15:
@@ -235,9 +233,9 @@ class MchModel:
                         care3 = datetime.strftime(care3, '%Y%m%d')
 
                         obj = [
-                            {'care1': care1, 'is_forecast': 'Y'},
-                            {'care2': care2, 'is_forecast': 'N'},
-                            {'care3': care3, 'is_forecast': 'Y'}
+                            {'no': '1', 'date_serv': care1, 'is_forecast': 'Y'},
+                            {'no': '2', 'date_serv': care2, 'is_forecast': 'N'},
+                            {'no': '3', 'date_serv': care3, 'is_forecast': 'Y'}
                         ]
 
                     elif 16 <= diff_date1.days <= 45:
@@ -250,9 +248,9 @@ class MchModel:
                         care3 = datetime.strftime(care3, '%Y%m%d')
 
                         obj = [
-                            {'care1': care1, 'is_forecast': 'Y'},
-                            {'care2': care2, 'is_forecast': 'Y'},
-                            {'care3': care3, 'is_forecast': 'N'}
+                            {'no': '1', 'date_serv': care1, 'is_forecast': 'Y'},
+                            {'no': '2', 'date_serv': care2, 'is_forecast': 'Y'},
+                            {'no': '3', 'date_serv': care3, 'is_forecast': 'N'}
                         ]
 
                     else:
@@ -265,12 +263,11 @@ class MchModel:
                         care3 = datetime.strftime(care3, '%Y%m%d')
 
                         obj = [
-                            {'care1': care1, 'is_forecast': 'Y'},
-                            {'care2': care2, 'is_forecast': 'Y'},
-                            {'care3': care3, 'is_forecast': 'Y'}
+                            {'no': '1', 'date_serv': care1, 'is_forecast': 'Y'},
+                            {'no': '2', 'date_serv': care2, 'is_forecast': 'Y'},
+                            {'no': '3', 'date_serv': care3, 'is_forecast': 'Y'}
                         ]
 
-                    pcares.append(obj)
                 #have tree records
                 elif len(date) == 3:
                     care1 = datetime.strptime(date[0], '%Y%m%d')
@@ -282,14 +279,26 @@ class MchModel:
                     care3 = datetime.strftime(care3, '%Y%m%d')
 
                     obj = [
-                        {'care1': care1, 'is_forecast': 'Y'},
-                        {'care2': care2, 'is_forecast': 'Y'},
-                        {'care3': care3, 'is_forecast': 'Y'}
+                        {'no': '1', 'date_serv': care1, 'is_forecast': 'Y'},
+                        {'no': '2', 'date_serv': care2, 'is_forecast': 'Y'},
+                        {'no': '3', 'date_serv': care3, 'is_forecast': 'Y'}
+                    ]
+                else:
+                    care1 = birth + timedelta(days=7)
+                    care2 = birth + timedelta(days=8)
+                    care3 = birth + timedelta(days=16)
+
+                    care1 = datetime.strftime(care1, '%Y%m%d')
+                    care2 = datetime.strftime(care2, '%Y%m%d')
+                    care3 = datetime.strftime(care3, '%Y%m%d')
+
+                    obj = [
+                        {'no': '1', 'date_serv': care1, 'is_forecast': 'Y'},
+                        {'no': '2', 'date_serv': care2, 'is_forecast': 'Y'},
+                        {'no': '3', 'date_serv': care3, 'is_forecast': 'Y'}
                     ]
 
-                    pcares.append(obj)
-
-                self.update_pcare(r['hospcode'], r['pid'], r['gravida'], pcares)
+                self.update_pcare(r['hospcode'], r['pid'], r['gravida'], obj)
 
     def update_pcare(self, hospcode, pid, gravida, pcares):
         self.request.db['labor'].ensure_index('hospcode', pymongo.ASCENDING)
@@ -302,7 +311,7 @@ class MchModel:
             'gravida': gravida
         }, {
             '$set': {
-                'pcares': pcares
+                'ppcares': pcares
             }
         })
 
@@ -327,26 +336,55 @@ class MchModel:
         })
 
         return rs
-"""
-    def get_forecast(self, care1, care2, care3, t):
-        if t == '1':
-            if 'date_serv' in anc02:
-                d = datetime.strptime(anc02['date_serv'], '%Y%m%d')
-                nd = d - timedelta(days=42)
-                return nd.strftime('%Y%m%d')
-            elif 'date_serv' in anc03:
-                d = datetime.strptime(anc03['date_serv'], '%Y%m%d')
-                nd = d - timedelta(days=98)
-                return nd.strftime('%Y%m%d')
-            elif 'date_serv' in anc04:
-                d = datetime.strptime(anc04['date_serv'], '%Y%m%d')
-                nd = d - timedelta(days=140)
-                return nd.strftime('%Y%m%d')
-            elif 'date_serv' in anc05:
-                d = datetime.strptime(anc05['date_serv'], '%Y%m%d')
-                nd = d - timedelta(days=182)
-                return nd.strftime('%Y%m%d')
-            else:
-                return None
 
-"""
+    def get_labor_forecast_list(self, hospcode, start, limit):
+        self.request.db['labor'].ensure_index('hospcode', pymongo.ASCENDING)
+
+        rs = self.request.db['labor'].find({
+            'hospcode': hospcode
+        }).skip(start).limit(limit)
+
+        return rs
+
+    def get_labor_forecast_total(self, hospcode):
+        self.request.db['labor'].ensure_index('hospcode', pymongo.ASCENDING)
+
+        rs = self.request.db['labor'].find({
+            'hospcode': hospcode
+        }).count()
+
+        return rs
+
+    def get_labor_forecast_filter_list(self, hospcode, start_date, end_date, start, limit):
+        self.request.db['labor'].ensure_index('hospcode', pymongo.ASCENDING)
+
+        rs = self.request.db['labor'].find({
+            'hospcode': hospcode,
+            'ppcares': {
+                '$elemMatch': {
+                    'date_serv': {
+                        '$gte': str(start_date),
+                        '$lte': str(end_date)
+                    }
+                }
+            }
+        }).skip(start).limit(limit)
+
+        return rs
+
+    def get_labor_forecast_filter_total(self, hospcode, start_date, end_date):
+        self.request.db['labor'].ensure_index('hospcode', pymongo.ASCENDING)
+
+        rs = self.request.db['labor'].find({
+            'hospcode': hospcode,
+            'ppcares': {
+                '$elemMatch': {
+                    'date_serv': {
+                        '$gte': str(start_date),
+                        '$lte': str(end_date)
+                    }
+                }
+            }
+        }).count()
+
+        return rs
