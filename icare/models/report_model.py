@@ -176,3 +176,20 @@ class ReportModel:
         })
 
         return rs
+
+    def get_anc_target_per_month(self, hospcode, start_date, end_date):
+        self.request.db['anc_coverages'].ensure_index('hospcode', pymongo.ASCENDING)
+
+        rs = self.request.db['anc_coverages'].find({
+            'hospcode': hospcode,
+            'coverages': {
+                '$elemMatch': {
+                    'forecast': {
+                        '$gte': str(start_date),
+                        '$lte': str(end_date)
+                    }
+                }
+            }
+        })
+
+        return rs

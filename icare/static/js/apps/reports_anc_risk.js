@@ -72,6 +72,7 @@ $(function() {
             $(rs).each(function(i, v) {
 
                 var is_risk = v.is_risk == 'Y' ? '<i class="icon-ok"></i>' : '<i class="icon-minus"></i>';
+                var tr_risk = v.is_risk == 'Y' ? 'class="warning"' : '';
 
                 var screen_list =
                     '<div class="btn-group">' +
@@ -83,7 +84,7 @@ $(function() {
                 if($(v.screen_date).size()) {
                     $(v.screen_date).each(function(i, v) {
                         var d = new Date(v.last_update);
-                        var new_date = d.getDate() + '/' + d.getMonth() + '/' + d.getFullYear();
+                        var new_date = d.getDate() + '/' + (d.getMonth() + 1) + '/' + d.getFullYear();
                         screen_list +=
                                         '<li class="dropdown-header">DATE SCREEN</li>' +
                                         '<li><a href="#" data-name="btn_get_risk_screen_detail" data-id="' + v.id + '" title="ดูข้อมูล">' +
@@ -94,7 +95,7 @@ $(function() {
                 }
 
                 $('#tbl_list > tbody').append(
-                    '<tr>' +
+                    '<tr ' + tr_risk + '>' +
                         '<td>' + v.cid + '</td>' +
                         '<td>' + v.fullname + '</td>' +
                         '<td>' + v.birth + '</td>' +

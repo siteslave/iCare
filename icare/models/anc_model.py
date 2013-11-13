@@ -198,7 +198,7 @@ class AncModel:
                     anc04 = self.get_anc_detail(i['hospcode'], i['pid'], i['gravida'], '4')
                     anc05 = self.get_anc_detail(i['hospcode'], i['pid'], i['gravida'], '5')
 
-                    print(anc04)
+                    #print(anc04)
 
                     doc = {
                         'hospcode': i['hospcode'],
@@ -246,7 +246,7 @@ class AncModel:
 
                 return True
             except Exception as ex:
-                print(ex.message)
+                #print(ex.message)
                 return False
 
         else:

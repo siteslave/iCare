@@ -17,12 +17,12 @@
             <i class="icon-refresh"></i> รีเฟรช
         </button>
     </div>
-    |
-    <input type="text" id="txt_query" class="form-control" style="width: 180px;"
-            placeholder="เลขบัตรประชาชน" />
-    <button type="button" id="btn_search" class="btn btn-primary" rel="tooltip" title="ค้นหา">
-        <i class="icon-search"></i> ค้นหา
-    </button>
+##    |
+##    <input type="text" id="txt_query" class="form-control" style="width: 180px;"
+##            placeholder="เลขบัตรประชาชน" />
+##    <button type="button" id="btn_search" class="btn btn-primary" rel="tooltip" title="ค้นหา">
+##        <i class="icon-search"></i> ค้นหา
+##    </button>
 
     <button type="button" class="btn btn-danger pull-right" id="btn_process">
         <i class="icon-refresh"></i> ประมวลผล
@@ -44,12 +44,11 @@
         <th>ครั้งที่ 1</th>
         <th>ครั้งที่ 2</th>
         <th>ครั้งที่ 3</th>
-        <th>#</th>
     </tr>
     </thead>
     <tbody>
     <tr>
-        <td colspan="8">...</td>
+        <td colspan="7">...</td>
     </tr>
     </tbody>
 </table>

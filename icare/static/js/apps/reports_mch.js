@@ -74,12 +74,12 @@ $(function() {
                         '<td>' + cov01 + '</td>' +
                         '<td>' + cov02 + '</td>' +
                         '<td>' + cov03 + '</td>' +
-                        '<td><a href="#" class="btn btn-primary"><i class="icon-share"></i></a></td>' +
+                        //'<td><a href="#" class="btn btn-primary"><i class="icon-share"></i></a></td>' +
                         '</tr>'
                 );
             });
         } else {
-            $('#tbl_list > tbody').append('<tr><td colspan="8">ไม่พบรายการ</td></tr>');
+            $('#tbl_list > tbody').append('<tr><td colspan="7">ไม่พบรายการ</td></tr>');
         }
     };
 
@@ -93,7 +93,7 @@ $(function() {
         rpt_mch.ajax.get_total(start, end, function(e, total) {
             if (e) {
                 app.alert(e);
-                $('#tbl_list > tbody').append('<tr><td colspan="8">ไม่พบรายการ</td></tr>');
+                $('#tbl_list > tbody').append('<tr><td colspan="7">ไม่พบรายการ</td></tr>');
             } else {
 
                 $('#paging').fadeIn('slow');
@@ -111,7 +111,7 @@ $(function() {
 
                             if(e) {
                                 app.alert(e);
-                                $('#tbl_list > tbody').append('<tr><td colspan="8">ไม่พบข้อมูล</td></td></tr>');
+                                $('#tbl_list > tbody').append('<tr><td colspan="7">ไม่พบข้อมูล</td></td></tr>');
                             } else {
                                 rpt_mch.set_list(rs);
                             }

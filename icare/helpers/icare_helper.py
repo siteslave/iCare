@@ -273,20 +273,22 @@ class ICHelper:
         })
 
         if home:
+            try:
+                chw = home['changwat']
+                amp = home['ampur']
+                tmb = home['tambon']
+                moo = home['village']
+                address = home['house']
 
-            chw = home['changwat']
-            amp = home['ampur']
-            tmb = home['tambon']
-            moo = home['village']
-            address = home['house']
+                chw_name = self.get_chw(request, chw)
+                amp_name = self.get_amp(request, chw, amp)
+                tmb_name = self.get_tmb(request, chw, amp, tmb)
 
-            chw_name = self.get_chw(request, chw)
-            amp_name = self.get_amp(request, chw, amp)
-            tmb_name = self.get_tmb(request, chw, amp, tmb)
+                full_address = u'%s หมู่ %s ต.%s อ.%s จ.%s' % (address, moo, tmb_name, amp_name, chw_name)
 
-            full_address = u'%s หมู่ %s ต.%s อ.%s จ.%s' % (address, moo, tmb_name, amp_name, chw_name)
-
-            return full_address
+                return full_address
+            except:
+                return '-'
 
         else:
             return '-'

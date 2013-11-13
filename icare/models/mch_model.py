@@ -388,3 +388,24 @@ class MchModel:
         }).count()
 
         return rs
+
+    def get_target_per_month(self, hospcode, start_date, end_date):
+
+        self.request.db['labor'].ensure_index('hospcode', pymongo.ASCENDING)
+        self.request.db['labor'].ensure_index('ppcares.date_serv', pymongo.ASCENDING)
+        self.request.db['labor'].ensure_index('ppcares.is_forecast', pymongo.ASCENDING)
+
+        rs = self.request.db['labor'].find({
+            'hospcode': hospcode,
+            'ppcares': {
+                '$elemMatch': {
+                    'date_serv': {
+                        '$gte': str(start_date),
+                        '$lte': str(end_date)
+                    },
+                    'is_forecast': 'Y'
+                }
+            }
+        })
+
+        return rs

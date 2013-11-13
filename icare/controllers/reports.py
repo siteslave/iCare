@@ -1,9 +1,9 @@
 # -*- coding: utf8
+from datetime import datetime, date
 
 from pyramid.view import view_config
 from pyramid.httpexceptions import (
-    HTTPFound,
-    HTTPUnauthorized
+    HTTPFound
 )
 
 from icare.models.person_model import PersonModel
@@ -13,6 +13,7 @@ from icare.models.mch_model import MchModel
 from icare.helpers.icare_helper import ICHelper
 
 from bson.objectid import ObjectId
+import calendar
 
 h = ICHelper()
 
@@ -491,7 +492,8 @@ def report_mch_list(request):
         start_date = str(sy) + start_date[1] + start_date[0]
         end_date = str(ey) + end_date[1] + end_date[0]
 
-        rs = mch.get_labor_forecast_filter_list(request.session['hospcode'], start_date, end_date, int(start), int(limit))
+        rs = mch.get_labor_forecast_filter_list(request.session['hospcode'], start_date, end_date,
+                                                int(start), int(limit))
     else:
         rs = mch.get_labor_forecast_list(request.session['hospcode'], int(start), int(limit))
 
@@ -544,7 +546,8 @@ def report_mch_total(request):
                     start_date = str(sy) + start_date[1] + start_date[0]
                     end_date = str(ey) + end_date[1] + end_date[0]
 
-                    total = mch.get_labor_forecast_filter_total(request.session['hospcode'], start_date, end_date)
+                    total = mch.get_labor_forecast_filter_total(request.session['hospcode'],
+                                                                start_date, end_date)
 
                     return {'ok': 1, 'total': total}
                 else:
@@ -553,3 +556,97 @@ def report_mch_total(request):
                     return {'ok': 1, 'total': total}
             else:
                 return {'ok': 0, 'msg': 'Invalid token key'}
+
+
+@view_config(route_name='report_mch_target_per_month', renderer='json', request_method='POST')
+def report_mch_target_per_month(request):
+    if 'logged' not in request.session:
+        return HTTPFound(location='/signin')
+
+    if request.session['user_type'] == '1':
+        return HTTPFound(location='/admins')
+
+    mch = MchModel(request)
+    person = PersonModel(request)
+
+    current_date = datetime.now()
+    current_month = datetime.strftime(current_date, '%m')
+    current_year = datetime.strftime(current_date, '%Y')
+    end_day_of_month = calendar.monthrange(int(current_year), int(current_month))[1]
+
+    start_date = date(int(current_year), int(current_month), 1)
+    end_date = date(int(current_year), int(current_month), int(end_day_of_month))
+
+    start_date = datetime.strftime(start_date, '%Y%m%d')
+    end_date = datetime.strftime(end_date, '%Y%m%d')
+
+    rs = mch.get_target_per_month(request.session['hospcode'], start_date, end_date)
+
+    if rs:
+        rows = []
+
+        for r in rs:
+            p = person.get_person_detail(r['pid'], r['hospcode'])
+            obj = {
+                'fullname': p['name'] + '  ' + p['lname'],
+                'cid': p['cid'],
+                #'birth': h.to_thai_date(p['birth']),
+                'age': h.count_age(p['birth']),
+                #'sex': p['sex'],
+                #'bdate': h.to_thai_date(r['bdate']),
+                #'address': h.get_address(request, r['hid'], r['hospcode']),
+                #'ppcares': r['ppcares'] if 'ppcares' in r else None
+            }
+
+            rows.append(obj)
+
+        return {'ok': 1, 'rows': rows}
+    else:
+        return {'ok': 0, 'msg': 'ไม่พบรายการ'}
+
+
+@view_config(route_name='report_anc_target_per_month', renderer='json', request_method='POST')
+def report_anc_target_per_month(request):
+    if 'logged' not in request.session:
+        return HTTPFound(location='/signin')
+
+    if request.session['user_type'] == '1':
+        return HTTPFound(location='/admins')
+
+    rpt = ReportModel(request)
+    person = PersonModel(request)
+
+    current_date = datetime.now()
+    current_month = datetime.strftime(current_date, '%m')
+    current_year = datetime.strftime(current_date, '%Y')
+    end_day_of_month = calendar.monthrange(int(current_year), int(current_month))[1]
+
+    start_date = date(int(current_year), int(current_month), 1)
+    end_date = date(int(current_year), int(current_month), int(end_day_of_month))
+
+    start_date = datetime.strftime(start_date, '%Y%m%d')
+    end_date = datetime.strftime(end_date, '%Y%m%d')
+
+    rs = rpt.get_anc_target_per_month(request.session['hospcode'], start_date, end_date)
+
+    if rs:
+        rows = []
+
+        for r in rs:
+            p = person.get_person_detail(r['pid'], r['hospcode'])
+            obj = {
+                'fullname': p['name'] + '  ' + p['lname'],
+                'cid': p['cid'],
+                #'birth': h.to_thai_date(p['birth']),
+                'age': h.count_age(p['birth']),
+                #'sex': p['sex'],
+                #'bdate': h.to_thai_date(r['bdate']),
+                #'address': h.get_address(request, r['hid'], r['hospcode']),
+                #'ppcares': r['ppcares'] if 'ppcares' in r else None
+            }
+
+            rows.append(obj)
+
+        return {'ok': 1, 'rows': rows}
+    else:
+        return {'ok': 0, 'msg': 'ไม่พบรายการ'}

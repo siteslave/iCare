@@ -17,8 +17,8 @@ def index_view(request):
     if request.session['user_type'] == '1':
         return HTTPFound(location='/admins/users')
 
-    return HTTPFound(location="/anc")
-    #return {'title': u'หน้าหลัก'}
+    #return HTTPFound(location="/anc")
+    return {'title': u'Dashboard'}
 
 
 @view_config(route_name='signin', renderer='signin.mako')

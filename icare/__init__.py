@@ -152,6 +152,8 @@ def main(global_config, **settings):
         config.add_route('reports_mch_do_process', '/mch/process')
         config.add_route('report_mch_total', '/mch/total')
         config.add_route('report_mch_list', '/mch/list')
+        config.add_route('report_mch_target_per_month', '/mch/get_forecast_dashboard')
+        config.add_route('report_anc_target_per_month', '/anc/get_forecast_dashboard')
 
     def admin_route(config):
         config.add_route('admin_users', '/users')

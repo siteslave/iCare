@@ -82,9 +82,6 @@
                   <li><a href="${request.route_url('wbc02_index')}"><i class="icon-check"></i> วัคซีนและโภชนาการเด็ก 0-2 ปี</a></li>
                   <li><a href="${request.route_url('wbc35_index')}"><i class="icon-check"></i> วัคซีนและโภชนาการเด็ก 3-5 ปี</a></li>
                   <li><a href="${request.route_url('wbc612_index')}"><i class="icon-check"></i> วัคซีนและโภชนาการเด็ก 6-12 ปี</a></li>
-                  <li class="divider"></li>
-                  <li class="dropdown-header">GIS/MAP</li>
-                  <li><a href="${request.route_url('mch_map')}"><i class="icon-map-marker"></i> แผนที่ระบบงานแม่และเด็ก</a></li>
 
               </ul>
             </li>
@@ -103,6 +100,10 @@
                 <li><a href="#"><i class="icon-suitcase"></i> ทะเบียนผู้เสียชีวิต</a></li>
                 <li><a href="#"><i class="icon-user"></i> ทะเบียนผู้สูงอายุ</a></li>
 				-->
+                  <li class="divider"></li>
+                  <li class="dropdown-header">GIS/MAP</li>
+                  <li><a href="${request.route_url('mch_map')}"><i class="icon-map-marker"></i> แผนที่ระบบงานแม่และเด็ก</a></li>
+
               </ul>
             </li>
             <li class="dropdown">
