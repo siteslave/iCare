@@ -32,7 +32,7 @@
 <div class="alert alert-warning alert-dismissable">
   <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
   <strong>หมายเหตุ!</strong> สีแดง หมายถึง วันที่ครบกำหนดเยี่ยม (โดยการคำนวณจากวันที่คลอด) สีเขียว หมายถึง วันที่เราเยี่ยม.
-</div>
+ [เฉพาะ Typearea 1, 3]</div>
 
 <table class="table table-striped" id="tbl_list">
     <thead>

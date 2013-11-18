@@ -114,7 +114,6 @@ class MchModel:
             for r in rs:
 
                 date = []
-                obj = []
 
                 pcare = self.get_labor_forecast_detail(r['hospcode'], r['pid'], r['gravida'])
                 if pcare:
@@ -409,3 +408,4 @@ class MchModel:
         })
 
         return rs
+

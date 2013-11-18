@@ -5,10 +5,12 @@ from pyramid.view import view_config
 from pyramid.httpexceptions import (
     HTTPFound
 )
+from icare.models.anc_model import AncModel
 
 from icare.models.person_model import PersonModel
 from icare.models.report_model import ReportModel
 from icare.models.mch_model import MchModel
+from icare.models.babies_model import BabiesModel
 
 from icare.helpers.icare_helper import ICHelper
 
@@ -650,3 +652,473 @@ def report_anc_target_per_month(request):
         return {'ok': 1, 'rows': rows}
     else:
         return {'ok': 0, 'msg': 'ไม่พบรายการ'}
+
+"""
+Newborn
+"""
+
+
+@view_config(route_name='reports_newborn_wlt2500', renderer='reports_newborn_wlt2500.mako')
+def reports_newborn_wlt2500(request):
+    if 'logged' not in request.session:
+        return HTTPFound(location='/signin')
+
+    if request.session['user_type'] == '1':
+        return HTTPFound(location='/admins')
+
+    return {'title': u'เด็กที่มีน้ำหนักแรกคลอดน้อยกว่า 2,500 กรัม'}
+
+
+@view_config(route_name='reports_newborn_weight_less_than_2500', renderer='json', request_method='POST')
+def reports_newborn_weight_less_than_2500(request):
+    if 'logged' not in request.session:
+        return HTTPFound(location='/signin')
+
+    if request.session['user_type'] == '1':
+        return HTTPFound(location='/admins')
+
+    if request.is_xhr:  # is ajax request
+        csrf_token = request.params['csrf_token']
+        is_token = (csrf_token == unicode(request.session.get_csrf_token()))
+
+        if is_token:
+
+            babies = BabiesModel(request)
+            person = PersonModel(request)
+
+            start = request.params['start']
+            stop = request.params['stop']
+
+            limit = int(stop) - int(start)
+
+            rs = babies.get_newborn_weight_less_than_2500(request.session['hospcode'], int(start), int(limit))
+
+            if rs:
+                rows = []
+
+                for r in rs:
+                    p = person.get_person_detail(r['pid'], r['hospcode'])
+                    obj = {
+                        'fullname': p['name'] + '  ' + p['lname'],
+                        'cid': p['cid'],
+                        'birth': h.to_thai_date(p['birth']),
+                        'age': h.count_age(p['birth']),
+                        'sex': p['sex'],
+                        'birth': h.to_thai_date(p['birth']),
+                        'address': h.get_address(request, p['hid'], r['hospcode']),
+                        'bweight': r['bweight'],
+                        'hospcode': r['hospcode'],
+                        'pid': r['pid'],
+                        'gravida': r['gravida']
+                    }
+
+                    rows.append(obj)
+
+                return {'ok': 1, 'rows': rows}
+            else:
+                return {'ok': 0, 'msg': 'ไม่พบรายการ'}
+        else:
+            return {'ok': 0, 'msg': 'Invalid token key.'}
+
+
+@view_config(route_name='reports_newborn_weight_less_than_2500_search', renderer='json', request_method='POST')
+def reports_newborn_weight_less_than_2500_search(request):
+    if 'logged' not in request.session:
+        return HTTPFound(location='/signin')
+
+    if request.session['user_type'] == '1':
+        return HTTPFound(location='/admins')
+
+    if request.is_xhr:  # is ajax request
+        csrf_token = request.params['csrf_token']
+        is_token = (csrf_token == unicode(request.session.get_csrf_token()))
+
+        if is_token:
+
+            babies = BabiesModel(request)
+            person = PersonModel(request)
+
+            cid = request.params['cid'] if 'cid' in request.params else '0000000000000'
+
+            rs = babies.search_newborn_weight_less_than_2500(cid, request.session['hospcode'])
+
+            if rs:
+                rows = []
+
+                for r in rs:
+                    p = person.get_person_detail(r['pid'], r['hospcode'])
+                    obj = {
+                        'fullname': p['name'] + '  ' + p['lname'],
+                        'cid': p['cid'],
+                        'birth': h.to_thai_date(p['birth']),
+                        'age': h.count_age(p['birth']),
+                        'sex': p['sex'],
+                        'address': h.get_address(request, p['hid'], r['hospcode']),
+                        'bweight': r['bweight'],
+                        'hospcode': r['hospcode'],
+                        'pid': r['pid'],
+                        'gravida': r['gravida']
+                        #'ppcares': r['ppcares'] if 'ppcares' in r else None
+                    }
+
+                    rows.append(obj)
+
+                return {'ok': 1, 'rows': rows}
+            else:
+                return {'ok': 0, 'msg': 'ไม่พบรายการ'}
+        else:
+            return {'ok': 0, 'msg': 'Invalid token key.'}
+
+
+@view_config(route_name='reports_newborn_weight_less_than_2500_total', request_method='POST', renderer='json')
+def reports_newborn_weight_less_than_2500_total(request):
+    if 'logged' not in request.session:
+        return {'ok': 0, 'msg': 'Please login.'}
+    else:
+        if request.is_xhr:  # is ajax request
+            csrf_token = request.params['csrf_token']
+            is_token = (csrf_token == unicode(request.session.get_csrf_token()))
+
+            if is_token:
+                babies = BabiesModel(request)
+                total = babies.get_newborn_weight_less_than_2500_total(request.session['hospcode'])
+
+                return {'ok': 1, 'total': total}
+            else:
+                return {'ok': 0, 'msg': 'Invalid token key'}
+        else:
+            return {'ok': 0, 'msg': 'Not ajax request.'}
+
+
+@view_config(route_name='reports_milk_index', renderer='reports_newborn_milk.mako')
+def reports_newborn_milk(request):
+    if 'logged' not in request.session:
+        return HTTPFound(location='/signin')
+
+    if request.session['user_type'] == '1':
+        return HTTPFound(location='/admins')
+
+    return {'title': u'การให้นมเด็กหลังคลอด'}
+
+
+@view_config(route_name='reports_milk_process', request_method='POST', renderer='json')
+def reports_milk_process(request):
+    if 'logged' not in request.session:
+        return {'ok': 0, 'msg': 'Please login.'}
+    else:
+        if request.is_xhr:  # is ajax request
+            csrf_token = request.params['csrf_token']
+            is_token = (csrf_token == unicode(request.session.get_csrf_token()))
+
+            if is_token:
+                babies = BabiesModel(request)
+                babies.process_milk(request.session['hospcode'])
+
+                return {'ok': 1}
+            else:
+                return {'ok': 0, 'msg': 'Invalid token key'}
+        else:
+            return {'ok': 0, 'msg': 'Not ajax request.'}
+
+
+@view_config(route_name='reports_milk_list', renderer='json', request_method='POST')
+def reports_milk_list(request):
+    if 'logged' not in request.session:
+        return HTTPFound(location='/signin')
+
+    if request.session['user_type'] == '1':
+        return HTTPFound(location='/admins')
+
+    if request.is_xhr:  # is ajax request
+        csrf_token = request.params['csrf_token']
+        is_token = (csrf_token == unicode(request.session.get_csrf_token()))
+
+        if is_token:
+
+            babies = BabiesModel(request)
+            person = PersonModel(request)
+
+            start = request.params['start']
+            stop = request.params['stop']
+
+            limit = int(stop) - int(start)
+
+            rs = babies.get_milk_list(request.session['hospcode'], int(start), int(limit))
+
+            if rs:
+                rows = []
+
+                for r in rs:
+                    p = person.get_person_detail(r['pid'], r['hospcode'])
+                    obj = {
+                        'fullname': p['name'] + '  ' + p['lname'],
+                        'cid': p['cid'],
+                        'birth': h.to_thai_date(p['birth']),
+                        'age': h.count_age(p['birth']),
+                        'sex': p['sex'],
+                        'address': h.get_address(request, p['hid'], r['hospcode']),
+                        'hospcode': r['hospcode'],
+                        'pid': r['pid'],
+                        'total': r['total']
+                    }
+
+                    rows.append(obj)
+
+                return {'ok': 1, 'rows': rows}
+            else:
+                return {'ok': 0, 'msg': 'ไม่พบรายการ'}
+        else:
+            return {'ok': 0, 'msg': 'Invalid token key.'}
+
+
+@view_config(route_name='reports_milk_total', request_method='POST', renderer='json')
+def reports_milk_total(request):
+    if 'logged' not in request.session:
+        return {'ok': 0, 'msg': 'Please login.'}
+    else:
+        if request.is_xhr:  # is ajax request
+            csrf_token = request.params['csrf_token']
+            is_token = (csrf_token == unicode(request.session.get_csrf_token()))
+
+            if is_token:
+                babies = BabiesModel(request)
+                total = babies.get_milk_total(request.session['hospcode'])
+
+                return {'ok': 1, 'total': total}
+            else:
+                return {'ok': 0, 'msg': 'Invalid token key'}
+        else:
+            return {'ok': 0, 'msg': 'Not ajax request.'}
+
+""" ANC Coverages """
+
+
+@view_config(route_name='reports_anc_coverages_index', renderer='reports_anc_coverages.mako')
+def reports_anc_coverages_index(request):
+    if 'logged' not in request.session:
+        return HTTPFound(location='/signin')
+
+    if request.session['user_type'] == '1':
+        return HTTPFound(location='/admins')
+
+    return {'title': u'ความครอบคลุมการฝากครรภ์'}
+
+
+@view_config(route_name='reports_anc_coverages_list', renderer='json', request_method='POST')
+def reports_anc_coverages_list(request):
+    if 'logged' not in request.session:
+        return HTTPFound(location='/signin')
+
+    if request.session['user_type'] == '1':
+        return HTTPFound(location='/admins')
+
+    if request.is_xhr:  # is ajax request
+        csrf_token = request.params['csrf_token']
+        is_token = (csrf_token == unicode(request.session.get_csrf_token()))
+
+        if is_token:
+
+            anc = AncModel(request)
+            person = PersonModel(request)
+
+            # 1 = All
+            # 2 = Cover
+            # 3 = Not cover
+
+            t = request.params['t'] if 't' in request.params else '1'
+            start = request.params['start']
+            stop = request.params['stop']
+
+            limit = int(stop) - int(start)
+
+            if t == '2':
+                rs = anc.get_anc_coverages(request.session['hospcode'], int(start), int(limit))
+            elif t == '3':
+                rs = anc.get_anc_not_coverages(request.session['hospcode'], int(start), int(limit))
+            else:
+                rs = anc.get_anc_coverages_all(request.session['hospcode'], int(start), int(limit))
+
+            if rs:
+                rows = []
+
+                for r in rs:
+                    p = person.get_person_detail(r['pid'], r['hospcode'])
+                    obj = {
+                        'fullname': p['name'] + '  ' + p['lname'],
+                        'cid': p['cid'],
+                        'birth': h.to_thai_date(p['birth']),
+                        'age': h.count_age(p['birth']),
+                        'sex': p['sex'],
+                        'address': h.get_address(request, p['hid'], r['hospcode']),
+                        'hospcode': r['hospcode'],
+                        'pid': r['pid'],
+                        'total': r['total']
+                    }
+
+                    rows.append(obj)
+
+                return {'ok': 1, 'rows': rows}
+            else:
+                return {'ok': 0, 'msg': 'ไม่พบรายการ'}
+        else:
+            return {'ok': 0, 'msg': 'Invalid token key.'}
+
+
+@view_config(route_name='reports_anc_coverages_search', renderer='json', request_method='POST')
+def reports_anc_coverages_search(request):
+    if 'logged' not in request.session:
+        return HTTPFound(location='/signin')
+
+    if request.session['user_type'] == '1':
+        return HTTPFound(location='/admins')
+
+    if request.is_xhr:  # is ajax request
+        csrf_token = request.params['csrf_token']
+        is_token = (csrf_token == unicode(request.session.get_csrf_token()))
+
+        if is_token:
+
+            anc = AncModel(request)
+            person = PersonModel(request)
+
+            cid = request.params['cid']
+
+            rs = anc.search_anc_coverages(request.session['hospcode'], cid)
+
+            if rs:
+                rows = []
+
+                for r in rs:
+                    p = person.get_person_detail(r['pid'], r['hospcode'])
+                    obj = {
+                        'fullname': p['name'] + '  ' + p['lname'],
+                        'cid': p['cid'],
+                        'birth': h.to_thai_date(p['birth']),
+                        'age': h.count_age(p['birth']),
+                        'sex': p['sex'],
+                        'address': h.get_address(request, p['hid'], r['hospcode']),
+                        'hospcode': r['hospcode'],
+                        'pid': r['pid'],
+                        'total': r['total']
+                    }
+
+                    rows.append(obj)
+
+                return {'ok': 1, 'rows': rows}
+            else:
+                return {'ok': 0, 'msg': 'ไม่พบรายการ'}
+        else:
+            return {'ok': 0, 'msg': 'Invalid token key.'}
+
+
+@view_config(route_name='reports_anc_coverages_total', request_method='POST', renderer='json')
+def reports_anc_coverages_total(request):
+    if 'logged' not in request.session:
+        return {'ok': 0, 'msg': 'Please login.'}
+    else:
+        if request.is_xhr:  # is ajax request
+            csrf_token = request.params['csrf_token']
+            is_token = (csrf_token == unicode(request.session.get_csrf_token()))
+
+            if is_token:
+                anc = AncModel(request)
+
+                t = request.params['t'] if 't' in request.params else '1'
+
+                if t == '2':
+                    total = anc.get_anc_coverages_count(request.session['hospcode'])
+                elif t == '3':
+                    total = anc.get_anc_not_coverages_count(request.session['hospcode'])
+                else:
+                    total = anc.get_anc_coverages_all_count(request.session['hospcode'])
+
+                return {'ok': 1, 'total': total}
+            else:
+                return {'ok': 0, 'msg': 'Invalid token key'}
+        else:
+            return {'ok': 0, 'msg': 'Not ajax request.'}
+
+
+""" ANC 12 Weeks """
+
+
+@view_config(route_name='reports_anc_12weeks_index', renderer='reports_anc_12ws.mako')
+def reports_anc_12weeks_index(request):
+    if 'logged' not in request.session:
+        return HTTPFound(location='/signin')
+
+    if request.session['user_type'] == '1':
+        return HTTPFound(location='/admins')
+
+    return {'title': u'ฝากครรภ์เมื่ออายุครรภ์ <= 12 สัปดาห์'}
+
+
+@view_config(route_name='reports_anc_12ws_list', renderer='json', request_method='POST')
+def reports_anc_12ws_list(request):
+    if 'logged' not in request.session:
+        return HTTPFound(location='/signin')
+
+    if request.session['user_type'] == '1':
+        return HTTPFound(location='/admins')
+
+    if request.is_xhr:  # is ajax request
+        csrf_token = request.params['csrf_token']
+        is_token = (csrf_token == unicode(request.session.get_csrf_token()))
+
+        if is_token:
+
+            anc = AncModel(request)
+            person = PersonModel(request)
+
+            start = request.params['start']
+            stop = request.params['stop']
+
+            limit = int(stop) - int(start)
+
+            rs = anc.get_anc_12ws_list(request.session['hospcode'], int(start), int(limit))
+
+            if rs:
+                rows = []
+
+                for r in rs:
+                    p = person.get_person_detail(r['pid'], r['hospcode'])
+                    obj = {
+                        'fullname': p['name'] + '  ' + p['lname'],
+                        'cid': p['cid'],
+                        'birth': h.to_thai_date(p['birth']),
+                        'age': h.count_age(p['birth']),
+                        'sex': p['sex'],
+                        'address': h.get_address(request, p['hid'], r['hospcode']),
+                        'hospcode': r['hospcode'],
+                        'pid': r['pid'],
+                        'gravida': r['gravida']
+                    }
+
+                    rows.append(obj)
+
+                return {'ok': 1, 'rows': rows}
+            else:
+                return {'ok': 0, 'msg': 'ไม่พบรายการ'}
+        else:
+            return {'ok': 0, 'msg': 'Invalid token key.'}
+
+
+@view_config(route_name='reports_anc_12ws_total', request_method='POST', renderer='json')
+def reports_anc_12ws_total(request):
+    if 'logged' not in request.session:
+        return {'ok': 0, 'msg': 'Please login.'}
+    else:
+        if request.is_xhr:  # is ajax request
+            csrf_token = request.params['csrf_token']
+            is_token = (csrf_token == unicode(request.session.get_csrf_token()))
+
+            if is_token:
+                anc = AncModel(request)
+
+                total = anc.get_anc_12ws_total(request.session['hospcode'])
+
+                return {'ok': 1, 'total': total}
+            else:
+                return {'ok': 0, 'msg': 'Invalid token key'}
+        else:
+            return {'ok': 0, 'msg': 'Not ajax request.'}

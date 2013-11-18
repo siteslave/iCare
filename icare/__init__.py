@@ -46,6 +46,7 @@ def main(global_config, **settings):
         config.add_route('anc_get_visit', '/get_visit')
         config.add_route('anc_save_survey', '/save_survey')
         config.add_route('anc_do_process', '/do_process')
+        config.add_route('anc_do_process_12weeks', '/do_process_12weeks')
 
         config.add_route('anc_get_labor', '/get_labor')
         config.add_route('anc_get_prenatal', '/get_prenatal')
@@ -154,6 +155,25 @@ def main(global_config, **settings):
         config.add_route('report_mch_list', '/mch/list')
         config.add_route('report_mch_target_per_month', '/mch/get_forecast_dashboard')
         config.add_route('report_anc_target_per_month', '/anc/get_forecast_dashboard')
+
+        config.add_route('reports_newborn_wlt2500', '/wlt2500')
+        config.add_route('reports_newborn_weight_less_than_2500', '/newborn/wlt2500_list')
+        config.add_route('reports_newborn_weight_less_than_2500_total', '/newborn/wlt2500_total')
+        config.add_route('reports_newborn_weight_less_than_2500_search', '/newborn/wlt2500_search')
+
+        config.add_route('reports_milk_index', '/milk')
+        config.add_route('reports_milk_process', '/milk/process')
+        config.add_route('reports_milk_list', '/milk/list')
+        config.add_route('reports_milk_total', '/milk/total')
+
+        config.add_route('reports_anc_coverages_index', '/anc_coverages')
+        config.add_route('reports_anc_coverages_total', '/anc_coverages/total')
+        config.add_route('reports_anc_coverages_list', '/anc_coverages/list')
+        config.add_route('reports_anc_coverages_search', '/anc_coverages/search')
+
+        config.add_route('reports_anc_12weeks_index', '/anc_12ws')
+        config.add_route('reports_anc_12ws_list', '/anc_12ws/list')
+        config.add_route('reports_anc_12ws_total', '/anc_12ws/total')
 
     def admin_route(config):
         config.add_route('admin_users', '/users')

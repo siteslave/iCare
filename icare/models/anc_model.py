@@ -18,7 +18,8 @@ class AncModel:
         """
 
         rs = self.request.db['anc_coverages'].find({
-            'hospcode': self.request.session['hospcode']
+            'hospcode': self.request.session['hospcode'],
+            'typearea': {'$in': ['1', '3']}
         }).sort('pid', pymongo.ASCENDING).skip(start).limit(limit)
 
         return rs
@@ -30,7 +31,8 @@ class AncModel:
         self.request.db['anc'].ensure_index('hospcode', pymongo.ASCENDING)
 
         rs = self.request.db['anc_coverages'].find({
-            'hospcode': self.request.session['hospcode']
+            'hospcode': self.request.session['hospcode'],
+            'typearea': {'$in': ['1', '3']}
         }).distinct('pid')
 
         return len(rs)
@@ -174,13 +176,21 @@ class AncModel:
     def do_process_list(self, hospcode):
 
         reducer = Code("""
-                function(curr, result) {}
+                function(curr, result) {
+                    result.total++;
+                }
         """)
 
         data = self.request.db['anc'].group(
-            key={'hospcode': 1, 'pid': 1, 'gravida': 1},
-            condition={'hospcode': hospcode},
-            initial={},
+            key={
+                'hospcode': 1,
+                'pid': 1,
+                'gravida': 1
+            },
+            condition={
+                'hospcode': hospcode
+            },
+            initial={'total': 0},
             reduce=reducer)
 
         if data:
@@ -199,13 +209,15 @@ class AncModel:
                     anc05 = self.get_anc_detail(i['hospcode'], i['pid'], i['gravida'], '5')
 
                     #print(anc04)
-
+                    p = person.get_person_detail(i['pid'], i['hospcode'])
                     doc = {
                         'hospcode': i['hospcode'],
                         'pid': i['pid'],
-                        'cid': person.get_cid_from_pid(i['pid'], i['hospcode']),
+                        'cid': p['cid'],
                         'gravida': i['gravida'],
-                        'hid': person.get_hid_from_pid(i['pid'], i['hospcode']),
+                        'total': i['total'],
+                        'hid': p['hid'],
+                        'typearea': p['typearea'],
                         'is_labor': self.is_labor(i['hospcode'], i['pid'], i['gravida']),
                         #get anc coverages
                         'coverages': [
@@ -417,7 +429,8 @@ class AncModel:
 
         rs = self.request.db['anc_coverages'].find({
             'hospcode': hospcode,
-            'is_labor': by
+            'is_labor': by,
+            'typearea': {'$in': ['1', '3']}
         }).skip(start).limit(limit)
 
         return rs
@@ -431,7 +444,8 @@ class AncModel:
         rs = self.request.db['anc_coverages'].find({
             'hospcode': hospcode,
             'is_labor': by,
-            'hid': {'$in': hids}
+            'hid': {'$in': hids},
+            'typearea': {'$in': ['1', '3']}
         }).skip(start).limit(limit)
 
         return rs
@@ -444,7 +458,8 @@ class AncModel:
 
         rs = self.request.db['anc_coverages'].find({
             'hospcode': hospcode,
-            'is_labor': by
+            'is_labor': by,
+            'typearea': {'$in': ['1', '3']}
         }).count()
 
         return rs
@@ -459,7 +474,8 @@ class AncModel:
         rs = self.request.db['anc_coverages'].find({
             'hospcode': hospcode,
             'is_labor': by,
-            'hid': {'$in': hids}
+            'hid': {'$in': hids},
+            'typearea': {'$in': ['1', '3']}
         }).count()
 
         return rs     
@@ -472,7 +488,8 @@ class AncModel:
 
         rs = self.request.db['anc_coverages'].find({
             'hospcode': hospcode,
-            'is_labor': by
+            'is_labor': by,
+            'typearea': {'$in': ['1', '3']}
         })
 
         pids = []
@@ -491,7 +508,8 @@ class AncModel:
         rs = self.request.db['anc_coverages'].find({
             'hospcode': hospcode,
             'is_labor': by,
-            'hid': {'$in': hids}
+            'hid': {'$in': hids},
+            'typearea': {'$in': ['1', '3']}
         })
 
         pids = []
@@ -504,7 +522,11 @@ class AncModel:
         self.request.db['anc_coverages'].ensure_index('hospcode', pymongo.ASCENDING)
         self.request.db['anc_coverages'].ensure_index('pid', pymongo.ASCENDING)
 
-        rs = self.request.db['anc_coverages'].find({'hospcode': hospcode})
+        rs = self.request.db['anc_coverages'].find(
+            {
+                'hospcode': hospcode,
+                'typearea': {'$in': ['1', '3']}
+            })
 
         pids = []
         for r in rs:
@@ -516,7 +538,8 @@ class AncModel:
 
         rs = self.request.db['anc_coverages'].find({
             'hid': {'$in': hid},
-            'hospcode': hospcode
+            'hospcode': hospcode,
+            'typearea': {'$in': ['1', '3']}
         })
 
         return rs
@@ -576,3 +599,157 @@ class AncModel:
             return rs
         else:
             return None
+
+    def get_anc_coverages(self, hospcode, start, limit):
+        self.request.db['anc_coverages'].ensure_index('hospcode', pymongo.ASCENDING)
+        self.request.db['anc_coverages'].ensure_index('typearea', pymongo.ASCENDING)
+
+        rs = self.request.db['anc_coverages'].find({
+                'hospcode': hospcode,
+                'typearea': {'$in': ['1', '3']},
+                'total': 5
+        }).skip(start).limit(limit)
+
+        return rs
+
+    def get_anc_coverages_all(self, hospcode, start, limit):
+        self.request.db['anc_coverages'].ensure_index('hospcode', pymongo.ASCENDING)
+        self.request.db['anc_coverages'].ensure_index('typearea', pymongo.ASCENDING)
+
+        rs = self.request.db['anc_coverages'].find({
+                'hospcode': hospcode,
+                'typearea': {'$in': ['1', '3']}
+        }).skip(start).limit(limit)
+
+        return rs
+
+    def get_anc_not_coverages(self, hospcode, start, limit):
+        self.request.db['anc_coverages'].ensure_index('hospcode', pymongo.ASCENDING)
+        self.request.db['anc_coverages'].ensure_index('typearea', pymongo.ASCENDING)
+
+        rs = self.request.db['anc_coverages'].find({
+                'hospcode': hospcode,
+                'typearea': {'$in': ['1', '3']},
+                'total': {'$lt': 5}
+        }).skip(start).limit(limit)
+
+        return rs
+
+    def get_anc_coverages_count(self, hospcode):
+        self.request.db['anc_coverages'].ensure_index('hospcode', pymongo.ASCENDING)
+        self.request.db['anc_coverages'].ensure_index('typearea', pymongo.ASCENDING)
+
+        rs = self.request.db['anc_coverages'].find({
+                'hospcode': hospcode,
+                'typearea': {'$in': ['1', '3']},
+                'total': 5
+        }).count()
+
+        return rs
+
+    def get_anc_coverages_all_count(self, hospcode):
+        self.request.db['anc_coverages'].ensure_index('hospcode', pymongo.ASCENDING)
+        self.request.db['anc_coverages'].ensure_index('typearea', pymongo.ASCENDING)
+
+        rs = self.request.db['anc_coverages'].find({
+                'hospcode': hospcode,
+                'typearea': {'$in': ['1', '3']}
+        }).count()
+
+        return rs
+
+    def get_anc_not_coverages_count(self, hospcode):
+        self.request.db['anc_coverages'].ensure_index('hospcode', pymongo.ASCENDING)
+        self.request.db['anc_coverages'].ensure_index('typearea', pymongo.ASCENDING)
+
+        rs = self.request.db['anc_coverages'].find({
+                'hospcode': hospcode,
+                'typearea': {'$in': ['1', '3']},
+                'total': {'$lt': 5}
+        }).count()
+
+        return rs
+
+    def search_anc_coverages(self, hospcode, cid):
+        self.request.db['anc_coverages'].ensure_index('hospcode', pymongo.ASCENDING)
+        self.request.db['anc_coverages'].ensure_index('typearea', pymongo.ASCENDING)
+
+        rs = self.request.db['anc_coverages'].find({
+                'hospcode': hospcode,
+                'typearea': {'$in': ['1', '3']},
+                #'total': {'$lt': 5}
+                'cid': cid
+        })
+
+        return rs
+
+    def do_process_12weeks(self, hospcode):
+
+        reducer = Code("""
+                function(curr, result) {
+                    //curr.ga;
+                }
+        """)
+
+        data = self.request.db['anc'].group(
+            key={
+                'hospcode': 1,
+                'pid': 1,
+                'gravida': 1
+            },
+            condition={
+                'hospcode': hospcode,
+                'ga': {'$lte': '12'}
+            },
+            initial={},
+            reduce=reducer)
+
+        if data:
+
+            self.request.db['anc_12weeks'].remove({'hospcode': hospcode})
+
+            try:
+                person = PersonModel(self.request)
+
+                for i in data:
+
+                    p = person.get_person_detail(i['pid'], i['hospcode'])
+                    doc = {
+                        'hospcode': i['hospcode'],
+                        'pid': i['pid'],
+                        'cid': p['cid'],
+                        'gravida': i['gravida'],
+                        'typearea': p['typearea'],
+                    }
+
+                    self.request.db['anc_12weeks'].insert(doc)
+
+                return True
+            except Exception as ex:
+                #print(ex.message)
+                return False
+
+        else:
+            return False
+
+    def get_anc_12ws_list(self, hospcode, start, limit):
+        self.request.db['anc_12weeks'].ensure_index('hospcode', pymongo.ASCENDING)
+        self.request.db['anc_12weeks'].ensure_index('typearea', pymongo.ASCENDING)
+
+        rs = self.request.db['anc_12weeks'].find({
+                'hospcode': hospcode,
+                'typearea': {'$in': ['1', '3']}
+        }).skip(start).limit(limit)
+
+        return rs
+
+    def get_anc_12ws_total(self, hospcode):
+        self.request.db['anc_12weeks'].ensure_index('hospcode', pymongo.ASCENDING)
+        self.request.db['anc_12weeks'].ensure_index('typearea', pymongo.ASCENDING)
+
+        rs = self.request.db['anc_12weeks'].find({
+                'hospcode': hospcode,
+                'typearea': {'$in': ['1', '3']}
+        }).count()
+
+        return rs

@@ -196,6 +196,22 @@ def do_process(request):
             return {'ok': 1} if rs else {'ok': 0, 'msg': 'ไม่สามารถประมวลผลได้'}
 
 
+@view_config(route_name='anc_do_process_12weeks', renderer='json')
+def anc_do_process_12weeks(request):
+    if 'logged' not in request.session:
+        return HTTPFound(location='/signin')
+
+    if request.is_xhr:
+        csrf_token = request.params['csrf_token']
+        is_token = (csrf_token == unicode(request.session.get_csrf_token()))
+
+        if is_token:
+            anc = AncModel(request)
+            rs = anc.do_process_12weeks(request.session['hospcode'])
+
+            return {'ok': 1} if rs else {'ok': 0, 'msg': 'ไม่สามารถประมวลผลได้'}
+
+
 @view_config(route_name='anc_save_survey', renderer='json')
 def save_survey(request):
 

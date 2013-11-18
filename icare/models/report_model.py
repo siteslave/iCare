@@ -100,7 +100,8 @@ class ReportModel:
         self.request.db['anc_coverages'].ensure_index('hospcode', pymongo.ASCENDING)
 
         rs = self.request.db['anc_coverages'].find({
-            'hospcode': hospcode
+            'hospcode': hospcode,
+            'typearea': {'$in': ['1', '3']}
         }).skip(start).limit(limit)
 
         return rs
@@ -109,7 +110,8 @@ class ReportModel:
         self.request.db['anc_coverages'].ensure_index('hospcode', pymongo.ASCENDING)
 
         rs = self.request.db['anc_coverages'].find({
-            'hospcode': hospcode
+            'hospcode': hospcode,
+            'typearea': {'$in': ['1', '3']}
         }).count()
 
         return rs
@@ -118,7 +120,8 @@ class ReportModel:
         self.request.db['anc_coverages'].ensure_index('hospcode', pymongo.ASCENDING)
 
         rs = self.request.db['anc_coverages'].find({
-            'hospcode': hospcode
+            'hospcode': hospcode,
+            'typearea': {'$in': ['1', '3']}
         }).skip(start).limit(limit)
 
         return rs
@@ -127,7 +130,8 @@ class ReportModel:
         self.request.db['anc_coverages'].ensure_index('hospcode', pymongo.ASCENDING)
 
         rs = self.request.db['anc_coverages'].find({
-            'hospcode': hospcode
+            'hospcode': hospcode,
+            'typearea': {'$in': ['1', '3']}
         }).count()
 
         return rs
@@ -136,7 +140,8 @@ class ReportModel:
         self.request.db['anc_coverages'].ensure_index('hospcode', pymongo.ASCENDING)
 
         rs = self.request.db['anc_coverages'].find({
-            'hospcode': hospcode
+            'hospcode': hospcode,
+            'typearea': {'$in': ['1', '3']}
         }).skip(start).limit(limit)
 
         return rs
@@ -145,7 +150,8 @@ class ReportModel:
         self.request.db['anc_coverages'].ensure_index('hospcode', pymongo.ASCENDING)
 
         rs = self.request.db['anc_coverages'].find({
-            'hospcode': hospcode
+            'hospcode': hospcode,
+            'typearea': {'$in': ['1', '3']}
         }).count
 
         return rs
@@ -172,7 +178,8 @@ class ReportModel:
                         '$lte': str(end_date)
                     }
                 }
-            }
+            },
+            'typearea': {'$in': ['1', '3']}
         })
 
         return rs
@@ -189,7 +196,9 @@ class ReportModel:
                         '$lte': str(end_date)
                     }
                 }
-            }
+            },
+
+            'typearea': {'$in': ['1', '3']}
         })
 
         return rs

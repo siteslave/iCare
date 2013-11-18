@@ -120,6 +120,16 @@
                 <ul class="dropdown-menu">
                     <li class="dropdown-header">REPORTS SYSTEMS</li>
                     <li>
+                        <a href="${request.route_url('reports_anc_12weeks_index')}">
+                        <i class="icon-print"></i> ฝากครรภ์ครั้งแรกเมื่ออายุครรภ์ <= 12 สัปดาห์
+                        </a>
+                    </li>
+                    <li>
+                        <a href="${request.route_url('reports_anc_coverages_index')}">
+                        <i class="icon-print"></i> ฝากครรภ์ครบ/ไม่ครบ 5 ครั้งคุณภาพ
+                        </a>
+                    </li>
+                    <li>
                         <a href="${request.route_url('reports_anc_risk')}">
                         <i class="icon-print"></i> ผู้มีภาวะเสี่ยงในการฝากครรภ์
                         </a>
@@ -135,9 +145,20 @@
                         <i class="icon-print"></i> รายชื่อมารดาที่ต้องได้รับการเยี่ยมในเวลาที่กำหนด
                         </a>
                     </li>
+                    <li class="divider"></li>
                     <li>
+                        <a href="${request.route_url('reports_newborn_wlt2500')}">
+                        <i class="icon-print"></i> ทารกแรกเกิดน้ำหนักน้อยกว่า 2,500 กรัม
+                        </a>
+                    </li>
+                    <li>
+                        <a href="${request.route_url('reports_milk_index')}">
+                        <i class="icon-print"></i> เด็กดื่มนมแม่อย่างเดียว 6 เดือน
+                        </a>
+                    </li>
+                    <li class="disabled">
                         <a href="${request.route_url('reports_anc_risk')}">
-                        <i class="icon-print"></i> รายเด็กแรกเกิดที่ต้องได้รับการเยี่ยมในเวลาที่กำหนด
+                        <i class="icon-print"></i> ข้อมูลการตรวจภาวะโภชนาการเด็ก
                         </a>
                     </li>
                 </ul>

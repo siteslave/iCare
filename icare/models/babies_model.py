@@ -1,6 +1,8 @@
 # -*- coding: utf8
+from bson import Code
 
 import pymongo
+from icare.models.person_model import PersonModel
 
 
 class BabiesModel:
@@ -113,5 +115,112 @@ class BabiesModel:
             'hospcode': hospcode,
             'seq': seq
         }).count()
+
+        return rs
+
+    def get_newborn_weight_less_than_2500(self, hospcode, start, limit):
+        self.request.db['newborn'].ensure_index('hospcode', pymongo.ASCENDING)
+        self.request.db['newborn'].ensure_index('bweight', pymongo.ASCENDING)
+
+        rs = self.request.db['newborn'].find(
+            {
+                'bweight': {
+                    '$lt': '2500'
+                },
+                'hospcode': hospcode
+            }).skip(start).limit(limit)
+
+        return rs
+
+    def search_newborn_weight_less_than_2500(self, cid, hospcode):
+        self.request.db['newborn'].ensure_index('hospcode', pymongo.ASCENDING)
+        self.request.db['newborn'].ensure_index('bweight', pymongo.ASCENDING)
+        self.request.db['newborn'].ensure_index('cid', pymongo.ASCENDING)
+
+        rs = self.request.db['newborn'].find(
+            {
+                'bweight': {
+                    '$lt': '2500'
+                },
+                'cid': cid,
+                'hospcode': hospcode
+            })
+
+        return rs
+
+    def get_newborn_weight_less_than_2500_total(self, hospcode):
+        self.request.db['newborn'].ensure_index('hospcode', pymongo.ASCENDING)
+        self.request.db['newborn'].ensure_index('bweight', pymongo.ASCENDING)
+
+        rs = self.request.db['newborn'].find(
+            {
+                'bweight': {
+                    '$lt': '2500'
+                },
+                'hospcode': hospcode
+            }).count()
+        return rs
+
+    def process_milk(self, hospcode):
+        self.request.db['newborncare'].ensure_index('hospcode', pymongo.ASCENDING)
+
+        reducer = Code("""
+                        function(curr, result) {
+                            result.total++
+                        }
+                    """)
+
+        data = self.request.db['newborncare'].group(
+            key={
+                'hospcode': 1,
+                'pid': 1,
+            },
+            condition={
+                'hospcode': hospcode,
+                'food': '1'
+            },
+            initial={'total': 0},
+            reduce=reducer)
+
+        if data:
+            self.request.db['newborn_milks'].remove({'hospcode': hospcode})
+            person = PersonModel(self.request)
+
+            for r in data:
+                p = person.get_person_detail(r['pid'], r['hospcode'])
+                obj = {
+                    'cid': p['cid'],
+                    'pid': r['pid'],
+                    'hospcode': r['hospcode'],
+                    'total': r['total']
+                }
+
+                self.request.db['newborn_milks'].insert(obj)
+
+            return True
+        else:
+            return False
+
+    def get_milk_list(self, hospcode, start, limit):
+        self.request.db['newborn_milks'].ensure_index('hospcode', pymongo.ASCENDING)
+        self.request.db['newborn_milks'].ensure_index('total', pymongo.ASCENDING)
+
+        rs = self.request.db['newborn_milks'].find(
+            {
+                'total': {'$gte': 2},
+                'hospcode': hospcode
+            }).skip(start).limit(limit)
+
+        return rs
+
+    def get_milk_total(self, hospcode):
+        self.request.db['newborn_milks'].ensure_index('hospcode', pymongo.ASCENDING)
+        self.request.db['newborn_milks'].ensure_index('total', pymongo.ASCENDING)
+
+        rs = self.request.db['newborn_milks'].find(
+            {
+                'total': {'$gte': 2},
+                'hospcode': hospcode
+            }).count()
 
         return rs
