@@ -156,6 +156,7 @@ $(function() {
                 if(e) {
                     app.alert(e);
                 } else {
+                    app.alert('ประมวลผลข้อมูลเสร็จเรียบร้อยแล้ว');
                     anc_12ws.get_list();
                 }
             });

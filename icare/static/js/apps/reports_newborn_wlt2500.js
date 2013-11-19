@@ -59,7 +59,7 @@ $(function() {
                         '<td>' + v.birth + '</td>' +
                         '<td>' + numeral(v.bweight).format('0, 0') + '</td>' +
                         '<td>' + v.address + '</td>' +
-                        '<td><a href="#" class="btn btn-primary" data-name="btn_get_newborn_detail" '+
+                        '<td><a href="#" class="btn btn-default" data-name="btn_get_newborn_detail" '+
                         'data-pid="' + v.pid + '" data-hospcode="' + v.hospcode + '" data-cid="' + v.cid + '" ' +
                         'data-gravida="' + v.gravida + '" data-fullname="' + v.fullname + '" rel="tooltip" title="ดูข้อมูลการคลอด"> '+
                         '<i class="icon-share"></i></a></td>' +

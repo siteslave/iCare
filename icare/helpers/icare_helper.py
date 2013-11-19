@@ -1,8 +1,8 @@
 # -*- coding: utf8
+import base64
 
 import datetime
 import pymongo
-
 
 class ICHelper:
 
@@ -210,6 +210,25 @@ class ICHelper:
 
             return rows
 
+    def get_owner_list(self, request, hospcode):
+
+        request.db['ref_cups'].ensure_index('hmain', pymongo.ASCENDING)
+
+        rs = request.db['ref_cups'].find({
+            'hmain': hospcode
+        }).sort('hsub', pymongo.ASCENDING)
+
+        if rs:
+            rows = []
+            for r in rs:
+                obj = {
+                    'hsub': r['hsub'],
+                    'name': self.get_hospital_name(request, r['hsub'])
+                }
+                rows.append(obj)
+
+            return rows
+
     def get_chw(self, request, chw):
 
         request.db['ref_catms'].ensure_index('changwat', pymongo.ASCENDING)
@@ -343,3 +362,14 @@ class ICHelper:
     def get_vaccine_name(self, request, code):
         rs = request.db['ref_epi_vaccines'].find_one({'export_code': code})
         return rs['eng_name'] if rs else '-'
+
+    def get_hash(self, password):
+        #hash = base64.b64encode(password)
+        #return hash
+        import hashlib
+        #salt = uuid.uuid4().hex
+        salt = '$5$rounds=80000$.u/cPp2BoKubg/9P$qDfqHzxSOrPLSuHzzgktOpxd5GISIL9/bGXdTLyv.aB'
+
+        hash_pwd = hashlib.sha512(password + salt).hexdigest()
+
+        return hash_pwd

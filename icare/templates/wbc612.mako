@@ -53,7 +53,7 @@
 
          <ul class="pagination" id="paging"></ul>
 
-        <div class="alert">
+        <div class="alert alert-warning">
           <button type="button" class="close" data-dismiss="alert">&times;</button>
           <strong>หมายเหตุ!</strong> ข้อมูลอ้างอิงจาก Typearea เท่ากับ 1 และ 3 เท่านั้น
         </div>
@@ -112,9 +112,9 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal"><i class="icon-remove"></i> ปิดหน้าต่าง</button>
       </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+    </div>
+  </div>
+</div>
 
 <div class="modal fade" id="mdl_nutrition">
   <div class="modal-dialog" style="width: 780px;">
@@ -142,9 +142,9 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal"><i class="icon-remove"></i> ปิดหน้าต่าง</button>
       </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+    </div>
+  </div>
+</div>
 
 <div class="modal fade" id="mdl_appointment">
   <div class="modal-dialog" style="width: 780px;">
@@ -169,8 +169,8 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal"><i class="icon-remove"></i> ปิดหน้าต่าง</button>
       </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+    </div>
+  </div>
+</div>
 
 <script src="/static/js/apps/wbc612.js"></script>

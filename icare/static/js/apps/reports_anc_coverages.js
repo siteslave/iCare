@@ -72,6 +72,9 @@ $(function() {
         var t = t || anc_coverages.get_filter();
 
         anc_coverages.ajax.get_total(t, function(e, total) {
+
+            $('#spn_total > strong').html(numeral(total).format('0,0'));
+
             if (e) {
                 app.alert(e);
             } else {

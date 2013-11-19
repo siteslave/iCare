@@ -21,7 +21,7 @@
     </div>
 
     <button type="button" id="btn_total" class="btn btn-primary pull-right" rel="tooltip" title="จำนวนทั้งหมด">
-        <i class="icon-th-list"></i> จำนวนทั้งหมด <span id="spn_total"><strong>0</strong></span>
+        <i class="icon-th-list"></i> จำนวนทั้งหมด <span id="spn_total"><strong>0</strong></span> คน
     </button>
 
 </form>

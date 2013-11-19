@@ -14,7 +14,8 @@
             <i class="icon-search"></i> ค้นหา
         </button>
     </div>
-    <div class="btn-group pull-right" data-toggle="buttons">
+    |
+    <div class="btn-group" data-toggle="buttons">
         <label class="btn btn-primary" data-name="chk_filter" data-id="2">
             <input type="radio"><i class="icon-ok"></i> ครบ
         </label>
@@ -25,6 +26,11 @@
             <input type="radio"> <i class="icon-refresh"></i> ทั้งหมด
         </label>
     </div>
+
+    <button type="button" id="btn_total" class="btn btn-primary pull-right" rel="tooltip" title="จำนวนทั้งหมด">
+        <i class="icon-th-list"></i> จำนวนทั้งหมด <span id="spn_total"><strong>0</strong></span> คน
+    </button>
+
 </form>
 
 <table class="table table-striped" id="tbl_list">

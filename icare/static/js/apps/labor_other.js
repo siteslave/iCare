@@ -71,46 +71,26 @@ $(function() {
 
             $(rs).each(function(i, v) {
 
-                var is_risk = v.is_risk == 'Y' ? '<i class="icon-ok"></i>' : '<i class="icon-minus"></i>';
-                var tr_risk = v.is_risk == 'Y' ? 'class="warning"' : '';
-
-                var screen_list =
-                    '<div class="btn-group">' +
-                                '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">' +
-                                '<i class="icon-calendar"></i> <span class="caret"></span>' +
-                                '</button>' +
-                        '<ul class="dropdown-menu pull-right" role="menu">';
-
-                if($(v.screen_date).size()) {
-                    $(v.screen_date).each(function(i, v) {
-                        var d = new Date(v.last_update);
-                        var new_date = d.getDate() + '/' + (d.getMonth() + 1) + '/' + d.getFullYear();
-                        screen_list +=
-                                        '<li class="dropdown-header">DATE SCREEN</li>' +
-                                        '<li><a href="#" data-name="btn_get_risk_screen_detail" data-id="' + v.id + '" title="ดูข้อมูล">' +
-                                            '<i class="icon-edit"></i> ' + new_date + '</a></li>'
-                    });
-
-                    screen_list += '</ul></div>';
-                }
-
                 $('#tbl_list > tbody').append(
-                    '<tr ' + tr_risk + '>' +
+                    '<tr>' +
                         '<td>' + v.cid + '</td>' +
                         '<td>' + v.fullname + '</td>' +
-                        '<td>' + v.birth + '</td>' +
                         '<td>' + v.age.year + '</td>' +
-                        '<td>' + app.strip(v.address, 50) + '</td>' +
-                        '<td>' + is_risk + '</td>' +
-                        '<td><a href="#" class="btn btn-success" data-name="btn_anc_history" ' +
-                        'data-cid="' + v.cid + '" title="ดูประวัติการฝากครรภ์"><i class="icon-share"></i></a></td>' +
-                        '<td>' + screen_list + '</td>' +
+                        '<td>' + app.strip(v.address, 30) + '</td>' +
+                        '<td>10707 รพท. มหาสารคาม</td>' +
+                        '<td>' +
+                        '<a href="#" class="btn btn-default" title="ดูข้อมูลคลอด" rel="tooltip">' +
+                        '<i class="icon-share"></i>' +
+                        '</a>' +
+                        '</td>' +
                         '</tr>'
                 );
             });
 
+            app.set_runtime();
+
         } else {
-            $('#tbl_list > tbody').append('<tr><td colspan="8">ไม่พบรายการ</td></tr>');
+            $('#tbl_list > tbody').append('<tr><td colspan="6">ไม่พบรายการ</td></tr>');
         }
     };
 
@@ -139,7 +119,7 @@ $(function() {
 
                             if(e) {
                                 app.alert(e);
-                                $('#tbl_list > tbody').append('<tr><td colspan="8">ไม่พบข้อมูล</td></td></tr>');
+                                $('#tbl_list > tbody').append('<tr><td colspan="6">ไม่พบข้อมูล</td></td></tr>');
                             } else {
                                 rpt_risk.set_list(rs);
                             }

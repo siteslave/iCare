@@ -29,9 +29,13 @@ def signin_view(request):
 @view_config(route_name='signin', request_method='POST')
 def do_login(request):
 
+    from icare.helpers.icare_helper import ICHelper
+
+    h = ICHelper()
+
     csrf_token = request.params['csrf_token']
     username = request.params['username']
-    password = request.params['password']
+    password = h.get_hash(request.params['password'])
 
     auth = Auth()
 
@@ -43,6 +47,7 @@ def do_login(request):
             session = request.session
             session['logged'] = True
             session['hospcode'] = users['hospcode']
+            session['owner'] = users['owner']
             session['fullname'] = users['fullname']
             session['user_type'] = users['user_type']
             session['id'] = str(users['_id'])

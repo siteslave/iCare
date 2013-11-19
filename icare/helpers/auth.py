@@ -5,7 +5,7 @@ class Auth:
         auth = request.db['users'].find_one({
             'username': username,
             'password': password,
-            'user_status': '1'
+            'is_active': 'Y'
         })
 
         return auth

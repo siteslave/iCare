@@ -89,20 +89,22 @@
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                   <span class="icon-sitemap"></span> ระบบงานอื่นๆ <b class="caret"></b></a>
               <ul class="dropdown-menu">
-                <li class="dropdown-header">OTHER SERVICES</li>
-				<li><a href="${request.route_url('employers_index')}"><i class="icon-group"></i> ทะเบียนบุคลากร</a></li>
-                <!-- <li><a href="${request.route_url('epidem_index')}"><i class="icon-group"></i> ระบาดวิทยา</a></li>
-                <li><a href="${request.route_url('ncdscreen_index')}"><i class="icon-calendar"></i> คัดกรองความเสี่ยง</a></li>
-                <li><a href="#"><i class="icon-user-md"></i> ปรับเปลี่ยนพฤติกรรม</a></li>
-                <li class="divider"></li>
-                <li><a href="#"><i class="icon-food"></i> ทะเบียนผู้ป่วยเบาหวานความดัน</a></li>
-                <li><a href="#"><i class="icon-female"></i> ทะเบียนผู้พิการ</a></li>
-                <li><a href="#"><i class="icon-suitcase"></i> ทะเบียนผู้เสียชีวิต</a></li>
-                <li><a href="#"><i class="icon-user"></i> ทะเบียนผู้สูงอายุ</a></li>
-				-->
-                  <li class="divider"></li>
-                  <li class="dropdown-header">GIS/MAP</li>
-                  <li><a href="${request.route_url('mch_map')}"><i class="icon-map-marker"></i> แผนที่ระบบงานแม่และเด็ก</a></li>
+                    <li class="dropdown-header">OTHER SERVICES</li>
+				    <li><a href="${request.route_url('employers_index')}"><i class="icon-group"></i> ทะเบียนบุคลากร</a></li>
+                    <li><a href="${request.route_url('users_admin_index')}"><i class="icon-user-md"></i> ทะเบียนผู้ใช้งาน (Users Management)</a></li>
+                    <li class="divider"></li>
+				    <li class="disabled"><a href="#"><i class="icon-search"></i> ตรวจสอบคนในเขตที่ไปคลอดนอกเขต</a></li>
+##                <li><a href="${request.route_url('epidem_index')}"><i class="icon-group"></i> ระบาดวิทยา</a></li>
+##                <li><a href="${request.route_url('ncdscreen_index')}"><i class="icon-calendar"></i> คัดกรองความเสี่ยง</a></li>
+##                <li><a href="#"><i class="icon-user-md"></i> ปรับเปลี่ยนพฤติกรรม</a></li>
+##                <li class="divider"></li>
+##                <li><a href="#"><i class="icon-food"></i> ทะเบียนผู้ป่วยเบาหวานความดัน</a></li>
+##                <li><a href="#"><i class="icon-female"></i> ทะเบียนผู้พิการ</a></li>
+##                <li><a href="#"><i class="icon-suitcase"></i> ทะเบียนผู้เสียชีวิต</a></li>
+##                <li><a href="#"><i class="icon-user"></i> ทะเบียนผู้สูงอายุ</a></li>
+
+##                    <li class="dropdown-header">GIS/MAP</li>
+                    <li><a href="${request.route_url('mch_map')}"><i class="icon-map-marker"></i> แผนที่ระบบงานแม่และเด็ก</a></li>
 
               </ul>
             </li>

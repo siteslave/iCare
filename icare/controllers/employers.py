@@ -25,11 +25,17 @@ def index_view(request):
     else:
         if request.session['user_type'] == '1':
             return HTTPFound(location='/admins')
+
+        if request.session['user_type'] == '3':
+            return HTTPFound(location='/denied')
+
             
         positions = h.get_position_list(request)
         grades = h.get_position_grade_list(request)
         
         return {'title': u'ทะเบียนบุคลากร', 'positions': positions, 'grades': grades}
+        return {'ok': 1, 'total': total}
+
 
 @view_config(route_name='employer_get_total', renderer='json')
 def get_total(request):
@@ -43,8 +49,10 @@ def get_total(request):
 
         emp = EmployersModel(request)
         try:
-            total = emp.get_total(request.session['hospcode'])
+            total = emp.get_total(request.session['owner'])
+
             return {'ok': 1, 'total': total}
+
         except Exception as e:
             return {'ok': 0, 'msg': e.message}
     else:
@@ -102,10 +110,10 @@ def search(request):
             try:
                 #Search by cid
                 q = int(query)
-                rs = emp.search_by_cid(request.session['hospcode'], query)
+                rs = emp.search_by_cid(request.session['owner'], query)
             except Exception as e:
                 #Search by name
-                rs = emp.search_by_name(request.session['hospcode'], query)
+                rs = emp.search_by_name(request.session['owner'], query)
             
             #return {'ok': 1, 'rows': rs.count()}
             if rs:
@@ -125,8 +133,10 @@ def search(request):
                        'telephone': r['telephone'],
                        'status': r['status'] if 'status' in r else '0'
                        
-                   } 
+                   }
+
                    rows.append(obj)
+
                 return {'ok': 1, 'rows': rows}
             else:
                 return {'ok': 0, 'msg': u'ไม่พบข้อมูล'}
@@ -147,7 +157,7 @@ def get_list(request):
             limit = int(stop) - int(start)
 
             emp = EmployersModel(request)
-            rs = emp.get_list(request.session['hospcode'], int(start), int(limit))
+            rs = emp.get_list(request.session['owner'], int(start), int(limit))
             
             #return {'ok': 1, 'rows': rs.count()}
             if rs:
@@ -167,15 +177,18 @@ def get_list(request):
                        'telephone': r['telephone'],
                        'status': r['status'] if 'status' in r else '0'
                        
-                   } 
+                   }
+
                    rows.append(obj)
+
                 return {'ok': 1, 'rows': rows}
             else:
                 return {'ok': 0, 'msg': u'ไม่พบข้อมูล'}
             
         else:
             return {'ok': 0, 'msg': 'Not ajax request'}
-            
+
+
 @view_config(route_name="employer_save_new", request_method="POST", renderer="json")
 def save_new(request):
     if "logged" not in request.session:
@@ -215,13 +228,13 @@ def save_new(request):
                 else:
                     # Create
                     # Check if cid exist 
-                    is_duplicated = emp.check_duplicated(request.session['hospcode'], cid)
+                    is_duplicated = emp.check_duplicated(request.session['owner'], cid)
                     # If cid don't exist
                     if is_duplicated:
                         return {'ok': 0, 'msg': u'เลขบัตรประชาชนซ้ำ'}
                     else:
                         # Save new employer
-                        rs = emp.save_new(request.session['hospcode'], fullname, cid, birth, sex, ObjectId(position), ObjectId(position_grade), department, email, telephone, start_date, end_date, status, position_id)
+                        rs = emp.save_new(request.session['owner'], fullname, cid, birth, sex, ObjectId(position), ObjectId(position_grade), department, email, telephone, start_date, end_date, status, position_id)
 
                         if rs:
                             return {"ok": 1}
@@ -252,20 +265,20 @@ def save_meetings(request):
         id = request.params["id"] if 'id' in request.params else False
         
         if id:
-            rs = emp.update_meeting(request.session['hospcode'], cid, id, title, start_date, end_date, owner_name, place_name)
+            rs = emp.update_meeting(request.session['owner'], cid, id, title, start_date, end_date, owner_name, place_name)
             if rs:
                 return {'ok': 1}
             else:
                 return {'ok': 0, 'msg': 'ไม่สามารถปรับปรุงรายการได้'}
         else:
             #Check duplicate
-            is_duplicate = emp.check_meeting_duplicate(request.session['hospcode'], cid, title, start_date, end_date, owner_name)
+            is_duplicate = emp.check_meeting_duplicate(request.session['owner'], cid, title, start_date, end_date, owner_name)
         
             if is_duplicate:
                 return {'ok': 0, 'msg': 'ข้อมูลซ้ำ'}
             else:
                 #Save
-                rs = emp.save_meetings(request.session['hospcode'], cid, title, start_date, end_date, owner_name, place_name)
+                rs = emp.save_meetings(request.session['owner'], cid, title, start_date, end_date, owner_name, place_name)
             
                 if rs:
                     return {'ok': 1}
@@ -283,7 +296,7 @@ def get_meetings(request):
         cid = request.params['cid']
         
         #Check duplicate
-        rs = emp.get_meetings(request.session['hospcode'], cid)
+        rs = emp.get_meetings(request.session['owner'], cid)
         
         if rs:
             rows = []
@@ -317,6 +330,6 @@ def remove_meetings(request):
         cid = request.params['cid']
         id = request.params['id']
         
-        rs = emp.remove_meeting(request.session['hospcode'], cid, id)
+        rs = emp.remove_meeting(request.session['owner'], cid, id)
         
         return {'ok': 1} if rs else {'ok': 0, 'msg': 'ไม่สามารถลบรายการได้'}

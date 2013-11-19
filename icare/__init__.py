@@ -175,6 +175,17 @@ def main(global_config, **settings):
         config.add_route('reports_anc_12ws_list', '/anc_12ws/list')
         config.add_route('reports_anc_12ws_total', '/anc_12ws/total')
 
+    def labor_other_route(config):
+        pass
+
+    def users_admin_route(config):
+        config.add_route('users_admin_get_list', '/list')
+        config.add_route('users_admin_get_total', '/total')
+        config.add_route('users_admin_save', '/save')
+        config.add_route('users_admin_chwpass', '/chwpass')
+        config.add_route('users_admin_remove', '/remove')
+        config.add_route('users_admin_search', '/search')
+
     def admin_route(config):
         config.add_route('admin_users', '/users')
         config.add_route('admin_save', '/users/save')
@@ -202,7 +213,9 @@ def main(global_config, **settings):
     config.include(ncdscreen_route, route_prefix='/ncdscreen')
     config.include(employers_route, route_prefix='/employers')
     config.include(reports_route, route_prefix='/reports')
-    
+    config.include(labor_other_route, route_prefix='/labor_other')
+    config.include(users_admin_route, route_prefix='/uadm')
+
     config.add_route('employers_index', '/employers')
 
     config.add_route('home', '/')
@@ -222,7 +235,13 @@ def main(global_config, **settings):
     config.add_route('signout', '/singout')
 
     config.add_route('reports_index', '/reports')
+
+    config.add_route('labor_other_index', '/labor_other')
+
     config.add_route('admin_index', '/admins')
+
+    config.add_route('users_admin_index', '/uadm')
+    config.add_route('users_denied', '/denied')
 
     config.include('pyramid_mako')
     

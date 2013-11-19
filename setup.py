@@ -10,7 +10,7 @@ requires = [
     'pyramid',
     'waitress',
     'pymongo',
-    'pyramid_mako'
+    'pyramid_mako',
 ]
 
 setup(name='iCare',

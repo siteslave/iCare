@@ -53,7 +53,7 @@
 
          <ul class="pagination" id="paging"></ul>
 
-        <div class="alert">
+        <div class="alert alert-warning">
           <button type="button" class="close" data-dismiss="alert">&times;</button>
           <strong>หมายเหตุ!</strong> ข้อมูลอ้างอิงจาก Typearea เท่ากับ 1 และ 3 เท่านั้น
         </div>

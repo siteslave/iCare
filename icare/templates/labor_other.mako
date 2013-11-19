@@ -1,7 +1,7 @@
 <%inherit file="layout/default.mako" />
 <ul class="breadcrumb">
   <li><a href="/">หน้าหลัก</a></li>
-  <li class="active">ผู้มีภาวะเสี่ยงในการฝากครรภ์</li>
+  <li class="active">คนในเขตไปคลอดที่หน่วยบริการอื่น</li>
 </ul>
 
 <form action="#" class="well well-sm form-inline">
@@ -9,19 +9,7 @@
     <input type="text" id="txt_query" class="form-control" style="width: 240px;" placeholder="ระบุเลขบัตรประชาชน" />
     <button type="button" class="btn btn-primary" id="btn_search">
         <i class="icon-search"></i> ค้นหา
-    </button> |
-    <div class="btn-group">
-        <button type="button" data-name="btn_filter" class="btn btn-danger" data-value="Y">
-            <i class="icon-fire"></i> มีภาวะเสี่ยง
-        </button>
-        <button type="button" data-name="btn_filter" class="btn btn-success" data-value="N">
-            <i class="icon-ok-circle"></i> ปกติ
-        </button>
-        <button type="button" data-name="btn_filter" class="btn btn-default" data-value="0">
-            <i class="icon-refresh"></i> ทั้งหมด
-        </button>
-    </div>
-
+    </button>
     <button type="button" id="btn_total" class="btn btn-primary pull-right" rel="tooltip" title="จำนวนทั้งหมด">
             <i class="icon-th-list"></i> จำนวนทั้งหมด <span id="spn_total"><strong>0</strong></span> คน
         </button>
@@ -32,17 +20,15 @@
     <tr>
         <th>เลขบัตรประชาขน</th>
         <th>ชื่อ - สกุล</th>
-        <th>วันเกิด</th>
         <th>อายุ (ปี)</th>
         <th>ที่อยู่</th>
-        <th>เสี่ยง</th>
-        <th>ฝากครรภ์</th>
+        <th>คลอดที่</th>
         <th>#</th>
     </tr>
     </thead>
     <tbody>
     <tr>
-        <td colspan="8">...</td>
+        <td colspan="6">...</td>
     </tr>
     </tbody>
 </table>
@@ -316,4 +302,4 @@
 </div><!-- /.modal -->
 
 
-<script src="/static/js/apps/reports_anc_risk.js"></script>
+<script src="/static/js/apps/labor_other.js"></script>
