@@ -185,8 +185,12 @@ $(function() {
         e.preventDefault();
 
         var password = $('#txt_app_chw_new').val();
-        if(!password) {
+        var password2 = $('#txt_app_chw_new2').val();
+
+        if(!password || !password2) {
             app.alert('กรุณาระบุรหัสผ่านใหม่');
+        } else if(password != password2) {
+            app.alert('รหัสผ่านทั้งสองช่องไม่เหมือนกัน กรุณาตรวจสอบ');
         } else {
             app_do_change_pass(password, function(e) {
                 if(e) {

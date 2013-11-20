@@ -169,7 +169,7 @@
           <ul class="nav navbar-nav pull-right">
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                    <span class="icon-cogs"></span> ตั้งค่า<b class="caret"></b></a>
+                    <span class="icon-cogs"></span> Tools<b class="caret"></b></a>
               <ul class="dropdown-menu">
                 <li class="dropdown-header">${request.session['fullname']} [${request.session['hospcode']}]</li>
                 <li><a href="#" id="btn_app_show_change_password"><i class="icon-key"></i> เปลี่ยนรหัสผ่าน</a></li>
@@ -199,6 +199,8 @@
           <form action="#">
               <label for="txt_app_chw_new">รหัสผ่านใหม่</label>
               <input type="password" class="form-control" id="txt_app_chw_new"/>
+              <label for="txt_app_chw_new2">รหัสผ่านใหม่ (อีกครั้ง)</label>
+              <input type="password" class="form-control" id="txt_app_chw_new2"/>
           </form>
       </div>
       <div class="modal-footer">

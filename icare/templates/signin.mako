@@ -14,19 +14,25 @@
 
   <body>
 
-    <div class="container">
+<div class="container">
+    <div class="row">
+        <div class="col-sm-6 col-md-4 col-md-offset-4">
+            <h1 class="text-center login-title">Sign in to iCare</h1>
+            <div class="account-wall">
+                <img class="profile-img" src="https://lh5.googleusercontent.com/-b0-k99FZlyE/AAAAAAAAAAI/AAAAAAAAAAA/eu7opA4byxI/photo.jpg?sz=120"
+                    alt="">
+                <form class="form-signin" action="/signin" method="post">
+                    <input type="hidden" name="csrf_token" value="${request.session.get_csrf_token()}"/>
+                    <input type="text" name="username" class="form-control" placeholder="Username" required autofocus>
+                    <input type="password" name="password" class="form-control" placeholder="Password" required>
+                    <button class="btn btn-lg btn-primary btn-block" type="submit"> Sign in </button>
+                ##<a href="#" class="need-help">Need help? </a><span class="clearfix"></span>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
-      <form class="form-signin" action="/signin" method="post">
-        <h2 class="form-signin-heading">Please sign in</h2>
-          <input type="hidden" name="csrf_token" value="${request.session.get_csrf_token()}"/>
-        <input type="text" name="username" class="input-block-level"
-               placeholder="Username" autofocus autocomplete="off" style="width: 280px;">
-        <input type="password" name="password" class="input-block-level"
-               placeholder="Password" autocomplete="off" style="width: 280px;">
-        <button class="btn btn-large btn-primary btn-block" type="submit">Sign in</button>
-      </form>
-
-    </div> <!-- /container -->
 
   </body>
 </html>
