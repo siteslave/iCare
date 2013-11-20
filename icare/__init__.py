@@ -175,6 +175,8 @@ def main(global_config, **settings):
         config.add_route('reports_anc_12ws_list', '/anc_12ws/list')
         config.add_route('reports_anc_12ws_total', '/anc_12ws/total')
 
+        config.add_route('report_index_get_total', '/alltotal')
+
     def labor_other_route(config):
         pass
 

@@ -12,7 +12,7 @@ class ReportModel:
         rs = self.request.db['newborn'].find_one({
             'hospcode': hospcode
         })
-        
+
         if rs:
             return rs
         else:
@@ -200,5 +200,62 @@ class ReportModel:
 
             'typearea': {'$in': ['1', '3']}
         })
+
+        return rs
+
+    ## Report index ##
+    def get_anc_total(self, hospcode):
+
+        self.request.db['anc_coverages'].ensure_index('hospcode', pymongo.ASCENDING)
+
+        total = self.request.db['anc_coverages'].find({
+            'hospcode': hospcode,
+            #'typearea': {'$in': ['1', '3']}
+        }).count()
+
+        return total
+
+    def get_anc_risk_total(self, hospcode):
+
+        self.request.db['anc_survey'].ensure_index('hospcode', pymongo.ASCENDING)
+        self.request.db['anc_survey'].ensure_index('is_risk', pymongo.ASCENDING)
+
+        total = self.request.db['anc_survey'].find({
+            'hospcode': hospcode,
+            'is_risk': 'Y'
+        }).count()
+
+        return total
+
+    def get_is_labor_total(self, hospcode):
+
+        self.request.db['labor'].ensure_index('hospcode', pymongo.ASCENDING)
+
+        total = self.request.db['labor'].find({
+            'hospcode': hospcode
+        }).count()
+
+        return total
+
+    def get_12weeks_total(self, hospcode):
+
+        self.request.db['anc_12weeks'].ensure_index('hospcode', pymongo.ASCENDING)
+
+        total = self.request.db['anc_12weeks'].find({
+            'hospcode': hospcode
+        }).count()
+
+        return total
+
+    def get_anc_coverages_total(self, hospcode):
+        self.request.db['anc_coverages'].ensure_index('hospcode', pymongo.ASCENDING)
+        self.request.db['anc_coverages'].ensure_index('total', pymongo.ASCENDING)
+        #self.request.db['anc_coverages'].ensure_index('typearea', pymongo.ASCENDING)
+
+        rs = self.request.db['anc_coverages'].find({
+                'hospcode': hospcode,
+                #'typearea': {'$in': ['1', '3']},
+                'total': 5
+        }).count()
 
         return rs

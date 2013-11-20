@@ -16,19 +16,19 @@
                     </thead>
                     <tbody>
                     <tr>
-                        <td>ทั้งหมด</td><td>120</td>
+                        <td>ทั้งหมด</td><td><span id="spn_anc_total"></span></td>
                     </tr>
                     <tr>
-                        <td>พบความเสี่ยง</td><td>11</td>
+                        <td>พบความเสี่ยง</td><td><span id="spn_anc_risk"></span></td>
                     </tr>
                     <tr>
-                        <td>คลอดแล้ว</td><td>50</td>
+                        <td>คลอดแล้ว</td><td><span id="spn_labor"></span></td>
                     </tr>
                     <tr>
-                        <td>ฝากครรภ์ < 12 สัปดาห์</td><td>48</td>
+                        <td>ฝากครรภ์ <= 12 สัปดาห์</td><td><span id="spn_weeks"></span></td>
                     </tr>
                     <tr>
-                        <td>เยี่ยมครบ 5 ครั้ง</td><td>80</td>
+                        <td>เยี่ยมครบ 5 ครั้ง</td><td><span id="spn_coverages"></span></td>
                     </tr>
                     </tbody>
                 </table>
@@ -81,7 +81,7 @@
 
             <div class="panel-footer">
                 <a href="/reports/anc" class="btn btn-success">
-                    ดูรายชื่อทั้งหมด [ <span class="label label-danger" id="spn_anc_total"></span> ] <i class="icon-arrow-right"></i>
+                    ดูรายชื่อทั้งหมด [ <span class="label label-danger" id="spn_anc_all"></span> ] <i class="icon-arrow-right"></i>
                 </a>
             </div>
         </div>
@@ -109,7 +109,7 @@
             </div>
             <div class="panel-footer">
                 <a href="/reports/mch" class="btn btn-success">
-                    ดูรายชื่อทั้งหมด [ <span class="label label-danger" id="spn_mch_total"></span> ] <i class="icon-arrow-right"></i>
+                    ดูรายชื่อทั้งหมด [ <span class="label label-danger" id="spn_mch_all"></span> ] <i class="icon-arrow-right"></i>
                 </a>
             </div>
         </div>

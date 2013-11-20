@@ -1,7 +1,7 @@
 # -*- coding: utf8
 import uuid
 import os
-from pyramid.response import Response
+from pyramid.httpexceptions import HTTPFound
 
 from pyramid.view import view_config
 
@@ -18,7 +18,7 @@ def index_view(request):
 def do_upload(request):
     if request.POST['file'].file:
 
-        uploaded_directory = 'C:\TEMP\HDC'
+        uploaded_directory = '/tmp/hdc'
         # True file name
         file_name = request.POST['file'].filename
         # Actual file data

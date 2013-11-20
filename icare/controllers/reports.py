@@ -1122,3 +1122,29 @@ def reports_anc_12ws_total(request):
                 return {'ok': 0, 'msg': 'Invalid token key'}
         else:
             return {'ok': 0, 'msg': 'Not ajax request.'}
+
+
+@view_config(route_name='report_index_get_total', request_method='POST', renderer='json')
+def report_index_get_total_anc(request):
+    if 'logged' not in request.session:
+        return {'ok': 0, 'msg': 'Please login.'}
+    else:
+        if request.is_xhr:  # is ajax request
+            csrf_token = request.params['csrf_token']
+            is_token = (csrf_token == unicode(request.session.get_csrf_token()))
+
+            if is_token:
+                rpt = ReportModel(request)
+
+                #anc total
+                anc_total = rpt.get_anc_total(request.session['hospcode'])
+                risk_total = rpt.get_anc_risk_total(request.session['hospcode'])
+                labor_total = rpt.get_is_labor_total(request.session['hospcode'])
+                weeks_total = rpt.get_12weeks_total(request.session['hospcode'])
+                coverages_total = rpt.get_anc_coverages_total(request.session['hospcode'])
+
+                return {'ok': 1, 'anc': int(anc_total), 'risk': int(risk_total), 'labor': int(labor_total),
+                        'weeks': int(weeks_total), 'coverages': int(coverages_total)}
+
+            else:
+                return {'ok': 0, 'msg': 'Invalid token key'}
