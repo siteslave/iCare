@@ -41,7 +41,7 @@
           </form>
       </div>
 
-      <table class="table table-striped" id="tbl_list">
+      <table class="table table-bordered" id="tbl_list">
           <thead>
           <tr>
               <th>เลขบัตรประชาชน</th>
@@ -79,7 +79,7 @@
               </button>
           </form>
       </div>
-      <table class="table table-striped" id="tbl_visit_list">
+      <table class="table table-bordered" id="tbl_visit_list">
           <thead>
           <tr>
               <th>วันที่</th>
@@ -119,7 +119,7 @@
 ##                วันที่ <input type="text" disabled class="form-control" id="txt_date_serve" style="width: 100px;"/>
             </form>
         </div>
-        <table class="table table-striped" id="tbl_result">
+        <table class="table table-bordered" id="tbl_result">
             <thead>
             <tr>
                <th>รายการคัดกรอง</th>
@@ -191,7 +191,7 @@
         </table>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="icon-remove"></i> ปิดหน้าต่าง</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal"><i class="icon-remove"></i> ปิดหน้าต่าง</button>
       </div>
     </div>
   </div>

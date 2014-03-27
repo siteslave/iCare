@@ -11,29 +11,29 @@
     <input type="text" class="form-control" style="width: 220px;" data-type="number" placeholder="เลขบัตรประชาชน"/>
     <div class="btn-group">
         <button type="button" id="btn_search" class="btn btn-primary" rel="tooltip" title="ค้นหา">
-            <i class="icon-search"></i> ค้นหา
+            <i class="fa fa-search"></i> ค้นหา
         </button>
     </div>
     |
     <div class="btn-group" data-toggle="buttons">
         <label class="btn btn-primary" data-name="chk_filter" data-id="2">
-            <input type="radio"><i class="icon-ok"></i> ครบ
+            <input type="radio"><i class="fa fa-check"></i> ครบ
         </label>
         <label class="btn btn-default" data-name="chk_filter" data-id="3">
-            <input type="radio"><i class="icon-minus"></i> ไม่ครบ
+            <input type="radio"><i class="fa fa-minus"></i> ไม่ครบ
         </label>
         <label class="btn btn-success" data-name="chk_filter" data-id="1">
-            <input type="radio"> <i class="icon-refresh"></i> ทั้งหมด
+            <input type="radio"> <i class="fa fa-refresh"></i> ทั้งหมด
         </label>
     </div>
 
     <button type="button" id="btn_total" class="btn btn-primary pull-right" rel="tooltip" title="จำนวนทั้งหมด">
-        <i class="icon-th-list"></i> จำนวนทั้งหมด <span id="spn_total"><strong>0</strong></span> คน
+        <i class="fa fa-th-list"></i> จำนวนทั้งหมด <span id="spn_total"><strong>0</strong></span> คน
     </button>
 
 </form>
 
-<table class="table table-striped" id="tbl_list">
+<table class="table table-bordered" id="tbl_list">
     <thead>
     <tr>
         <th>เลขบัตรประชาชน</th>

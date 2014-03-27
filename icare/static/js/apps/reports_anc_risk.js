@@ -12,6 +12,25 @@ $(function() {
             });
         },
 
+        get_list_by_group: function(start_date, end_date, cb) {
+            app.ajax('/reports/risk/get_anc_risk_by_group', {
+                start_date: start_date,
+                end_date: end_date
+            }, function(e, v) {
+                e ? cb (e, null) : cb (null, v.rows);
+            });
+        },
+
+        get_risk_list_by_type: function(choice, start_date, end_date, cb) {
+            app.ajax('/reports/risk/get_risk_list_by_type', {
+                start_date: start_date,
+                end_date: end_date,
+                choice: choice
+            }, function(e, v) {
+                e ? cb (e, null) : cb (null, v.rows);
+            });
+        },
+
         search: function(cid, cb) {
             app.ajax('/reports/risk/search', {
                 cid: cid
@@ -51,14 +70,21 @@ $(function() {
         show_risk: function() {
             $('#mdl_anc_survey').modal({
                 keyboard: false,
-                backdrop: 'static'
+                backdrop: false
             });
         },
 
         show_anc_history: function() {
             $('#mdl_anc_history').modal({
                 keyboard: false,
-                backdrop: 'static'
+                backdrop: false
+            });
+        },
+
+        show_risk_list: function() {
+            $('#mdl_risk_list').modal({
+                keyboard: false,
+                backdrop: false
             });
         }
     };
@@ -71,24 +97,24 @@ $(function() {
 
             $(rs).each(function(i, v) {
 
-                var is_risk = v.is_risk == 'Y' ? '<i class="icon-ok"></i>' : '<i class="icon-minus"></i>';
+                var is_risk = v.is_risk == 'Y' ? '<i class="fa fa-ok"></i>' : '<i class="fa fa-minus"></i>';
                 var tr_risk = v.is_risk == 'Y' ? 'class="warning"' : '';
 
                 var screen_list =
                     '<div class="btn-group">' +
                                 '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">' +
-                                '<i class="icon-calendar"></i> <span class="caret"></span>' +
+                                '<i class="fa fa-calendar"></i> <span class="caret"></span>' +
                                 '</button>' +
                         '<ul class="dropdown-menu pull-right" role="menu">';
 
                 if($(v.screen_date).size()) {
                     $(v.screen_date).each(function(i, v) {
-                        var d = new Date(v.last_update);
-                        var new_date = d.getDate() + '/' + (d.getMonth() + 1) + '/' + d.getFullYear();
+                        //var d = new Date(v.last_update);
+                        //var new_date = d.getDate() + '/' + (d.getMonth() + 1) + '/' + d.getFullYear();
                         screen_list +=
                                         '<li class="dropdown-header">DATE SCREEN</li>' +
                                         '<li><a href="#" data-name="btn_get_risk_screen_detail" data-id="' + v.id + '" title="ดูข้อมูล">' +
-                                            '<i class="icon-edit"></i> ' + new_date + '</a></li>'
+                                            '<i class="fa fa-edit"></i> ' + app.string_to_jsdate(v.last_update) + '</a></li>'
                     });
 
                     screen_list += '</ul></div>';
@@ -96,15 +122,15 @@ $(function() {
 
                 $('#tbl_list > tbody').append(
                     '<tr ' + tr_risk + '>' +
-                        '<td>' + v.cid + '</td>' +
+                        '<td class="text-center">' + v.cid + '</td>' +
                         '<td>' + v.fullname + '</td>' +
                         '<td>' + v.birth + '</td>' +
-                        '<td>' + v.age.year + '</td>' +
+                        '<td class="text-center">' + v.age.year + '</td>' +
                         '<td>' + app.strip(v.address, 50) + '</td>' +
-                        '<td>' + is_risk + '</td>' +
-                        '<td><a href="#" class="btn btn-success" data-name="btn_anc_history" ' +
-                        'data-cid="' + v.cid + '" title="ดูประวัติการฝากครรภ์"><i class="icon-share"></i></a></td>' +
-                        '<td>' + screen_list + '</td>' +
+                        '<td class="text-center">' + is_risk + '</td>' +
+                        '<td class="text-center" class="text-center"><a href="#" class="btn btn-success" data-name="btn_anc_history" ' +
+                        'data-cid="' + v.cid + '" title="ดูประวัติการฝากครรภ์"><i class="fa fa-th-list"></i></a></td>' +
+                        '<td class="text-center">' + screen_list + '</td>' +
                         '</tr>'
                 );
             });
@@ -146,60 +172,7 @@ $(function() {
                         });
 
                     },
-                    onFormat: function(type){
-                        switch (type) {
-
-                            case 'block':
-
-                                if (!this.active)
-                                    return '<li class="disabled"><a href="">' + this.value + '</a></li>';
-                                else if (this.value != this.page)
-                                    return '<li><a href="#' + this.value + '">' + this.value + '</a></li>';
-                                return '<li class="active"><a href="#">' + this.value + '</a></li>';
-
-                            case 'right':
-                            case 'left':
-
-                                if (!this.active) {
-                                    return "";
-                                }
-                                return '<li><a href="#' + this.value + '">' + this.value + '</a></li>';
-
-                            case 'next':
-
-                                if (this.active) {
-                                    return '<li><a href="#' + this.value + '">&raquo;</a></li>';
-                                }
-                                return '<li class="disabled"><a href="">&raquo;</a></li>';
-
-                            case 'prev':
-
-                                if (this.active) {
-                                    return '<li><a href="#' + this.value + '">&laquo;</a></li>';
-                                }
-                                return '<li class="disabled"><a href="">&laquo;</a></li>';
-
-                            case 'first':
-
-                                if (this.active) {
-                                    return '<li><a href="#' + this.value + '">&lt;</a></li>';
-                                }
-                                return '<li class="disabled"><a href="">&lt;</a></li>';
-
-                            case 'last':
-
-                                if (this.active) {
-                                    return '<li><a href="#' + this.value + '">&gt;</a></li>';
-                                }
-                                return '<li class="disabled"><a href="">&gt;</a></li>';
-
-                            case 'fill':
-                                if (this.active) {
-                                    return '<li class="disabled"><a href="#">...</a></li>';
-                                }
-                        }
-                        return ""; // return nothing for missing branches
-                    }
+                    onFormat: app.setPagingFormat
                 });
             }
         });
@@ -301,10 +274,10 @@ $(function() {
                 $('#tbl_anc_history > tbody').append(
                     '<tr>' +
                         '<td>[' + v.hospcode + '] ' + v.hospname + '</td>' +
-                        '<td>' + v.date_serv + '</td>' +
-                        '<td>' + v.gravida + '</td>' +
-                        '<td>' + v.ancno + '</td>' +
-                        '<td>' + v.ga + '</td>' +
+                        '<td class="text-center">' + v.date_serv + '</td>' +
+                        '<td class="text-center">' + v.gravida + '</td>' +
+                        '<td class="text-center">' + v.ancno + '</td>' +
+                        '<td class="text-center">' + v.ga + '</td>' +
                         '<td>' + result + '</td>' +
                         '</tr>'
                 );
@@ -337,6 +310,122 @@ $(function() {
         rpt_risk.get_anc_history(cid);
     });
 
+    rpt_risk.get_risk_list = function(start_date, end_date) {
+
+        if(!start_date) {
+            app.alert('กรุณาระบุวันที่เริ่มต้น');
+        } else if(!end_date) {
+            app.alert('กรุณาระบุวันที่สิ้นสุด');
+        } else {
+            rpt_risk.ajax.get_list_by_group(start_date, end_date, function(err, data) {
+               if(err) {
+                   app.alert(err);
+               } else {
+
+                   $('a[data-name="btn_get_risk_list"]').each(function() {
+                        $(this).removeAttr('disabled');
+                   });
+
+                   $('#spn_ch01').html('<strong>' + data[0].risk01 + '</strong>');
+                   $('#spn_ch02').html('<strong>' + data[0].risk02 + '</strong>');
+                   $('#spn_ch03').html('<strong>' + data[0].risk03 + '</strong>');
+                   $('#spn_ch04').html('<strong>' + data[0].risk04 + '</strong>');
+                   $('#spn_ch05').html('<strong>' + data[0].risk05 + '</strong>');
+                   $('#spn_ch06').html('<strong>' + data[0].risk06 + '</strong>');
+                   $('#spn_ch07').html('<strong>' + data[0].risk07 + '</strong>');
+                   $('#spn_ch08').html('<strong>' + data[0].risk08 + '</strong>');
+                   $('#spn_ch09').html('<strong>' + data[0].risk09 + '</strong>');
+                   $('#spn_ch10').html('<strong>' + data[0].risk10 + '</strong>');
+                   $('#spn_ch11').html('<strong>' + data[0].risk11 + '</strong>');
+                   $('#spn_ch12').html('<strong>' + data[0].risk12 + '</strong>');
+                   $('#spn_ch13').html('<strong>' + data[0].risk13 + '</strong>');
+                   $('#spn_ch14').html('<strong>' + data[0].risk14 + '</strong>');
+                   $('#spn_ch15').html('<strong>' + data[0].risk15 + '</strong>');
+                   $('#spn_ch16').html('<strong>' + data[0].risk16 + '</strong>');
+                   $('#spn_ch17').html('<strong>' + data[0].risk17 + '</strong>');
+                   $('#spn_ch18').html('<strong>' + data[0].risk18 + '</strong>');
+               }
+            });
+        }
+    };
+
+    $('#btn_clear_filter_by_group').on('click', function(e) {
+        e.preventDefault();
+        rpt_risk.clear_before_filter();
+    });
+
+    rpt_risk.clear_before_filter = function() {
+
+        $('a[data-name="btn_get_risk_list"]').each(function() {
+            $(this).attr('disabled', 'disabled');
+        });
+
+        $('#txt_start_date').val('');
+        $('#txt_end_date').val('');
+
+       $('#spn_ch01').html('<strong>0</strong>');
+       $('#spn_ch02').html('<strong>0</strong>');
+       $('#spn_ch03').html('<strong>0</strong>');
+       $('#spn_ch04').html('<strong>0</strong>');
+       $('#spn_ch05').html('<strong>0</strong>');
+       $('#spn_ch06').html('<strong>0</strong>');
+       $('#spn_ch07').html('<strong>0</strong>');
+       $('#spn_ch08').html('<strong>0</strong>');
+       $('#spn_ch09').html('<strong>0</strong>');
+       $('#spn_ch10').html('<strong>0</strong>');
+       $('#spn_ch11').html('<strong>0</strong>');
+       $('#spn_ch12').html('<strong>0</strong>');
+       $('#spn_ch13').html('<strong>0</strong>');
+       $('#spn_ch14').html('<strong>0</strong>');
+       $('#spn_ch15').html('<strong>0</strong>');
+       $('#spn_ch16').html('<strong>0</strong>');
+       $('#spn_ch17').html('<strong>0</strong>');
+       $('#spn_ch18').html('<strong>0</strong>');
+    };
+    //get list by group
+    $('#btn_filter_by_group').on('click', function(e) {
+        e.preventDefault();
+
+        var start_date = $('#txt_start_date').val(),
+            end_date = $('#txt_end_date').val();
+
+        rpt_risk.get_risk_list(start_date, end_date);
+    });
+
+    rpt_risk.set_risk_list = function(data) {
+        $('#tbl_risk_list_by_type > tbody').empty();
+        if(data.length) {
+            $.each(data, function(i, v) {
+               $('#tbl_risk_list_by_type > tbody').append(
+                   '<tr>' +
+                       '<td class="text-center">' + v.cid + '</td>' +
+                       '<td>' + v.fullname + '</td>' +
+                       '<td class="text-center">' + v.birth + '</td>' +
+                       '<td class="text-center">' + v.age.year + '</td>' +
+                   '</tr>'
+               );
+            });
+        } else {
+            $('#tbl_risk_list_by_type > tbody').append('<tr><td colspan="4">ไม่พบรายการ</td></tr>');
+        }
+    };
+
+    $('a[href="#bygroup"]').on('click', function(e) {
+        rpt_risk.clear_before_filter();
+    });
+
+    $('a[data-name="btn_get_risk_list"]').on('click', function(e) {
+        e.preventDefault();
+
+        var choice = $(this).data('choice'),
+            start_date = $('#txt_start_date').val(),
+            end_date = $('#txt_end_date').val();
+
+        rpt_risk.ajax.get_risk_list_by_type(choice, start_date, end_date, function(err, data) {
+            rpt_risk.set_risk_list(data);
+            rpt_risk.modal.show_risk_list();
+        });
+    });
     //get list all
     rpt_risk.get_list('0');
 });

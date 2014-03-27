@@ -64,6 +64,9 @@ def do_login(request):
 
 @view_config(route_name='signout', request_method='GET')
 def do_logout(request):
-    del request.session['logged']
+    try:
+        del request.session['logged']
+        return HTTPFound(location='/signin')
 
-    return HTTPFound(location='/signin')
+    except:
+        return HTTPFound(location='/signin')

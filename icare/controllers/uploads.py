@@ -46,11 +46,11 @@ def do_upload(request):
             # Rename temporary file to new file
             os.rename(temp_file, file_path)
 
-            request.session.flash('Upload file success')
+            request.session.flash(u'อัปโหลดไฟล์เสร็จเรียบร้อย')
         else:
-            request.session.flash('Invalid file format')
+            request.session.flash(u'ไม่สามารถอัปโหลดไฟล์ได้')
 
     else:
-        request.session.flash('File not found')
+        request.session.flash(u'ไม่พบไฟล์')
 
     return {'title': u'อัปโหลดไฟล์'}

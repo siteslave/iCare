@@ -5,28 +5,28 @@ $(function() {
         show_survey: function() {
             $('#mdl_anc_survey').modal({
                 keyboard: false,
-                backdrop: 'static'
+                backdrop: false
             });
         },
 
         show_labor: function() {
             $('#mdl_labor').modal({
                 keyboard: false,
-                backdrop: 'static'
+                backdrop: false
             });
         },
 
         show_prenatal: function() {
             $('#mdl_prenatal').modal({
                 keyboard: false,
-                backdrop: 'static'
+                backdrop: false
             });
         },
 
         show_appoint: function() {
             $('#mdl_appointment').modal({
                 keyboard: false,
-                backdrop: 'static'
+                backdrop: false
             });
         },
 
@@ -183,32 +183,32 @@ $(function() {
                 var is_survey = v.is_survey ? '<a href="javascript:void(0);" class="btn btn-success btn-sm" ' +
                     'data-pid="' + v.pid + '" data-gravida="' + v.gravida + '" data-hospcode="' + v.hospcode + '"' +
                     'title="ดูข้อมูล" rel="tooltip" data-name="btn_get_survey_by_hospcode">' +
-                    '<i class="icon-check"></i></a>' :
-                    '<p class="text-muted"><span class="icon-check-empty"></span></p>';
+                    '<i class="fa fa-check"></i></a>' :
+                    '<p class="text-muted"><span class="fa fa-check-empty"></span></p>';
 
                 var is_labor = v.is_labor ? '<a href="javascript:void(0);" class="btn btn-success btn-sm" ' +
                     'data-gravida="'+ v.gravida +'" data-cid="' + v.cid + '" data-name="btn_get_labor" >' +
-                    '<span class="icon-check"></span></a>' : '<p class="text-muted"><span class="icon-check-empty"></span></p>';
+                    '<span class="fa fa-check"></span></a>' : '<p class="text-muted"><span class="fa fa-check-empty"></span></p>';
 
                 var is_appoint = v.appoint ? '<a href="javascript:void(0);" data-name="btn_get_appointment" class="btn btn-default btn-sm" title="ข้อมูลนัดครั้งต่อไป" rel="tooltip"' +
                         'data-seq="'+ v.seq +'" data-pid="'+ v.pid +'" data-hospcode="' + v.hospcode + '">' +
-                        '<i class="icon-calendar"></i></a>' : '<p class="text-muted"><i class="icon-minus"></i></p>';
+                        '<i class="fa fa-calendar"></i></a>' : '<p class="text-muted"><i class="fa fa-minus"></i></p>';
 
                 $('#tbl_visit_list > tbody').append(
                     '<tr>' +
-                        '<td>' + v.date_serv + '</td>' +
+                        '<td class="text-center">' + v.date_serv + '</td>' +
                         '<td>' + v.hospcode + ' ' + v.hospname + '</td>' +
-                        '<td>' + v.gravida + '</td>' +
-                        '<td>' + v.ancno + '</td>' +
-                        '<td>' + v.ga + '</td>' +
+                        '<td class="text-center">' + v.gravida + '</td>' +
+                        '<td class="text-center">' + v.ancno + '</td>' +
+                        '<td class="text-center">' + v.ga + '</td>' +
                         '<td>' + result + '</td>' +
-                        '<td>' + is_labor + '</td>' +
-                        '<td>' + is_survey + '</td>' +
-                        '<td>'+ is_appoint +'</td>' +
-                        '<td><div class="btn-group">' +
+                        '<td class="text-center">' + is_labor + '</td>' +
+                        '<td class="text-center">' + is_survey + '</td>' +
+                        '<td class="text-center">'+ is_appoint +'</td>' +
+                        '<td class="text-center"><div class="btn-group">' +
                         '<a href="javascript:void(0);" data-name="btn_get_prenatal_by_hospcode" class="btn btn-default btn-sm" title="ข้อมูลการตั้งครรภ์" rel="tooltip"' +
                         'data-gravida="'+ v.gravida +'" data-pid="'+ v.pid +'" data-hospcode="' + v.hospcode + '">' +
-                        '<i class="icon-file-text"></i></a>' +
+                        '<i class="fa fa-file-text"></i></a>' +
                         '</div></td>' +
                         '</tr>'
                 );
@@ -374,42 +374,42 @@ $(function() {
                 var is_survey = v.is_survey ? '<a href="javascript:void(0);" class="btn btn-success btn-sm" ' +
                     'data-pid="' + v.pid + '" data-gravida="' + v.gravida + '" data-hospcode="' + v.hospcode + '"' +
                     'title="ดูข้อมูล" rel="tooltip" data-name="btn_get_survey_by_hospcode">' +
-                    '<i class="icon-check"></i></a>' :
-                    '<p class="text-muted"><span class="icon-check-empty"></span></p>';
+                    '<i class="fa fa-check"></i></a>' :
+                    '<p class="text-muted"><span class="fa fa-check-empty"></span></p>';
 
                 if (v.bdate != '-') {
                     is_labor = '<a href="javascript:void(0);" class="btn btn-success btn-sm" data-name="btn_get_labor" ' +
                         'data-cid="'+ v.cid +'" data-gravida="'+ v.gravida +'">' +
-                        '<span class="icon-check"></span></a>';
+                        '<span class="fa fa-check"></span></a>';
                 } else {
-                    is_labor = '<p class="text-muted"><span class="icon-check-empty"></span></p>';
+                    is_labor = '<p class="text-muted"><span class="fa fa-check-empty"></span></p>';
                 }
 
                 var tr_class = v.anc_count >= 5 ? 'class="success"' : '';
 
                 $('#tbl_list > tbody').append(
                     '<tr '+ tr_class +'>' +
-                        '<td>' + v.cid + '</td>' +
+                        '<td class="text-center">' + v.cid + '</td>' +
                         '<td>' + v.fullname + '</td>' +
-                        '<td>' + v.birth + '</td>' +
-                        '<td title="อายุ ณ วันฝากครรภ์ครั้งแรก" class="hidden-md">' + v.age.year +'-' + v.age.month + '-' + v.age.day + '</td>' +
-                        '<td class="hidden-md">' + v.first_visit + '</td>' +
+                        '<td class="text-center">' + v.birth + '</td>' +
+                        '<td title="อายุ ณ วันฝากครรภ์ครั้งแรก" class="hidden-md text-center">' + v.age.year +'-' + v.age.month + '-' + v.age.day + '</td>' +
+                        '<td class="hidden-md text-center">' + v.first_visit + '</td>' +
                         //'<td class="hidden-md">' + v.last_visit + '</td>' +
-                        '<td>' + v.gravida + '</td>' +
+                        '<td class="text-center">' + v.gravida + '</td>' +
                         //'<td class="hidden-md">' + v.edc + '</td>' +
-                        '<td class="hidden-md">' + v.anc_count + '</td>' +
-                        '<td>' + is_labor + '</td>' +
-                        '<td>' + is_survey + '</td>' +
-                        '<td><div class="btn-group">' +
+                        '<td class="hidden-md text-center">' + v.anc_count + '</td>' +
+                        '<td class="text-center">' + is_labor + '</td>' +
+                        '<td class="text-center">' + is_survey + '</td>' +
+                        '<td class="text-center"><div class="btn-group">' +
                         '<a href="javascript:void(0);" class="btn btn-default btn-sm" data-name="btn_prenatal" ' +
                         'data-pid="' + v.pid + '" data-gravida="' + v.gravida + '" rel="tooltip" title="ข้อมูลการตั้งครรภ์">' +
-                        '<i class="icon-file-text"></i></a>' +
+                        '<i class="fa fa-file-text"></i></a>' +
                         '<a href="javascript:void(0);" class="btn btn-default btn-sm" data-name="btn_survey" ' +
                         'data-pid="' + v.pid + '" data-gravida="' + v.gravida + '" data-hospcode="'+ v.hospcode +'" rel="tooltip" title="บันทึกข้อมูลการคัดกรอง">' +
-                        '<i class="icon-edit"></i></a>' +
+                        '<i class="fa fa-edit"></i></a>' +
                         '<a href="javascript:void(0);" class="btn btn-default btn-sm" data-name="btn_get_visit" ' +
                         'data-cid="' + v.cid + '" rel="tooltip" title="ข้อมูลการรับบริการ">' +
-                        '<i class="icon-share"></i></a>' +
+                        '<i class="fa fa-share"></i></a>' +
                         '</div></td>' +
                         '</tr>'
                 );
@@ -451,60 +451,7 @@ $(function() {
                         });
 
                     },
-                    onFormat: function(type){
-                        switch (type) {
-
-                            case 'block':
-
-                                if (!this.active)
-                                    return '<li class="disabled"><a href="">' + this.value + '</a></li>';
-                                else if (this.value != this.page)
-                                    return '<li><a href="#' + this.value + '">' + this.value + '</a></li>';
-                                return '<li class="active"><a href="#">' + this.value + '</a></li>';
-
-                            case 'right':
-                            case 'left':
-
-                                if (!this.active) {
-                                    return "";
-                                }
-                                return '<li><a href="#' + this.value + '">' + this.value + '</a></li>';
-
-                            case 'next':
-
-                                if (this.active) {
-                                    return '<li><a href="#' + this.value + '">&raquo;</a></li>';
-                                }
-                                return '<li class="disabled"><a href="">&raquo;</a></li>';
-
-                            case 'prev':
-
-                                if (this.active) {
-                                    return '<li><a href="#' + this.value + '">&laquo;</a></li>';
-                                }
-                                return '<li class="disabled"><a href="">&laquo;</a></li>';
-
-                            case 'first':
-
-                                if (this.active) {
-                                    return '<li><a href="#' + this.value + '">&lt;</a></li>';
-                                }
-                                return '<li class="disabled"><a href="">&lt;</a></li>';
-
-                            case 'last':
-
-                                if (this.active) {
-                                    return '<li><a href="#' + this.value + '">&gt;</a></li>';
-                                }
-                                return '<li class="disabled"><a href="">&gt;</a></li>';
-
-                            case 'fill':
-                                if (this.active) {
-                                    return '<li class="disabled"><a href="#">...</a></li>';
-                                }
-                        }
-                        return ""; // return nothing for missing branches
-                    }
+                    onFormat: app.setPagingFormat
                 });
             }
         });
@@ -537,60 +484,7 @@ $(function() {
                         });
 
                     },
-                    onFormat: function(type){
-                        switch (type) {
-
-                            case 'block':
-
-                                if (!this.active)
-                                    return '<li class="disabled"><a href="">' + this.value + '</a></li>';
-                                else if (this.value != this.page)
-                                    return '<li><a href="#' + this.value + '">' + this.value + '</a></li>';
-                                return '<li class="active"><a href="#">' + this.value + '</a></li>';
-
-                            case 'right':
-                            case 'left':
-
-                                if (!this.active) {
-                                    return "";
-                                }
-                                return '<li><a href="#' + this.value + '">' + this.value + '</a></li>';
-
-                            case 'next':
-
-                                if (this.active) {
-                                    return '<li><a href="#' + this.value + '">&raquo;</a></li>';
-                                }
-                                return '<li class="disabled"><a href="">&raquo;</a></li>';
-
-                            case 'prev':
-
-                                if (this.active) {
-                                    return '<li><a href="#' + this.value + '">&laquo;</a></li>';
-                                }
-                                return '<li class="disabled"><a href="">&laquo;</a></li>';
-
-                            case 'first':
-
-                                if (this.active) {
-                                    return '<li><a href="#' + this.value + '">&lt;</a></li>';
-                                }
-                                return '<li class="disabled"><a href="">&lt;</a></li>';
-
-                            case 'last':
-
-                                if (this.active) {
-                                    return '<li><a href="#' + this.value + '">&gt;</a></li>';
-                                }
-                                return '<li class="disabled"><a href="">&gt;</a></li>';
-
-                            case 'fill':
-                                if (this.active) {
-                                    return '<li class="disabled"><a href="#">...</a></li>';
-                                }
-                        }
-                        return ""; // return nothing for missing branches
-                    }
+                    onFormat: app.setPagingFormat
                 });
             }
         });

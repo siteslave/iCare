@@ -236,7 +236,7 @@ $(function(){
                         '<a href="javascript:void(0);" class="btn btn-default btn-small" data-name="btn_change_password" ' +
                         'data-id="' + v.id + '" rel="tooltip" title="เปลี่ยนรหัสผ่าน">' +
                         '<i class="icon-edit"></i></a>' +
-                        '<a href="javascript:void(0);" class="btn btn-danger btn-small" data-name="btn_remove" ' +
+                        '<a href="javascript:void(0);" class="btn btn-primary btn-small" data-name="btn_remove" ' +
                         'data-id="' + v.id + '" rel="tooltip" title="ลบรายการ">' +
                         '<i class="icon-trash"></i></a>' +
                         '</div></td>' +

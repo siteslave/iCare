@@ -24,6 +24,15 @@ def index_view(request):
             
         return {'title': u'ข้อมูลการฝากครรภ์'}
 
+
+@view_config(route_name='mch_other', renderer='mch_other.mako')
+def map_view(request):
+    if 'logged' not in request.session:
+        return HTTPFound(location='/signin')
+    else:
+        return {'title': u'แผนที่ระบบงานแม่และเด็ก'}
+
+
 @view_config(route_name='mch_map', renderer='mch_map.mako')
 def map_view(request):
     if 'logged' not in request.session:

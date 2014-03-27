@@ -92,29 +92,29 @@ $(function() {
 
             $(rs).each(function(i, v) {
                 var tr_active = v.is_active == 'N' ? 'class="warning"' : '';
-                var is_active = v.is_active == 'Y' ? '<i class="icon-ok"></i>' : '<i class="icon-minus"></i>';
+                var is_active = v.is_active == 'Y' ? '<i class="fa fa-check"></i>' : '<i class="fa fa-ban"></i>';
                 $('#tbl_list > tbody').append(
                     '<tr ' + tr_active + '>' +
                         '<td>' + v.username + '</td>' +
-                        '<td>' + v.cid + '</td>' +
+                        '<td class="text-center">' + v.cid + '</td>' +
                         '<td>' + v.fullname + '</td>' +
                         '<td>['+ v.hospcode + '] ' + v.hospname + '</td>' +
                         '<td>' + v.position + '</td>' +
-                        '<td>' + is_active + '</td>' +
-                        '<td><div class="btn-group">' +
+                        '<td class="text-center">' + is_active + '</td>' +
+                        '<td class="text-center"><div class="btn-group">' +
                         '<a href="javascript:void(0);" class="btn btn-default" data-name="btn_show_change_pass" ' +
                         'data-username="' + v.username + '" data-id="' + v.id + '" ' +
                         'title="เปลี่ยนรหัสผ่าน" rel="tooltip">' +
-                        '<i class="icon-key"></i>' +
+                        '<i class="fa fa-key"></i>' +
                         '</a>' +
                         '<a href="javascript:void(0);" class="btn btn-default" data-name="btn_show_edit" data-id="' + v.id + '" ' +
                         'data-username="' + v.username + '" data-cid="' + v.cid + '" data-fullname="' + v.fullname + '" ' +
                         'data-hospcode="' + v.hospcode + '" data-position="' + v.position + '" data-is_active="' + v.is_active + '" ' +
                         'title="แก้ไขข้อมูล" rel="tooltip">' +
-                        '<i class="icon-share"></i>' +
+                        '<i class="fa fa-edit"></i>' +
                         '</a>' +
-                        '<a href="javascript:void(0);" class="btn btn-danger" title="ลบผู้ใช้งาน" rel="tooltip" '+
-                        'data-name="btn_remove_user" data-id="' + v.id + '"><i class="icon-remove"></i>' +
+                        '<a href="javascript:void(0);" class="btn btn-primary" title="ลบผู้ใช้งาน" rel="tooltip" '+
+                        'data-name="btn_remove_user" data-id="' + v.id + '"><i class="fa fa-times"></i>' +
                         '</a>' +
                         '</div></td>' +
                         '</tr>'
@@ -157,11 +157,12 @@ $(function() {
         $('#txt_position').val(rs.position);
         $('#sl_hospcode').val(rs.hospcode);
 
-        if(rs.is_active == 'Y') {
-            $('#chk_is_active').prop('checked', true);
-        } else {
-            $('#chk_is_active').prop('checked', false);
-        }
+        rs.is_active == 'Y' ? $('#chk_is_active').iCheck('check') : $('#chk_is_active').iCheck('uncheck');
+//        if(rs.is_active == 'Y') {
+//            $('#chk_is_active').prop('checked', true);
+//        } else {
+//            $('#chk_is_active').prop('checked', false);
+//        }
 
         $('#txt_id').val(rs.id);
 
@@ -200,60 +201,7 @@ $(function() {
                         });
 
                     },
-                    onFormat: function(type){
-                        switch (type) {
-
-                            case 'block':
-
-                                if (!this.active)
-                                    return '<li class="disabled"><a href="">' + this.value + '</a></li>';
-                                else if (this.value != this.page)
-                                    return '<li><a href="#' + this.value + '">' + this.value + '</a></li>';
-                                return '<li class="active"><a href="#">' + this.value + '</a></li>';
-
-                            case 'right':
-                            case 'left':
-
-                                if (!this.active) {
-                                    return "";
-                                }
-                                return '<li><a href="#' + this.value + '">' + this.value + '</a></li>';
-
-                            case 'next':
-
-                                if (this.active) {
-                                    return '<li><a href="#' + this.value + '">&raquo;</a></li>';
-                                }
-                                return '<li class="disabled"><a href="">&raquo;</a></li>';
-
-                            case 'prev':
-
-                                if (this.active) {
-                                    return '<li><a href="#' + this.value + '">&laquo;</a></li>';
-                                }
-                                return '<li class="disabled"><a href="">&laquo;</a></li>';
-
-                            case 'first':
-
-                                if (this.active) {
-                                    return '<li><a href="#' + this.value + '">&lt;</a></li>';
-                                }
-                                return '<li class="disabled"><a href="">&lt;</a></li>';
-
-                            case 'last':
-
-                                if (this.active) {
-                                    return '<li><a href="#' + this.value + '">&gt;</a></li>';
-                                }
-                                return '<li class="disabled"><a href="">&gt;</a></li>';
-
-                            case 'fill':
-                                if (this.active) {
-                                    return '<li class="disabled"><a href="#">...</a></li>';
-                                }
-                        }
-                        return ""; // return nothing for missing branches
-                    }
+                    onFormat: app.setPagingFormat
                 });
             }
         });
@@ -303,7 +251,7 @@ $(function() {
         $('#txt_fullname').val('');
         $('#txt_position').val('');
         $('#sl_hospcode').val('');
-        $('#chk_is_active').prop('checked', false);
+        $('#chk_is_active').iCheck('uncheck');
         $('#txt_id').val('');
     };
     //save

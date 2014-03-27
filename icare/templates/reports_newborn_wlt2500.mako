@@ -9,22 +9,22 @@
     <input type="text" id="txt_query" class="form-control" style="width: 180px;"
             placeholder="เลขบัตรประชาชน" />
     <button type="button" id="btn_search" class="btn btn-primary" rel="tooltip" title="ค้นหา">
-        <i class="icon-search"></i> ค้นหา
+        <i class="fa fa-search"></i> ค้นหา
     </button>
     |
     <button type="button" id="btn_refresh" class="btn btn-success" rel="tooltip" title="Refresh">
-        <i class="icon-search"></i> รีเฟรช
+        <i class="fa fa-search"></i> รีเฟรช
     </button>
 
     <button type="button" id="btn_total" class="btn btn-primary pull-right" rel="tooltip" title="จำนวนทั้งหมด">
-            <i class="icon-th-list"></i> จำนวนทั้งหมด <span id="spn_total"><strong>0</strong></span> คน
+            <i class="fa fa-th-list"></i> จำนวนทั้งหมด <span id="spn_total"><strong>0</strong></span> คน
         </button>
 
 </form>
 
 
 
-<table class="table table-striped" id="tbl_list">
+<table class="table table-bordered" id="tbl_list">
     <thead>
     <tr>
         <th>เลขบัตรประชาชน</th>
@@ -47,21 +47,21 @@
 
 
 <div class="modal fade" id="mdl_newborn">
-  <div class="modal-dialog" style="width: 780px;">
+  <div class="modal-dialog modal-lg">
     <div class="modal-content">
-      <div class="modal-header">
+      <div class="modal-header modal-header-black">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title"><i class="icon-edit"></i> ข้อมูลการคลอด</h4>
+        <h4 class="modal-title modal-title-white"><i class="fa fa-edit"></i> ข้อมูลการคลอด</h4>
       </div>
       <div class="modal-body">
-        <div class="navbar navbar-default">
-            <form action="#" class="navbar-form">
+        <!-- <div class="navbar navbar-default"> -->
+            <form action="#" class="well well-sm form-inline">
                 ชื่อ - สกุล <input type="text" disabled class="form-control" id="txt_fullname" style="width: 250px;"/>
                 CID <input type="text" disabled class="form-control" id="txt_cid" style="width: 200px;"/>
                 ครรภ์ที่ <input type="text" disabled class="form-control" id="txt_gravida" style="width: 50px;"/>
             </form>
-        </div>
-          <form action="#" class="form-inline">
+        <!-- </div> -->
+          <form action="#">
               <div class="row">
                   <div class="col-lg-2">
                       <label for="">วันที่คลอด</label>
@@ -177,10 +177,10 @@
           </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="icon-remove"></i> ปิดหน้าต่าง</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-times"></i> ปิดหน้าต่าง</button>
       </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
+    </div>
+  </div>
 </div>
 
 <script src="/static/js/apps/reports_newborn_wlt2500.js"></script>

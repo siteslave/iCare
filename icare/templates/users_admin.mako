@@ -8,17 +8,17 @@
     <label for="txt_query">ค้นหา</label>
     <input type="text" id="txt_query" class="form-control" style="width: 240px;" placeholder="ชื่อ หรือ ชื่อผู้ใช้งาน" />
     <button type="button" class="btn btn-primary" id="btn_search">
-        <i class="icon-search"></i> ค้นหา
+        <i class="fa fa-search"></i> ค้นหา
     </button> |
     <button type="button" class="btn btn-success" id="btn_show_new">
-        <i class="icon-plus-sign"></i> เพิ่มผู้ใช้งาน
+        <i class="fa fa-plus-square"></i> เพิ่มผู้ใช้งาน
     </button>
     <button type="button" id="btn_total" class="btn btn-primary pull-right" rel="tooltip" title="จำนวนทั้งหมด">
-        <i class="icon-th-list"></i> จำนวนทั้งหมด <span id="spn_total"><strong>0</strong></span> คน
+        <i class="fa fa-th-list"></i> จำนวนทั้งหมด <span id="spn_total"><strong>0</strong></span> คน
     </button>
 </form>
 
-<table class="table table-striped" id="tbl_list">
+<table class="table table-bordered" id="tbl_list">
     <thead>
     <tr>
         <th>ชื่อผู้ใช้งาน</th>
@@ -41,14 +41,14 @@
 
 
 <div class="modal fade" id="mdl_new">
-  <div class="modal-dialog" style="width: 788px;">
+  <div class="modal-dialog modal-lg">
     <div class="modal-content">
-      <div class="modal-header">
+      <div class="modal-header modal-header-black">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title">เพิ่มผู้ใช้งานใหม่</h4>
+        <h4 class="modal-title modal-title-white"><i class="fa fa-plus-square"></i> เพิ่มผู้ใช้งานใหม่</h4>
       </div>
       <div class="modal-body">
-          <form action="#" class="form-inline">
+          <form action="#">
               <input type="hidden" id="txt_id" value="" />
               <div class="row">
                   <div class="col-sm-6">
@@ -94,21 +94,21 @@
           </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-success" id="btn_save">
-            <i class="icon-save"></i> บันทึกข้อมูล
+        <button type="button" class="btn btn-default" id="btn_save">
+            <i class="fa fa-save"></i> บันทึกข้อมูล
         </button>
-        <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="icon-remove"></i> ปิดหน้าต่าง</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-times"></i> ปิดหน้าต่าง</button>
       </div>
     </div>
   </div>
 </div>
 
 <div class="modal fade" id="mdl_changepass">
-  <div class="modal-dialog" style="width: 480px;">
+  <div class="modal-dialog">
     <div class="modal-content">
-      <div class="modal-header">
+      <div class="modal-header modal-header-black">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title"><i class="icon-key"></i> เปลี่ยนรหัสผ่าน</h4>
+        <h4 class="modal-title modal-title-white"><i class="fa fa-key"></i> เปลี่ยนรหัสผ่าน</h4>
       </div>
       <div class="modal-body">
           <form action="#">
@@ -122,10 +122,10 @@
           </form>
       </div>
       <div class="modal-footer">
-          <button type="button" class="btn btn-success" id="btn_chw_dochange">
-              <i class="icon-save"></i> เปลี่ยนรหัสผ่าน
+          <button type="button" class="btn btn-default" id="btn_chw_dochange">
+              <i class="fa fa-save"></i> เปลี่ยนรหัสผ่าน
           </button>
-        <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="icon-remove"></i> ปิดหน้าต่าง</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-times"></i> ปิดหน้าต่าง</button>
       </div>
     </div>
   </div>

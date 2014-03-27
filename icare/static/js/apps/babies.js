@@ -6,21 +6,21 @@ $(function() {
         show_care: function() {
             $('#mdl_care').modal({
                 keyboard: false,
-                backdrop: 'static'
+                backdrop: false
             });
         },
 
         show_newborn: function() {
             $('#mdl_newborn').modal({
                 keyboard: false,
-                backdrop: 'static'
+                backdrop: false
             });
         },
 
         show_appoint: function() {
             $('#mdl_appointment').modal({
                 keyboard: false,
-                backdrop: 'static'
+                backdrop: false
             });
         }
     };
@@ -102,26 +102,26 @@ $(function() {
 
                 $('#tbl_list > tbody').append(
                     '<tr ' + tr_class + '>' +
-                        '<td>' + v.cid + '</td>' +
+                        '<td class="text-center">' + v.cid + '</td>' +
                         '<td>' + v.fullname + '</td>' +
-                        '<td>' + v.birth + '</td>' +
-                        '<td title="อายุ ณ วันที่คลอด">' + v.age.year +'-' + v.age.month + '-' + v.age.day + '</td>' +
-                        '<td>' + sex + '</td>' +
-                        '<td>' + v.bweight + '</td>' +
+                        '<td class="text-center">' + v.birth + '</td>' +
+                        '<td class="text-center" title="อายุ ณ วันที่คลอด">' + v.age.year +'-' + v.age.month + '-' + v.age.day + '</td>' +
+                        '<td class="text-center">' + sex + '</td>' +
+                        '<td class="text-center">' + v.bweight + '</td>' +
                         '<td>' + v.mother.fullname + '</td>' +
-                        '<td>' + v.gravida + '</td>' +
-                        '<td>' + v.care + '</td>' +
-                        '<td><div class="btn-group">' +
+                        '<td class="text-center">' + v.gravida + '</td>' +
+                        '<td class="text-center">' + v.care + '</td>' +
+                        '<td class="text-center"><div class="btn-group">' +
                         '<a href="javascript:void(0);" class="btn btn-default btn-small" data-name="btn_newborn" ' +
                         'data-pid="' + v.pid + '" data-hospcode="' + v.hospcode + '" data-fullname="'+ v.fullname + '" ' +
                         'data-cid="' + v.cid + '" data-gravida="' + v.gravida + '" rel="tooltip" title="ข้อมูลการคลอด">' +
-                        '<i class="icon-file-text"></i></a>' +
+                        '<i class="fa fa-file-text"></i></a>' +
                         '<a href="javascript:void(0);" class="btn btn-default btn-small" data-name="btn_get_care" ' +
                         'data-pid="' + v.pid + '" data-hospcode="' + v.hospcode + '" data-care="'+ v.care +'" rel="tooltip" title="ข้อมูลเยี่ยมหลังคลอด">' +
-                        '<i class="icon-edit"></i></a>' +
+                        '<i class="fa fa-edit"></i></a>' +
                         '<a href="javascript:void(0);" class="btn btn-default btn-small" data-name="btn_all_care" ' +
                         'data-cid="'+ v.cid +'" rel="tooltip" title="ข้อมูลเยี่ยมหลังคลอดทั้งหมด">' +
-                        '<i class="icon-share"></i></a>' +
+                        '<i class="fa fa-share"></i></a>' +
                         '</div></td>' +
                         '</tr>'
                 );
@@ -186,60 +186,7 @@ $(function() {
                         });
 
                     },
-                    onFormat: function(type){
-                        switch (type) {
-
-                            case 'block':
-
-                                if (!this.active)
-                                    return '<li class="disabled"><a href="">' + this.value + '</a></li>';
-                                else if (this.value != this.page)
-                                    return '<li><a href="#' + this.value + '">' + this.value + '</a></li>';
-                                return '<li class="active"><a href="#">' + this.value + '</a></li>';
-
-                            case 'right':
-                            case 'left':
-
-                                if (!this.active) {
-                                    return "";
-                                }
-                                return '<li><a href="#' + this.value + '">' + this.value + '</a></li>';
-
-                            case 'next':
-
-                                if (this.active) {
-                                    return '<li><a href="#' + this.value + '">&raquo;</a></li>';
-                                }
-                                return '<li class="disabled"><a href="">&raquo;</a></li>';
-
-                            case 'prev':
-
-                                if (this.active) {
-                                    return '<li><a href="#' + this.value + '">&laquo;</a></li>';
-                                }
-                                return '<li class="disabled"><a href="">&laquo;</a></li>';
-
-                            case 'first':
-
-                                if (this.active) {
-                                    return '<li><a href="#' + this.value + '">&lt;</a></li>';
-                                }
-                                return '<li class="disabled"><a href="">&lt;</a></li>';
-
-                            case 'last':
-
-                                if (this.active) {
-                                    return '<li><a href="#' + this.value + '">&gt;</a></li>';
-                                }
-                                return '<li class="disabled"><a href="">&gt;</a></li>';
-
-                            case 'fill':
-                                if (this.active) {
-                                    return '<li class="disabled"><a href="#">...</a></li>';
-                                }
-                        }
-                        return ""; // return nothing for missing branches
-                    }
+                    onFormat: app.setPagingFormat
                 });
             }
         });
@@ -284,8 +231,8 @@ $(function() {
 
                 $('#tbl_care_list > tbody').append(
                     '<tr>' +
-                        '<td>'+ i +'</td>' +
-                        '<td>'+ v.bcare +'</td>' +
+                        '<td class="text-center">'+ i +'</td>' +
+                        '<td class="text-center">'+ v.bcare +'</td>' +
                         '<td>['+ v.bcplace_code +'] ' + v.bcplace_name + '</td>' +
                         '<td>'+ result +'</td>' +
                         '<td>'+ food +'</td>' +
@@ -408,18 +355,18 @@ $(function() {
                 var is_appoint = v.appoint ? '<a href="javascript:void(0);" data-name="btn_get_appointment" ' +
                     'class="btn btn-default" title="ข้อมูลนัดครั้งต่อไป" rel="tooltip"' +
                         'data-seq="'+ v.seq +'" data-pid="'+ v.pid +'" data-hospcode="' + v.hospcode + '">' +
-                        '<i class="icon-calendar"></i></a>' : '<p class="text-muted"><i class="icon-check-empty"></i></p>';
+                        '<i class="fa fa-calendar"></i></a>' : '<p class="text-muted"><i class="fa fa-check-empty"></i></p>';
 
                 i++;
 
                $('#tbl_visit_list > tbody').append(
                    '<tr>' +
-                       '<td>' + i + '</td>' +
-                       '<td>' + v.bcare + '</td>' +
+                       '<td class="text-center">' + i + '</td>' +
+                       '<td class="text-center">' + v.bcare + '</td>' +
                        '<td>[' + v.bcplace_code + '] ' + v.bcplace_name + '</td>' +
                        '<td>' + result + '</td>' +
                        '<td>' + food + '</td>' +
-                       '<td>' + is_appoint + '</td>' +
+                       '<td class="text-center">' + is_appoint + '</td>' +
                        '</tr>'
                );
             });
@@ -458,8 +405,8 @@ $(function() {
 
                 $('#tbl_appoint_list > tbody').append(
                     '<tr>' +
-                        '<td>' + i + '</td>' +
-                        '<td>' + v.apdate + '</td>' +
+                        '<td class="text-center">' + i + '</td>' +
+                        '<td class="text-center">' + v.apdate + '</td>' +
                         '<td>' + v.aptype + '</td>' +
                         '<td>[' + v.apdiag_code + '] ' + v.apdiag_name + '</td>' +
                         '</tr>'

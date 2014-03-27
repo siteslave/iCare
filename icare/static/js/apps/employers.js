@@ -6,17 +6,27 @@ $(function() {
         show_new: function() {
             $('#mdl_new').modal({
                 keyboard: false,
-                backdrop: 'static'
+                backdrop: false
             });
         },
         show_meeting: function() {
             $('#mdl_meeting').modal({
                 keyboard: false,
-                backdrop: 'static'
+                backdrop: false
             });
         },
-		hide_new: function() {
-			$('#mdl_new').modal('hide');
+        hide_new: function() {
+            $('#mdl_new').modal('hide');
+        },
+
+        show_topics: function() {
+            $('#mdl_topics').modal({
+                keyboard: false,
+                backdrop: false
+            });
+        },
+		hide_topics: function() {
+			$('#mdl_topics').modal('hide');
 		}
     };
 
@@ -26,13 +36,28 @@ $(function() {
                 e ? cb (e, null) : cb (null, v.total);
             });
         },
-		
+        
         get_list: function (start, stop, cb) {
             app.ajax('/employers/get_list', {
-            	start: start,
-				stop: stop
+                start: start,
+                stop: stop
             }, function (e, v) {
                e ? cb (e, null) : cb (null, v.rows);
+            });
+        },
+		
+        get_topics: function (id, cb) {
+            app.ajax('/employers/get_topics', { id: id }, function (e, v) {
+               e ? cb (e, null) : cb (null, v.rows);
+            });
+        },
+
+        remove_topic: function (employer_id, topic_id, cb) {
+            app.ajax('/employers/remove_topic', {
+                employer_id: employer_id,
+                topic_id: topic_id
+            }, function (e) {
+               e ? cb (e, null) : cb (null);
             });
         },
 
@@ -70,7 +95,13 @@ $(function() {
 				sd: item.start_date,
 				ed: item.end_date,
 				st: item.status,
-				pid: item.position_id
+				pid: item.position_id,
+                address: item.address,
+                line: item.line,
+                facebook: item.facebook,
+                skype: item.skype,
+                graduate: item.graduate,
+                graduate_place: item.graduate_place
 			}, function(e, v) {
                 e ? cb (e, null) : cb (null);
             });
@@ -84,7 +115,8 @@ $(function() {
                 t: i.mtitle,
                 o: i.mowner,
                 p: i.mplace,
-                id: i.id
+                id: i.id,
+                hour: i.hour
             }, function(e, v) {
                 e ? cb(e) : cb(null);
             })
@@ -97,7 +129,20 @@ $(function() {
             }, function(e) {
                 e ? cb(e) : cb(null);
             });
-        }
+        },
+
+        save_topic: function (item, cb) {
+            app.ajax('/employers/save_topic', 
+            {
+                topic_type: item.topic_type,
+                topic_name: item.topic_name,
+                desc: item.desc,
+                empid: item.empid,
+                topic_id: item.topic_id
+            }, function(e, v) {
+                e ? cb (e, null) : cb (null);
+            });
+        },
 	};// end ajax	
 	
 	//New employer
@@ -134,60 +179,7 @@ $(function() {
                         });
 
                     },
-                    onFormat: function(type){
-                        switch (type) {
-
-                            case 'block':
-
-                                if (!this.active)
-                                    return '<li class="disabled"><a href="">' + this.value + '</a></li>';
-                                else if (this.value != this.page)
-                                    return '<li><a href="#' + this.value + '">' + this.value + '</a></li>';
-                                return '<li class="active"><a href="#">' + this.value + '</a></li>';
-
-                            case 'right':
-                            case 'left':
-
-                                if (!this.active) {
-                                    return "";
-                                }
-                                return '<li><a href="#' + this.value + '">' + this.value + '</a></li>';
-
-                            case 'next':
-
-                                if (this.active) {
-                                    return '<li><a href="#' + this.value + '">&raquo;</a></li>';
-                                }
-                                return '<li class="disabled"><a href="">&raquo;</a></li>';
-
-                            case 'prev':
-
-                                if (this.active) {
-                                    return '<li><a href="#' + this.value + '">&laquo;</a></li>';
-                                }
-                                return '<li class="disabled"><a href="">&laquo;</a></li>';
-
-                            case 'first':
-
-                                if (this.active) {
-                                    return '<li><a href="#' + this.value + '">&lt;</a></li>';
-                                }
-                                return '<li class="disabled"><a href="">&lt;</a></li>';
-
-                            case 'last':
-
-                                if (this.active) {
-                                    return '<li><a href="#' + this.value + '">&gt;</a></li>';
-                                }
-                                return '<li class="disabled"><a href="">&gt;</a></li>';
-
-                            case 'fill':
-                                if (this.active) {
-                                    return '<li class="disabled"><a href="#">...</a></li>';
-                                }
-                        }
-                        return ""; // return nothing for missing branches
-                    }
+                    onFormat: app.setPagingFormat
                 });
             }
         });
@@ -202,16 +194,20 @@ $(function() {
 			var tr_class = v.status == '0' ? 'class="warning"' : '';
 			$('#tbl_list > tbody').append(
 				'<tr ' + tr_class + '>' +
-				'<td>' + v.cid + '</td>' +
+				'<td class="text-center">' + v.cid + '</td>' +
 				'<td>' + v.fullname + '</td>' +
 				'<td>' + v.position + '</td>' +
 				'<td>' + v.grade + '</td>' +
-				'<td>' + v.start_date + '</td>' +
-				'<td>' + v.end_date + '</td>' +
+				'<td class="text-center">' + v.start_date + '</td>' +
+				'<td class="text-center">' + v.end_date + '</td>' +
 				'<td>' + status + '</td>' +
-				'<td><div class="btn-group">' +
-                '<a href="javascript:void(0);" class="btn btn-primary" data-id="' + v.id + '" data-name="btn_edit" rel="tooltip" title="แก้ไข"><i class="icon-edit"></i></a>' +
-                '<a href="javascript:void(0);" class="btn btn-default" data-id="' + v.id + '" data-name="btn_get_meeting" rel="tooltip" title="ข้อมูลการฝึกอบรม" data-cid="' + v.cid + '"><i class="icon-share"></i></a>' +
+				'<td class="text-center"><div class="btn-group">' +
+                '<a href="javascript:void(0);" class="btn btn-default" data-id="' + v.id + '" data-name="btn_edit" rel="tooltip" title="แก้ไข"><i class="fa fa-edit"></i></a>' +
+                '<a href="javascript:void(0);" class="btn btn-default" ' +
+                'data-id="' + v.id + '" data-cid="' + v.cid + '" data-name="btn_topics" rel="tooltip" ' +
+                'title="ข้อมุลการร้องขอเข้าอบรม หรือ สัมนา">' +
+                '<i class="fa fa-calendar"></i></a>' +
+                '<a href="javascript:void(0);" class="btn btn-default" data-id="' + v.id + '" data-name="btn_get_meeting" rel="tooltip" title="ข้อมูลการฝึกอบรม" data-cid="' + v.cid + '"><i class="fa fa-share"></i></a>' +
                 '</div></td>' +
 				'</tr>'
 			);
@@ -219,7 +215,121 @@ $(function() {
         
         app.set_runtime();
 	};
-    
+
+    //clear meeting form
+    $('a[href="#new-meeting"]').on('click', function(e) {
+        e.preventDefault();
+
+        emp.clear_meeting_form();
+    });
+
+    //clear topic form
+    $('a[href="#new-request"]').on('click', function(e) {
+        e.preventDefault();
+        emp.clear_topic_form();
+    });
+
+    emp.get_topic_list = function() {
+                //get topics list
+        var empid = $('#txt_empid').val();
+
+        emp.ajax.get_topics(empid, function(err, data) {
+            if(err) {
+                app.alert(err);
+            } else {
+                //set topics list
+                if(_.size(data)) {
+                    $('#tbl_tlist > tbody').empty();
+                    var i = 1;
+                    _.each(data, function(v) {
+
+                        var topic_type = 
+                        v.topic_type == '1' ? 'Lectures' : 
+                        v.topic_type == '2' ? 'Documents' :
+                        v.topic_type == '3' ? 'Teaching media' :
+                        v.topic_type == '4' ? 'Test' : 'ไม่ทราบ';
+
+                        $('#tbl_tlist > tbody').append(
+                            '<tr>' +
+                            '<td class="text-center">'+ i + '</td>' +
+                            '<td class="text-center">'+ v.request_date + '</td>' +
+                            '<td>'+ v.topic_name + '</td>' +
+                            '<td>'+ v.desc + '</td>' +
+                            '<td>'+ topic_type + '</td>' +
+                            '<td class="text-center"><div class="btn-group">' +
+                            '<a href="#" class="btn btn-default" data-id="'+ v.id +'" data-type="'+ v.topic_type +'" ' +
+                            'data-desc="' + v.desc + '" data-vname="' + v.topic_name + '" data-name="btn_topic_edit">' +
+                            '<i class="fa fa-edit"></i></a>' +
+                            '<a href="#" class="btn btn-primary" data-name="btn_topic_remove" data-id="' + v.id + '"><i class="fa fa-trash-o"></i></a>' +
+                            '</div></td>' +
+                            '</tr>'
+                            );
+
+                        i++;
+                    })
+                } else {
+                    $('#tbl_tlist > tbody').empty().append('<tr><td colspan="6">ไม่พบรายการ</td></tr>');
+                }
+                
+            }
+        });
+    };
+    //remove topic
+    $(document).on('click', 'a[data-name="btn_topic_remove"]', function(e) {
+        e.preventDefault();
+
+        if(confirm('คุณต้องการลบรายการนี้ใช่หรือไม่?')) {
+            var employer_id = $('#txt_empid').val(),
+            topic_id = $(this).data('id');
+
+            emp.ajax.remove_topic(employer_id, topic_id, function(err) {
+               if(err) {
+                   app.alert(err);
+               } else {
+                   emp.get_topic_list();
+                   app.alert('ลบรายการเสร็จเรียบร้อยแล้ว');
+               }
+            });
+        }
+
+    });
+
+    //topics
+    $(document).on('click', 'a[data-name="btn_topics"]', function(e) {
+        e.preventDefault();
+
+        var empid = $(this).data('id');
+        $('#txt_empid').val(empid);
+
+        emp.get_topic_list();
+        emp.modal.show_topics();
+    });
+
+    //clear topic form
+
+    emp.clear_topic_form = function() {
+        $('#txt_topic_name').val('');
+        $('#sl_topic_type').val('');
+        $('#txt_topic_desc').val('');
+        $('#txt_tid').val('');
+    };
+    //edit topic
+    $(document).on('click', 'a[data-name="btn_topic_edit"]', function(e) {
+        e.preventDefault();
+
+        var topic_id = $(this).data('id'),
+        topic_name = $(this).data('vname'),
+        topic_desc = $(this).data('desc'),
+        topic_type = $(this).data('type');
+
+        $('#txt_topic_name').val(topic_name);
+        $('#sl_topic_type').val(topic_type);
+        $('#txt_topic_desc').val(topic_desc);
+        $('#txt_tid').val(topic_id);
+
+        $('a[href="#new-request"]').tab('show');
+    });
+
     //Clear meeting form
     emp.clear_meeting_form = function() {
         $('#txt_mstart_date').val('');
@@ -227,7 +337,7 @@ $(function() {
         $('#txt_mtitle').val('');
         $('#txt_mowner').val('');
         $('#txt_mplace').val('');
-        //$('#txt_mcid').val(''); 
+        $('#txt_mhour').val(''); 
         $('#txt_mid').val(''); 
     };
     
@@ -282,7 +392,13 @@ $(function() {
 		$('#txt_telephone').val(v.telephone);
 		$('#txt_start_date').val(v.start_date);
 		$('#txt_end_date').val(v.end_date);
-		v.status == '1' ? $('#chk_status').prop('checked', true) : $('#chk_status').removeProp('checked');
+        $('#txt_line').val(v.line);
+        $('#txt_skype').val(v.skype);
+        $('#txt_facebook').val(v.facebook);
+        $('#txt_address').val(v.address);
+        $('#sl_graduate').val(v.graduate);
+        $('#txt_graduate_place').val(v.graduate_place);
+		v.status == '1' ? $('#chk_status').iCheck('check') : $('#chk_status').iCheck('uncheck');
 	};
 	
 	emp.set_table_empty = function() {
@@ -304,8 +420,22 @@ $(function() {
 		$('#txt_start_date').val('');
 		$('#txt_end_date').val('');
 		$('#txt_id').val('');
+        $('#txt_line').val('');
+        $('#txt_skype').val('');
+        $('#txt_facebook').val('');
+        $('#txt_address').val('');
+        app.set_first_selected($('#sl_graduate'));
+        $('#txt_graduate_place').val('');
 		$('#chk_status').prop('checked', true);
 	};
+
+    $('#mdl_meeting').on('hidden.bs.modal', function() {
+        emp.clear_meeting_form();
+    });
+
+    $('#mdl_new').on('hidden.bs.modal', function() {
+        emp.clear_new_form();
+    });
 	
 	$('#btn_save_new').on('click', function(e){
 		e.preventDefault();
@@ -326,6 +456,12 @@ $(function() {
 		items.end_date 		= $('#txt_end_date').val();
 		items.id			= $('#txt_id').val();
 		items.status		= $('#chk_status').prop('checked') ? '1' : '0';
+        items.line          = $('#txt_line').val();
+        items.facebook      = $('#txt_facebook').val();
+        items.skype         = $('#txt_skype').val();
+        items.address       = $('#txt_address').val();
+        items.graduate      = $('#sl_graduate').val();
+        items.graduate_place= $('#txt_graduate_place').val();
 		
 		if(!items.fullname) {
 			app.alert('กรุณาระบุชื่อ-สกุล');
@@ -419,8 +555,12 @@ $(function() {
                     '<td title="' + v.owner_name + '">' + app.strip(v.owner_name, 25) + '</td>' +
                     '<td title="' + v.place_name + '">' + app.strip(v.place_name, 25) + '</td>' +
                     '<td><div class="btn-group">' +
-                    '<a href="javascript:void(0);" data-id="' + v.id + '" class="btn btn-success" data-name="btn_mshow_edit" data-start_date="' + v.start_date + '" data-end_date="' + v.end_date + '" data-title="' + v.title + '" data-owner_name="' + v.owner_name + '" data-place_name="' + v.place_name + '" rel="tooltip" title="แก้ไขรายการ"><i class="icon-edit"></i></a>' +
-                    '<a href="javascript:void(0);" data-id="' + v.id + '" class="btn btn-danger" rel="tooltip" title="ลบรายการ" data-name="btn_mremove"><i class="icon-trash"></i></a>' +
+                    '<a href="javascript:void(0);" data-id="' + v.id + '" class="btn btn-default" ' +
+                    'data-name="btn_mshow_edit" data-start_date="' + v.start_date + '" ' +
+                    'data-end_date="' + v.end_date + '" data-title="' + v.title + '" ' +
+                    'data-owner_name="' + v.owner_name + '" data-place_name="' + v.place_name + '" ' +
+                    'data-hour="' + v.hour + ' " rel="tooltip" title="แก้ไขรายการ"><i class="fa fa-edit"></i></a>' +
+                    '<a href="javascript:void(0);" data-id="' + v.id + '" class="btn btn-primary" rel="tooltip" title="ลบรายการ" data-name="btn_mremove"><i class="fa fa-trash-o"></i></a>' +
                     '</div></td>' +
                     '</tr>'
                 );
@@ -465,6 +605,7 @@ $(function() {
         end_date = $(this).data('end_date'),
         owner_name = $(this).data('owner_name'),
         place_name = $(this).data('place_name');
+        hour = $(this).data('hour');
         
         emp.clear_meeting_form();
         
@@ -475,6 +616,7 @@ $(function() {
         $('#txt_mplace').val(place_name);
         $('#txt_mcid').val(cid);
         $('#txt_mid').val(id);
+        $('#txt_mhour').val(hour);
         
         $('a[href="#new-meeting"]').tab('show');
         
@@ -492,6 +634,7 @@ $(function() {
         items.mplace = $('#txt_mplace').val();
         items.mcid = $('#txt_mcid').val();
         items.id = $('#txt_mid').val();
+        items.hour = $('#txt_mhour').val();
         
         if (!items.mcid) {
             app.alert('กรุณาระบุเลขบัตรประชาชน');
@@ -516,6 +659,35 @@ $(function() {
                     //Set tab selected
                     $('a[href="#main-meeting"]').tab('show');
                     emp.clear_meeting_form();
+                }
+            });
+        }
+    });
+
+    //save toic
+    $('#btn_topic_save').on('click', function(e) {
+        e.preventDefault();
+
+        var items = {
+            topic_name: $('#txt_topic_name').val(),
+            topic_type: $('#sl_topic_type').val(),
+            desc: $('#txt_topic_desc').val(),
+            empid: $('#txt_empid').val(),
+            topic_id: $('#txt_tid').val()
+        }
+
+        if(!items.topic_name) {
+            app.alert('กรุณาระบุชื่อหัวข้อที่ต้องการ');
+        } else {
+            //do save
+            emp.ajax.save_topic(items, function(err) {
+                if(err) {
+                    app.alert(err);
+                } else {
+                    app.alert('บันทึกรายการเสร็จเรียบร้อยแล้ว');
+                    emp.set_topic_list();
+
+                    $('a[href="#main-request"]').tab('show');
                 }
             });
         }

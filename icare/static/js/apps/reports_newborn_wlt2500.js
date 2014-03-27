@@ -38,7 +38,7 @@ $(function() {
         show_newborn: function() {
             $('#mdl_newborn').modal({
                 keyboard: false,
-                backdrop: 'static'
+                backdrop: false
             });
         }
     };
@@ -53,16 +53,16 @@ $(function() {
 
                 $('#tbl_list > tbody').append(
                     '<tr>' +
-                        '<td>' + v.cid + '</td>' +
+                        '<td class="text-center">' + v.cid + '</td>' +
                         '<td>' + v.fullname + '</td>' +
-                        '<td>' + v.age.year + '-' + v.age.month + '-' + v.age.day + '</td>' +
-                        '<td>' + v.birth + '</td>' +
-                        '<td>' + numeral(v.bweight).format('0, 0') + '</td>' +
+                        '<td class="text-center">' + v.age.year + '-' + v.age.month + '-' + v.age.day + '</td>' +
+                        '<td class="text-center">' + v.birth + '</td>' +
+                        '<td class="text-center">' + numeral(v.bweight).format('0, 0') + '</td>' +
                         '<td>' + v.address + '</td>' +
-                        '<td><a href="#" class="btn btn-default" data-name="btn_get_newborn_detail" '+
+                        '<td class="text-center"><a href="#" class="btn btn-default" data-name="btn_get_newborn_detail" '+
                         'data-pid="' + v.pid + '" data-hospcode="' + v.hospcode + '" data-cid="' + v.cid + '" ' +
                         'data-gravida="' + v.gravida + '" data-fullname="' + v.fullname + '" rel="tooltip" title="ดูข้อมูลการคลอด"> '+
-                        '<i class="icon-share"></i></a></td>' +
+                        '<i class="fa fa-th-list"></i></a></td>' +
                         '</tr>'
                 );
             });
@@ -107,60 +107,7 @@ $(function() {
                         });
 
                     },
-                    onFormat: function(type){
-                        switch (type) {
-
-                            case 'block':
-
-                                if (!this.active)
-                                    return '<li class="disabled"><a href="#">' + this.value + '</a></li>';
-                                else if (this.value != this.page)
-                                    return '<li><a href="#' + this.value + '">' + this.value + '</a></li>';
-                                return '<li class="active"><a href="#">' + this.value + '</a></li>';
-
-                            case 'right':
-                            case 'left':
-
-                                if (!this.active) {
-                                    return "";
-                                }
-                                return '<li><a href="#' + this.value + '">' + this.value + '</a></li>';
-
-                            case 'next':
-
-                                if (this.active) {
-                                    return '<li><a href="#' + this.value + '">&raquo;</a></li>';
-                                }
-                                return '<li class="disabled"><a href="#">&raquo;</a></li>';
-
-                            case 'prev':
-
-                                if (this.active) {
-                                    return '<li><a href="#' + this.value + '">&laquo;</a></li>';
-                                }
-                                return '<li class="disabled"><a href="#">&laquo;</a></li>';
-
-                            case 'first':
-
-                                if (this.active) {
-                                    return '<li><a href="#' + this.value + '">&lt;</a></li>';
-                                }
-                                return '<li class="disabled"><a href="#">&lt;</a></li>';
-
-                            case 'last':
-
-                                if (this.active) {
-                                    return '<li><a href="#' + this.value + '">&gt;</a></li>';
-                                }
-                                return '<li class="disabled"><a href="#">&gt;</a></li>';
-
-                            case 'fill':
-                                if (this.active) {
-                                    return '<li class="disabled"><a href="#">...</a></li>';
-                                }
-                        }
-                        return ""; // return nothing for missing branches
-                    }
+                    onFormat: app.setPagingFormat
                 });
             }
         });

@@ -5,20 +5,20 @@ $(function(){
         show_vaccines: function() {
             $('#mdl_vaccines').modal({
                 keyboard: false,
-                backdrop: 'static'
+                backdrop: false
             });
         },
         show_nutrition: function() {
             $('#mdl_nutrition').modal({
                 keyboard: false,
-                backdrop: 'static'
+                backdrop: false
             });
         },
 
         show_appoint: function() {
             $('#mdl_appointment').modal({
                 keyboard: false,
-                backdrop: 'static'
+                backdrop: false
             });
         }
     };
@@ -140,60 +140,7 @@ $(function(){
                         });
 
                     },
-                    onFormat: function(type){
-                        switch (type) {
-
-                            case 'block':
-
-                                if (!this.active)
-                                    return '<li class="disabled"><a href="">' + this.value + '</a></li>';
-                                else if (this.value != this.page)
-                                    return '<li><a href="#' + this.value + '">' + this.value + '</a></li>';
-                                return '<li class="active"><a href="#">' + this.value + '</a></li>';
-
-                            case 'right':
-                            case 'left':
-
-                                if (!this.active) {
-                                    return "";
-                                }
-                                return '<li><a href="#' + this.value + '">' + this.value + '</a></li>';
-
-                            case 'next':
-
-                                if (this.active) {
-                                    return '<li><a href="#' + this.value + '">&raquo;</a></li>';
-                                }
-                                return '<li class="disabled"><a href="">&raquo;</a></li>';
-
-                            case 'prev':
-
-                                if (this.active) {
-                                    return '<li><a href="#' + this.value + '">&laquo;</a></li>';
-                                }
-                                return '<li class="disabled"><a href="">&laquo;</a></li>';
-
-                            case 'first':
-
-                                if (this.active) {
-                                    return '<li><a href="#' + this.value + '">&lt;</a></li>';
-                                }
-                                return '<li class="disabled"><a href="">&lt;</a></li>';
-
-                            case 'last':
-
-                                if (this.active) {
-                                    return '<li><a href="#' + this.value + '">&gt;</a></li>';
-                                }
-                                return '<li class="disabled"><a href="">&gt;</a></li>';
-
-                            case 'fill':
-                                if (this.active) {
-                                    return '<li class="disabled"><a href="#">...</a></li>';
-                                }
-                        }
-                        return ""; // return nothing for missing branches
-                    }
+                    onFormat: app.setPagingFormat
                 });
             }
         });
@@ -229,60 +176,7 @@ $(function(){
                         });
 
                     },
-                    onFormat: function(type){
-                        switch (type) {
-
-                            case 'block':
-
-                                if (!this.active)
-                                    return '<li class="disabled"><a href="">' + this.value + '</a></li>';
-                                else if (this.value != this.page)
-                                    return '<li><a href="#' + this.value + '">' + this.value + '</a></li>';
-                                return '<li class="active"><a href="#">' + this.value + '</a></li>';
-
-                            case 'right':
-                            case 'left':
-
-                                if (!this.active) {
-                                    return "";
-                                }
-                                return '<li><a href="#' + this.value + '">' + this.value + '</a></li>';
-
-                            case 'next':
-
-                                if (this.active) {
-                                    return '<li><a href="#' + this.value + '">&raquo;</a></li>';
-                                }
-                                return '<li class="disabled"><a href="">&raquo;</a></li>';
-
-                            case 'prev':
-
-                                if (this.active) {
-                                    return '<li><a href="#' + this.value + '">&laquo;</a></li>';
-                                }
-                                return '<li class="disabled"><a href="">&laquo;</a></li>';
-
-                            case 'first':
-
-                                if (this.active) {
-                                    return '<li><a href="#' + this.value + '">&lt;</a></li>';
-                                }
-                                return '<li class="disabled"><a href="">&lt;</a></li>';
-
-                            case 'last':
-
-                                if (this.active) {
-                                    return '<li><a href="#' + this.value + '">&gt;</a></li>';
-                                }
-                                return '<li class="disabled"><a href="">&gt;</a></li>';
-
-                            case 'fill':
-                                if (this.active) {
-                                    return '<li class="disabled"><a href="#">...</a></li>';
-                                }
-                        }
-                        return ""; // return nothing for missing branches
-                    }
+                    onFormat: app.setPagingFormat
                 });
             }
         });
@@ -305,33 +199,33 @@ $(function(){
                 var sex = v.sex == '1' ? 'ชาย' : 'หญิง';
 
                 var is_nutrition = v.nutrition ? '<a href="javascript:void(0);" data-name="btn_visit_nutrition" ' +
-                    'class="btn btn-success" title="การตรวจพัฒนาการที่นี่" rel="tooltip"' +
+                    'class="btn btn-warning" title="การตรวจพัฒนาการที่นี่" rel="tooltip"' +
                         'data-pid="'+ v.pid +'" data-hospcode="' + v.hospcode + '">' +
-                        '<i class="icon-bar-chart"></i></a>' : '<p class="text-muted"><i class="icon-check-empty"></i></p>';
+                        '<i class="fa fa-bar-chart-o"></i></a>' : '<p class="text-muted"><i class="fa fa-minus"></i></p>';
 
 
                 $('#tbl_list > tbody').append(
                     '<tr>' +
-                        '<td>' + v.cid + '</td>' +
+                        '<td class="text-center">' + v.cid + '</td>' +
                         '<td>' + v.fullname + '</td>' +
                         '<td class="hidden-md hidden-sm">' + v.birth + '</td>' +
                         '<td>' + v.age.year +'-' + v.age.month + '-' + v.age.day + '</td>' +
-                        '<td>' + sex + '</td>' +
+                        '<td class="text-center">' + sex + '</td>' +
                         '<td class="hidden-md hidden-sm">' + v.address + '</td>' +
-                        '<td>' + is_nutrition + '</td>' +
+                        '<td class="text-center">' + is_nutrition + '</td>' +
                         '<td><div class="progress progress-striped" title="'+vcc_per.toFixed(2)+'%">' +
                         '<div class="progress-bar progress-bar-info" style="width: '+vcc_per.toFixed()+'%"></div>' +
                         '</div></td>' +
-                        '<td><div class="btn-group">' +
+                        '<td class="text-center"><div class="btn-group">' +
                         '<a href="javascript:void(0);" class="btn btn-default" data-name="btn_get_vaccines" ' +
                         'data-pid="'+ v.pid +'" title="ข้อมูลการรับวัคซีน" rel="tooltip">' +
-                        '<i class="icon-bitbucket"></i></a>' +
-                        '<a href="javascript:void(0);" class="btn btn-primary" data-name="btn_get_nutrition"' +
+                        '<i class="fa fa-shield"></i></a>' +
+                        '<a href="javascript:void(0);" class="btn btn-info" data-name="btn_get_nutrition"' +
                         'data-cid="'+ v.cid +'" title="ประวัติการตรวจพัฒนาการ" rel="tooltip">' +
-                        '<i class="icon-bar-chart"></i></a>' +
+                        '<i class="fa fa-bar-chart-o"></i></a>' +
                         '<a href="javascript:void(0);" class="btn btn-default" data-name="btn_get_vaccines_history"' +
                         'data-cid="'+ v.cid +'" title="ประวัติการรับวัคซีน" rel="tooltip">' +
-                        '<i class="icon-share"></i></a>' +
+                        '<i class="fa fa-share-square-o"></i></a>' +
                         '</div></td>' +
                         '</tr>'
                 );
@@ -439,15 +333,15 @@ $(function(){
                 var is_appoint = v.appoint ? '<a href="javascript:void(0);" data-name="btn_get_appointment" ' +
                     'class="btn btn-default" title="ข้อมูลนัดครั้งต่อไป" rel="tooltip"' +
                         'data-seq="'+ v.seq +'" data-pid="'+ v.pid +'" data-hospcode="' + v.hospcode + '">' +
-                        '<i class="icon-calendar"></i></a>' : '<p class="text-muted"><i class="icon-check-empty"></i></p>';
+                        '<i class="fa fa-calendar"></i></a>' : '<p class="text-muted"><i class="fa fa-square-o"></i></p>';
 
                 $('#tbl_visit_list > tbody').append(
                     '<tr>' +
-                        '<td>' + i + '</td>' +
-                        '<td>' + v.date_serv + '</td>' +
+                        '<td class="text-center">' + i + '</td>' +
+                        '<td class="text-center">' + v.date_serv + '</td>' +
                         '<td>[' + v.code + '] ' + v.name + '</td>' +
                         '<td>[' + v.hospcode + '] ' + v.hospname + '</td>' +
-                        '<td>' + is_appoint + '</td>' +
+                        '<td class="text-center">' + is_appoint + '</td>' +
                         '</tr>'
                 );
             });
@@ -505,11 +399,11 @@ $(function(){
 
                 $('#tbl_nutrition > tbody').append(
                     '<tr>' +
-                        '<td>' + i + '</td>' +
-                        '<td>' + v.date_serv + '</td>' +
+                        '<td class="text-center">' + i + '</td>' +
+                        '<td class="text-center">' + v.date_serv + '</td>' +
                         '<td>[' + v.nutritionplace_code + '] ' + v.nutritionplace_name + '</td>' +
-                        '<td>' + v.weight + '</td>' +
-                        '<td>' + v.height + '</td>' +
+                        '<td class="text-center">' + v.weight + '</td>' +
+                        '<td class="text-center">' + v.height + '</td>' +
                         '<td>' + child_develop + '</td>' +
                         '<td>' + food + '</td>' +
                         '</tr>'
@@ -555,8 +449,8 @@ $(function(){
 
                 $('#tbl_appoint_list > tbody').append(
                     '<tr>' +
-                        '<td>' + i + '</td>' +
-                        '<td>' + v.apdate + '</td>' +
+                        '<td class="text-center">' + i + '</td>' +
+                        '<td class="text-center">' + v.apdate + '</td>' +
                         '<td>' + v.aptype + '</td>' +
                         '<td>[' + v.apdiag_code + '] ' + v.apdiag_name + '</td>' +
                         '</tr>'

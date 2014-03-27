@@ -3,9 +3,17 @@
 import pymongo
 from bson.objectid import ObjectId
 
+
 class EmployersModel:
     def __init__(self, request):
         self.request = request
+
+    def get_topics(self, empid):
+        """
+        Get topics list
+        """
+        rs = self.request.db['employers'].find_one({'_id': empid}, {'topics': 1})
+        return rs
 
     def get_list(self, hospcode, start, limit):
         """
@@ -47,7 +55,10 @@ class EmployersModel:
         return rs
       
       # Update employer  
-    def update(self, id, fullname, birth, sex, position, position_grade, department, email, telephone, start_date, end_date, status, position_id):
+    def update(self, id, fullname, birth, sex, position, 
+      position_grade, department, email, telephone, start_date, 
+      end_date, status, position_id, skype, line, facebook, address,
+      graduate, graduate_place):
         """
         Save new employer
         """
@@ -64,11 +75,19 @@ class EmployersModel:
           "start_date": start_date, 
           "end_date": end_date, 
           "status": status,
-          "position_id": position_id
+          "position_id": position_id,
+          "skype": skype,
+          "line": line,
+          "facebook": facebook,
+          "address": address,
+          "graduate": graduate,
+          "graduate_place": graduate_place
         }})
           
     # Save new employer  
-    def save_new(self, hospcode, fullname, cid, birth, sex, position, position_grade, department, email, telephone, start_date, end_date, status, position_id):
+    def save_new(self, hospcode, fullname, cid, birth, sex, position, 
+      position_grade, department, email, telephone, start_date, 
+      end_date, status, position_id, skype, line, facebook, address):
         """
         Save new employer
         """
@@ -86,7 +105,13 @@ class EmployersModel:
             "start_date": start_date, 
             "end_date": end_date, 
             "status": status,
-            "position_id": position_id
+            "position_id": position_id,
+            "skype": skype,
+            "line": line,
+            "facebook": facebook,
+            "address": address,
+            "graduate": graduate,
+            "graduate_place": graduate_place
         })
         
         return rs
@@ -140,7 +165,7 @@ class EmployersModel:
         
         return rs
         
-    def save_meetings(self, hospcode, cid, title, start_date, end_date, owner_name, place_name):
+    def save_meetings(self, hospcode, cid, title, start_date, end_date, owner_name, place_name, hour):
         #Create index
         self.request.db['employers'].ensure_index('cid', pymongo.ASCENDING)
         self.request.db['employers'].ensure_index('hospcode', pymongo.ASCENDING)
@@ -154,7 +179,8 @@ class EmployersModel:
                         'start_date': start_date,
                         'end_date': end_date,
                         'owner_name': owner_name,
-                        'place_name': place_name
+                        'place_name': place_name,
+                        'hour': hour
                     }
                 }
             })
@@ -211,7 +237,7 @@ class EmployersModel:
         
         return True if rs > 0 else False
  
-    def update_meeting(self, hospcode, cid, id, title, start_date, end_date, owner_name, place_name):
+    def update_meeting(self, hospcode, cid, id, title, start_date, end_date, owner_name, place_name, hour):
        #Create index
        self.request.db['employers'].ensure_index('cid', pymongo.ASCENDING)
        self.request.db['employers'].ensure_index('hospcode', pymongo.ASCENDING)
@@ -233,10 +259,67 @@ class EmployersModel:
                    'meetings.$.start_date': start_date,
                    'meetings.$.end_date': end_date,
                    'meetings.$.owner_name': owner_name,
-                   'meetings.$.place_name': place_name
+                   'meetings.$.place_name': place_name,
+                   'meetings.$.hour': hour
                }
            })
            
            return True
        except Exception as e:
            return False
+ 
+    def save_topic(self, empid, topic_name, topic_type, desc, request_date):  
+        try:
+            rs = self.request.db['employers'].update({'_id': empid}, {
+                '$push': {
+                    'topics': {
+                        'id': ObjectId(),
+                        'topic_name': topic_name,
+                        'topic_type': topic_type,
+                        'request_date': request_date,
+                        'desc': desc
+                    }
+                }
+            })
+            
+            return True
+        except Exception as e:
+            return False 
+
+    def update_topic(self, empid, topic_id, topic_name, topic_type, desc):  
+        rs = self.request.db['employers'].update({
+            '_id': empid, 
+            'topics': {
+                   '$elemMatch': {
+                       'id': topic_id
+                   }
+               }
+            }, {
+                '$set': {
+                    'topics.$.topic_name': topic_name,
+                    'topics.$.topic_type': topic_type,
+                    'topics.$.desc': desc
+                }
+            })
+            
+        return True
+
+    def remove_topic(self, employer_id, topic_id):
+        #Create index
+        self.request.db['employers'].ensure_index('topics.id', pymongo.ASCENDING)
+
+        try:
+            self.request.db['employers'].update({
+                '_id': employer_id
+            }, {
+                '$pull': {
+                    'topics':  {
+                        'id': topic_id
+                    }
+                }
+            })
+
+            return True
+
+        except:
+            return False

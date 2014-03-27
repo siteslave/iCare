@@ -209,13 +209,13 @@ $(function(){
             $.each(rs, function(i, v) {
                 var latlng_link = v.latlng[0] && v.latlng[1] ?
                     '<li><a href="javascript:void(0);" data-name="btn_view_map" data-lat="'+ v.latlng[0] +'" data-lng="'+ v.latlng[1] +'">' +
-                    '<i class="icon-map-marker"></i> ไปที่หลังคาเรือน</a></li>' :
-                    '<li class="disabled"><a href="javascript:void(0);"><i class="icon-map-marker"></i> ไปที่หลังคาเรือน</a></li>';
+                    '<i class="fa fa-map-marker"></i> ไปที่หลังคาเรือน</a></li>' :
+                    '<li class="disabled"><a href="javascript:void(0);"><i class="fa fa-map-marker"></i> ไปที่หลังคาเรือน</a></li>';
 
                 var direction = v.latlng[0] && v.latlng[1] ?
                     '<li><a href="javascript:void(0);" data-name="btn_get_direction" data-lat="'+ v.latlng[0] +'" data-lng="'+ v.latlng[1] +'">' +
-                    '<i class="icon-ambulance"></i> ขอเส้นทาง</a></li>' :
-                    '<li class="disabled"><a href="javascript:void(0);"><i class="icon-ambulance"></i> ขอเส้นทาง</a></li>';
+                    '<i class="fa fa-ambulance"></i> ขอเส้นทาง</a></li>' :
+                    '<li class="disabled"><a href="javascript:void(0);"><i class="fa fa-ambulance"></i> ขอเส้นทาง</a></li>';
 
                 var fullname = v.latlng[0] && v.latlng[1] ? '<strong>'+ v.fullname +'</strong> <span class="label label-success">แผนที่</span>' : v.fullname;
 
@@ -226,7 +226,7 @@ $(function(){
                         '<td>' + v.age.year + '</td>' +
                         '<td><div class="btn-group">' +
                         '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">' +
-                        '<i class="icon-double-angle-right"></i>' +
+                        '<i class="fa fa-angle-double-right"></i>' +
                         '</button>' +
                         '<ul class="dropdown-menu" role="menu">' +
                         '<li role="presentation" class="dropdown-header">TOOLS</li>' +
@@ -234,12 +234,12 @@ $(function(){
                         direction +
                         '<li>' +
                         '<a href="javascript:void(0);" data-name="btn_mark_map" data-cid="'+ v.cid +'" ' +
-                        'data-fullname="'+ v.fullname +'" data-pid="'+ v.pid +'" data-hospcode="'+ v.hospcode +'" data-hid="' + v.hid + '"><i class="icon-screenshot"></i> ระบุพิกัดแผนที่</a>' +
+                        'data-fullname="'+ v.fullname +'" data-pid="'+ v.pid +'" data-hospcode="'+ v.hospcode +'" data-hid="' + v.hid + '"><i class="fa fa-camera-retro"></i> ระบุพิกัดแผนที่</a>' +
                         '</li>' +
                         '<li class="divider"></li>' +
                         '<li><a href="javascript:void(0);" data-name="btn_remove_mark" data-hospcode="'+ v.hospcode +'"' +
                         'data-pid="'+ v.pid + '" data-hid="' + v.hid + '">' +
-                        '<i class="icon-trash"></i> ยกเลิกพิกัด</a></li>' +
+                        '<i class="fa fa-trash-o"></i> ยกเลิกพิกัด</a></li>' +
                         '</ul>' +
                         '</div></td>' +
                         '</tr>'
@@ -249,7 +249,7 @@ $(function(){
             app.set_runtime();
         }
         else {
-            $('#tbl_anc > tbody').append('<tr><td colspan="3">ไม่พบข้อมูล</td></td></tr>');
+            $('#tbl_anc > tbody').append('<tr><td colspan="4">ไม่พบข้อมูล</td></td></tr>');
         }
     };
 	// Remove LatLng
@@ -358,15 +358,37 @@ $(function(){
             google.maps.event.addListener(marker, 'click', function() {
                 var html =
                 '<div style="width: 400px; height: 200px;"><ul class="nav nav-tabs" id="infoTab">' +
-                '<li class="active"><a href="#home" data-toggle="tab"><i class="icon-user"></i> ข้อมูลทั่วไป</a></li>' +
-                '<li><a href="#profile" data-toggle="tab"><i class="icon-paste"></i> ข้อมูลการฝากครรภ์</a></li>' +
+                '<li class="active"><a href="#home" data-toggle="tab"><i class="fa fa-user"></i> ข้อมูลทั่วไป</a></li>' +
+                '<li><a href="#profile" data-toggle="tab"><i class="fa fa-paste"></i> ข้อมูลการฝากครรภ์</a></li>' +
                 '</ul> <br />' +
                 '<div class="tab-content">' +
                 '<div class="tab-pane active" id="home">' +
-                    '<strong>ชื่อ-สกุล:</strong> ' + v.fullname + '<br />' +
-                    '<strong>เลขบัตรประชาชน:</strong> ' + v.cid + '<br />' +
-                    '<strong>วันเกิด:</strong> ' + v.birth + '<br />' +
-                    '<strong>อายุ:</strong> ' + v.age.year + ' ปี ' + v.age.month + ' เดือน ' + v.age.day + ' วัน <br />' +
+                    '<table class="table table-bordered">' +
+                    '<thead>' +
+                    '<tr>' +
+                    '<th>รายการ</th>' +
+                    '<th>ข้อมูล</th>' +
+                    '</tr>' +
+                    '</thead>' +
+                    '<tbody>' +
+                    '<tr>' +
+                    '<td>ชื่อ-สกุล</td>' +
+                    '<td>' + v.fullname + '</td>' +
+                    '</tr>' +
+                    '<tr>' +
+                    '<td>เลขบัตรประชาชน</td>' +
+                    '<td>' + v.cid + '</td>' +
+                    '</tr>' +
+                    '<tr>' +
+                    '<td>วันเกิด</td>' +
+                    '<td>' + v.birth + '</td>' +
+                    '</tr>' +
+                    '<tr>' +
+                    '<td>อายุ</td>' +
+                    '<td>' +  v.age.year + ' ปี ' + v.age.month + ' เดือน ' + v.age.day + ' วัน </td>' +
+                    '</tr>' +
+                    '<tbody>' +
+                    '</table>' +
                 '</div>' +
                 '<div class="tab-pane" id="profile">';
 
@@ -528,60 +550,7 @@ $(function(){
                         });
 
                     },
-                    onFormat: function(type){
-                        switch (type) {
-
-                            case 'block':
-
-                                if (!this.active)
-                                    return '<li class="disabled"><a href="">' + this.value + '</a></li>';
-                                else if (this.value != this.page)
-                                    return '<li><a href="#' + this.value + '">' + this.value + '</a></li>';
-                                return '<li class="active"><a href="#">' + this.value + '</a></li>';
-
-                            case 'right':
-                            case 'left':
-
-                                if (!this.active) {
-                                    return "";
-                                }
-                                return '<li><a href="#' + this.value + '">' + this.value + '</a></li>';
-
-                            case 'next':
-
-                                if (this.active) {
-                                    return '<li><a href="#' + this.value + '">&raquo;</a></li>';
-                                }
-                                return '<li class="disabled"><a href="">&raquo;</a></li>';
-
-                            case 'prev':
-
-                                if (this.active) {
-                                    return '<li><a href="#' + this.value + '">&laquo;</a></li>';
-                                }
-                                return '<li class="disabled"><a href="">&laquo;</a></li>';
-
-                            case 'first':
-
-                                if (this.active) {
-                                    return '<li><a href="#' + this.value + '">&lt;</a></li>';
-                                }
-                                return '<li class="disabled"><a href="">&lt;</a></li>';
-
-                            case 'last':
-
-                                if (this.active) {
-                                    return '<li><a href="#' + this.value + '">&gt;</a></li>';
-                                }
-                                return '<li class="disabled"><a href="">&gt;</a></li>';
-
-                            case 'fill':
-                                if (this.active) {
-                                    return '<li class="disabled"><a href="#">...</a></li>';
-                                }
-                        }
-                        return ""; // return nothing for missing branches
-                    }
+                    onFormat: app.setPagingFormat
                 });
             }
         });

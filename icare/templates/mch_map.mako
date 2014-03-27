@@ -6,9 +6,9 @@
 
 <div class="row">
     <div class="col-sm-5">
-        <div class="navbar navbar-default">
-            <form action="#" class="navbar-form form-inline">
-                <select id="sl_villages" class="form-control" style="width: 220px;">
+##        <div class="navbar navbar-default">
+            <form action="#" class="well well-sm form-inline">
+                <select id="sl_villages" class="form-control" style="width: 200px;">
                     <option value="">เลือกหมู่บ้าน</option>
                     % for v in villages:
                     <option value="${v['vid']}">หมู่ ${v['vid'][6:8]} ${v['name']}</option>
@@ -19,11 +19,11 @@
                     <option value="1">คลอดแล้ว</option>
                 </select>
                 <a href="#" class="btn btn-primary" id="btn_get_anc_list">
-                    <i class="icon-search"></i>
+                    <i class="fa fa-search"></i>
                 </a>
             </form>
-        </div>
-        <table class="table table-striped" id="tbl_anc">
+##        </div>
+        <table class="table table-bordered" id="tbl_anc">
             <thead>
             <tr>
                 <th>CID</th>
@@ -43,8 +43,8 @@
     <div class="col-sm-7">
         <div class="row" id="div_mark_map" style="display: none;">
             <div class="col-md-12">
-                <div class="navbar navbar-default">
-                <form action="#" class="navbar-form">
+##                <div class="navbar navbar-default">
+                <form action="#" class="form-inline well well-sm">
                     ชื่อ-สกุล <input type="text" class="form-control" id="txt_ptname" style="width: 220px;" disabled />
                     CID <input type="text" class="form-control" id="txt_cid" style="width: 180px;" disabled />
                     <input type="hidden" id="txt_hid" value="" />
@@ -52,17 +52,17 @@
 
                     <div class="btn-group">
                     <button type="button" class="btn btn-success" id="btn_save_marker" title="บันทึกพิกัด" rel="tooltip" disabled>
-                        <i class="icon-save"></i>
+                        <i class="fa fa-save"></i>
                     </button>
-                    <button type="button" class="btn btn-danger" id="btn_clear_marker" title="เคลียร์พิกัด" rel="tooltip">
-                        <i class="icon-refresh"></i>
+                    <button type="button" class="btn btn-primary" id="btn_clear_marker" title="เคลียร์พิกัด" rel="tooltip">
+                        <i class="fa fa-refresh"></i>
                     </button>
                     <button type="button" class="btn btn-default" id="btn_cancel_marker" title="ยกเลิก/ปิด" rel="tooltip">
-                        <i class="icon-remove"></i>
+                        <i class="fa fa-times"></i>
                     </button>
                 </div>
                 </form>
-            </div>
+##            </div>
             </div>
         </div>
         <div class="row">

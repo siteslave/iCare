@@ -360,17 +360,8 @@ def anc_get_forecast_filter(request):
     rpt = ReportModel(request)
     person = PersonModel(request)
 
-    start_date = request.params['s']
-    end_date = request.params['e']
-
-    start_date = start_date.split('/')
-    end_date = end_date.split('/')
-
-    sy = int(start_date[2]) - 543
-    ey = int(end_date[2]) - 543
-
-    start_date = str(sy) + start_date[1] + start_date[0]
-    end_date = str(ey) + end_date[1] + end_date[0]
+    start_date = h.jsdate_to_string(request.params['s'])
+    end_date = h.jsdate_to_string(request.params['e'])
 
     rs = rpt.get_anc_forecast_filter(request.session['hospcode'], start_date, end_date)
 
@@ -482,17 +473,8 @@ def report_mch_list(request):
 
     if request.params['s'] != "" and request.params['e'] != "":
         #Get by date
-        start_date = request.params['s']
-        end_date = request.params['e']
-
-        start_date = start_date.split('/')
-        end_date = end_date.split('/')
-
-        sy = int(start_date[2]) - 543
-        ey = int(end_date[2]) - 543
-
-        start_date = str(sy) + start_date[1] + start_date[0]
-        end_date = str(ey) + end_date[1] + end_date[0]
+        start_date = h.jsdate_to_string(request.params['s'])
+        end_date = h.jsdate_to_string(request.params['e'])
 
         rs = mch.get_labor_forecast_filter_list(request.session['hospcode'], start_date, end_date,
                                                 int(start), int(limit))
@@ -536,17 +518,8 @@ def report_mch_total(request):
 
                 if request.params['s'] != "" and request.params['e'] != "":
                     #Get by date
-                    start_date = request.params['s']
-                    end_date = request.params['e']
-
-                    start_date = start_date.split('/')
-                    end_date = end_date.split('/')
-
-                    sy = int(start_date[2]) - 543
-                    ey = int(end_date[2]) - 543
-
-                    start_date = str(sy) + start_date[1] + start_date[0]
-                    end_date = str(ey) + end_date[1] + end_date[0]
+                    start_date = h.jsdate_to_string(request.params['s'])
+                    end_date = h.jsdate_to_string(request.params['e'])
 
                     total = mch.get_labor_forecast_filter_total(request.session['hospcode'],
                                                                 start_date, end_date)

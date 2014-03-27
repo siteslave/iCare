@@ -1,19 +1,67 @@
 # -*- coding: utf8
-import base64
 
 import datetime
 import pymongo
+import time
 
 class ICHelper:
 
-    def to_thai_date(self, eng_date):
+    def __init__(self):
+        pass
+
+    def get_current_jsdate(self):
+        t = time.localtime(time.time())
+        year = str(t[0])
+        month = str(t[1]) if len(str(t[1])) == 2 else u'0' + str(t[1])
+        day = str(t[2]) if len(str(t[2])) == 2 else u'0' + str(t[2])
+
+        request_date = "%s/%s/%s" % (day, month, year)
+
+        return request_date
+
+    def get_current_stringdate(self):
+        t = time.localtime(time.time())
+        year = str(t[0])
+        month = str(t[1]) if len(str(t[1])) == 2 else u'0' + str(t[1])
+        day = str(t[2]) if len(str(t[2])) == 2 else u'0' + str(t[2])
+
+        request_date = "%s%s%s" % (year, month, day)
+
+        return request_date
+
+    def jsdate_to_string(self, jsdate):
+
         try:
-            y = int(eng_date[:4])
-            yt = str(y + 543)
+            string_date = jsdate.split('/')
+            result_date = string_date[2] + string_date[1] + string_date[0]
+
+            return result_date
+
+        except:
+            return '00000000'
+
+    def to_thai_date(self, eng_date):
+        if eng_date == "00000000":
+            return "-"
+        else:
+            try:
+                y = int(eng_date[:4])
+                yt = str(y + 543)
+                m = eng_date[4:6]
+                d = eng_date[6:8]
+
+                return d + '/' + m + '/' + yt
+
+            except:
+                return '-'
+
+    def to_eng_date(self, eng_date):
+        try:
+            y = eng_date[:4]
             m = eng_date[4:6]
             d = eng_date[6:8]
 
-            return d + '/' + m + '/' + yt
+            return d + '/' + m + '/' + y
 
         except:
             return '-'

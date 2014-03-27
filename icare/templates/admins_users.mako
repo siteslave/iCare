@@ -10,7 +10,7 @@
     <i class="icon-refresh"></i> รีเฟรช
 </button>
 
-<table class="table table-striped" id="tbl_list">
+<table class="table table-bordered" id="tbl_list">
     <thead>
     <tr>
         <th>เลขบัตรประชาชน</th>
@@ -97,10 +97,10 @@
           </form>
       </div>
       <div class="modal-footer">
-          <button type="button" class="btn btn-success" id="btn_save">
+          <button type="button" class="btn btn-default" id="btn_save">
               <i class="icon-save"></i> บันทึก
           </button>
-        <button type="button" class="btn btn-danger" data-dismiss="modal">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">
             <i class="icon-remove"></i> ปิดหน้าต่าง
         </button>
       </div>
@@ -124,10 +124,10 @@
           </form>
       </div>
       <div class="modal-footer">
-          <button type="button" class="btn btn-success" id="btn_do_change_password">
+          <button type="button" class="btn btn-default" id="btn_do_change_password">
               <i class="icon-save"></i> เปลี่ยนรหัสผ่าน
           </button>
-        <button type="button" class="btn btn-danger" data-dismiss="modal">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">
             <i class="icon-remove"></i> ปิดหน้าต่าง
         </button>
       </div>

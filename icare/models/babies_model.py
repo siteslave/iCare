@@ -85,6 +85,16 @@ class BabiesModel:
         self.request.db['newborncare'].ensure_index('pid', pymongo.ASCENDING)
 
         rs = self.request.db['newborncare'].find({'hospcode': hospcode, 'pid': pid}).sort('bcare', pymongo.ASCENDING)
+        #rs = self.request.db['newborncare'].find({'hospcode': hospcode, 'pid': pid}).sort('bcare', pymongo.ASCENDING)
+
+        return rs
+
+    def get_care_from_other(self, cid):
+
+        self.request.db['newborncare'].ensure_index('hospcode', pymongo.ASCENDING)
+        self.request.db['newborncare'].ensure_index('cid', pymongo.ASCENDING)
+
+        rs = self.request.db['newborncare'].find({'cid': cid}).sort('bcare', pymongo.ASCENDING)
 
         return rs
 

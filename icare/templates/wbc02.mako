@@ -5,32 +5,57 @@
 </ul>
 
 <ul class="nav nav-tabs">
-  <li class="active"><a href="#home" data-toggle="tab"><i class="icon-windows"></i> ทะเบียนเด็ก 0-2 ปี <span class="badge" id="spn_total">0</span></a></li>
-  <li><a href="#profile" data-toggle="tab"><i class="icon-briefcase"></i> ประวัติการรับวัคซีน</a></li>
+  <li class="active"><a href="#home" data-toggle="tab"><i class="fa fa-windows"></i> ทะเบียนเด็ก 0-2 ปี <span class="badge" id="spn_total">0</span></a></li>
+  <li><a href="#profile" data-toggle="tab"><i class="fa fa-briefcase"></i> ประวัติการรับวัคซีน</a></li>
 </ul>
 <div class="tab-content">
     <div class="tab-pane active" id="home">
         <br>
-        <div class="navbar navbar-default">
-            <form action="#" class="form-inline navbar-form">
-                <label for="">เกิดตั้งแต่</label>
-                <input type="text" data-type="date" class="form-control" style="width: 100px;"
-                        id="txt_start_date" placeholder="วว/ดด/ปปปป" title="ระบุวันเกิด วว/ดด/ปปปป" rel="tooltip" />
-                <label for="">ถึง</label>
-                <input type="text" data-type="date" class="form-control" style="width: 100px;"
-                        id="txt_end_date" placeholder="วว/ดด/ปปปป" title="ระบุวันเกิด วว/ดด/ปปปป" rel="tooltip" />
-                <select id="sl_villages" class="form-control" style="width: 250px;">
+        <!-- <div class="navbar navbar-default"> -->
+      <form action="#" class="form-horizontal well well-sm" role="form">
+        <div class="row">
+          <div class="col-sm-2">
+              <div class="form-group">
+                  <label for="txt_start_date" class="col-sm-3 control-label">ตั้งแต่</label>
+                  <div class="input-group date col-sm-9" data-type="date-picker">
+                      <input type="text" id="txt_start_date"  class="form-control" placeholder="วว/ดด/ปปปป"/>
+                      <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                  </div>
+              </div>
+          </div>
+          <div class="col-sm-2">
+              <div class="form-group">
+                  <label for="txt_end_date" class="col-sm-2 control-label"> - </label>
+                  <div class="input-group date col-sm-9" data-type="date-picker">
+                      <input type="text" id="txt_end_date"  class="form-control" placeholder="วว/ดด/ปปปป"/>
+                      <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                  </div>
+              </div>
+          </div>
+          <div class="col-sm-4">
+                <select id="sl_villages" class="form-control">
                     <option value="">ทุกหมู่บ้านในเขตรับผิดชอบ</option>
                     % for v in villages:
                             <option value="${v['vid']}">หมู่ ${v['vid'][6:8]} ${v['name']}</option>
                     % endfor
                 </select>
-                <button type="button" class="btn btn-primary" id="btn_filter">
-                    <i class="icon-search"></i> แสดง
-                </button>
-            </form>
+                
+          </div>
+          <div class="col-sm-2">
+              <div class="btn-group">
+                  <button type="button" id="btn_filter" class="btn btn-primary" rel="tooltip" title="แสดงตามเงื่อนไข">
+                      <i class="fa fa-search"></i> แสดง
+                  </button>
+                  <button type="button" id="btn_refresh" class="btn btn-default" rel="tooltip" title="แสดงทั้งหมด">
+                      <i class="fa fa-refresh"></i> รีเฟรช
+                  </button>
+              </div>
+          </div>
         </div>
-        <table class="table table-striped" id="tbl_list">
+            
+      </form>
+        <!-- </div> -->
+        <table class="table table-bordered" id="tbl_list">
             <thead>
             <tr>
                 <th>เลขบัตรประชาชน</th>
@@ -61,17 +86,17 @@
     </div>
     <div class="tab-pane" id="profile">
          <br>
-      <div class="navbar navbar-default">
-          <form action="#" class="form-inline navbar-form">
+      <!-- <div class="navbar navbar-default"> -->
+          <form action="#" class="form-inline well well-sm">
               <input type="text" class="form-control" style="width: 250px;"
                      placeholder="ระบุเลขบัตรประชาชน" id="txt_query_visit"
                       rel="tooltip" title="ระบุเลขบัตรประชาชน 13 หลัก"/>
               <button type="button" class="btn btn-primary" id="btn_search_visit">
-                  <i class="icon-search"></i> ค้นหา
+                  <i class="fa fa-search"></i> ค้นหา
               </button>
           </form>
-      </div>
-      <table class="table table-striped" id="tbl_visit_list">
+      <!-- </div> -->
+      <table class="table table-bordered" id="tbl_visit_list">
           <thead>
           <tr>
               <th>#</th>
@@ -91,11 +116,11 @@
 </div>
 
 <div class="modal fade" id="mdl_vaccines">
-  <div class="modal-dialog" style="width: 780px;">
+  <div class="modal-dialog modal-lg">
     <div class="modal-content">
-      <div class="modal-header">
+      <div class="modal-header modal-header-black">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title"><i class="icon-edit"></i> ประวัติการได้รับวัคซีน</h4>
+        <h4 class="modal-title modal-title-white"><i class="fa fa-edit"></i> ประวัติการได้รับวัคซีน</h4>
       </div>
       <div class="modal-body">
         <table class="table table-bordered" id="tbl_vaccines_list">
@@ -110,18 +135,18 @@
         </table>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal"><i class="icon-remove"></i> ปิดหน้าต่าง</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> ปิดหน้าต่าง</button>
       </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+    </div>
+  </div>
+</div>
 
 <div class="modal fade" id="mdl_nutrition">
-  <div class="modal-dialog" style="width: 780px;">
+  <div class="modal-dialog modal-lg">
     <div class="modal-content">
-      <div class="modal-header">
+      <div class="modal-header modal-header-black">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title"><i class="icon-edit"></i> ประวัติการตรวจพัฒนาการ</h4>
+        <h4 class="modal-title modal-title-white"><i class="fa fa-edit"></i> ประวัติการตรวจพัฒนาการ</h4>
       </div>
       <div class="modal-body">
         <table class="table table-bordered" id="tbl_nutrition">
@@ -140,37 +165,37 @@
         </table>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal"><i class="icon-remove"></i> ปิดหน้าต่าง</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> ปิดหน้าต่าง</button>
       </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+    </div>
+  </div>
+</div>
 
 <div class="modal fade" id="mdl_appointment">
-  <div class="modal-dialog" style="width: 780px;">
+  <div class="modal-dialog modal-lg">
     <div class="modal-content">
-      <div class="modal-header">
+      <div class="modal-header modal-header-black">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title"><i class="icon-edit"></i> ข้อมูลการนัดครั้งต่อไป</h4>
+        <h4 class="modal-title modal-title-white"><i class="fa fa-edit"></i> ข้อมูลการนัดครั้งต่อไป</h4>
       </div>
       <div class="modal-body">
         <table class="table table-bordered" id="tbl_appoint_list">
             <thead>
             <tr>
-               <td>#</td>
-               <td>วันที่</td>
-               <td>กิจกรรมที่นัด</td>
-               <td>รหัสโรคที่นัด</td>
+               <th>#</th>
+               <th>วันที่</th>
+               <th>กิจกรรมที่นัด</th>
+               <th>รหัสโรคที่นัด</th>
             </tr>
             </thead>
             <tbody></tbody>
         </table>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal"><i class="icon-remove"></i> ปิดหน้าต่าง</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> ปิดหน้าต่าง</button>
       </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+    </div>
+  </div>
+</div>
 
 <script src="/static/js/apps/wbc02.js"></script>

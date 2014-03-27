@@ -6,14 +6,15 @@
 </ul>
 
 <ul class="nav nav-tabs">
-  <li class="active"><a href="#home" data-toggle="tab"><i class="icon-windows"></i> ทะเบียนฝากครรภ์ <span class="badge" id="spn_anc_total">0</span></a></li>
-  <li><a href="#profile" data-toggle="tab"><i class="icon-briefcase"></i> ประวัติการรับบริการ</a></li>
+  <li class="active"><a href="#home" data-toggle="tab"><i class="fa fa-windows"></i> ทะเบียนฝากครรภ์ <span class="badge" id="spn_anc_total">0</span></a></li>
+  <li><a href="#profile" data-toggle="tab"><i class="fa fa-briefcase"></i> ประวัติการรับบริการ</a></li>
 </ul>
+
 <div class="tab-content">
   <div class="tab-pane active" id="home">
       <br>
-      <div class="navbar navbar-default">
-          <form action="#" class="form-inline navbar-form">
+      <!-- <div class="navbar navbar-default"> -->
+          <form action="#" class="form-inline well well-sm">
               <div class="row">
                   <div class="col-md-4">
                       <div class="input-group">
@@ -22,26 +23,26 @@
                               rel="tooltip" title="ระบุคำค้นหา เช่น เลขบัตรประชาชน เป็นต้น"/>
                           <span class="input-group-btn">
                               <button type="button" class="btn btn-primary" id="btn_search_anc">
-                                  <i class="icon-search"></i> ค้นหา
+                                  <i class="fa fa-search"></i> ค้นหา
                               </button>
                           </span>
                       </div>
                   </div>
                   <div class="col-md-3 col-md-offset-5">
                       <div class="btn-group">
-                          <button type="button" class="btn btn-success" id="btn_refresh">
-                              <i class="icon-refresh"></i> รีเฟรช
+                          <button type="button" class="btn btn-default" id="btn_refresh">
+                              <i class="fa fa-refresh"></i> รีเฟรช
                           </button>
-                          <button type="button" class="btn btn-danger pull-right" id="btn_process">
-                              <i class="icon-refresh"></i> ประมวลผล
+                          <button type="button" class="btn btn-primary pull-right" id="btn_process">
+                              <i class="fa fa-refresh"></i> ประมวลผล
                           </button>
 
                       </div>
                   </div>
               </div>
           </form>
-      </div>
-      <table class="table table-striped" id="tbl_list">
+      <!-- </div> -->
+      <table class="table table-bordered" id="tbl_list">
           <thead>
           <tr>
               <th>เลขบัตรประชาชน</th>
@@ -70,8 +71,8 @@
   </div>
   <div class="tab-pane" id="profile">
       <br>
-      <div class="navbar navbar-default">
-          <form action="#" class="form-inline navbar-form">
+      <!-- <div class="navbar navbar-default"> -->
+          <form action="#" class="form-inline well well-sm">
               <div class="row">
                   <div class="col-md-4">
                       <div class="input-group">
@@ -80,7 +81,7 @@
                               rel="tooltip" title="ระบุเลขบัตรประชาชน 13 หลัก"/>
                           <span class="input-group-btn">
                               <button type="button" class="btn btn-primary" id="btn_search_visit">
-                                  <i class="icon-search"></i> ค้นหา
+                                  <i class="fa fa-search"></i> ค้นหา
                               </button>
                           </span>
                       </div>
@@ -88,8 +89,8 @@
                   </div>
               </div>
           </form>
-      </div>
-      <table class="table table-striped" id="tbl_visit_list">
+      <!-- </div> -->
+      <table class="table table-bordered" id="tbl_visit_list">
           <thead>
           <tr>
               <th>วันที่</th>
@@ -115,20 +116,20 @@
 </div>
 
 <div class="modal fade" id="mdl_anc_survey">
-  <div class="modal-dialog" style="width: 788px;">
+  <div class="modal-dialog modal-lg">
     <div class="modal-content">
-      <div class="modal-header">
+      <div class="modal-header modal-header-black">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title">แบบฟอร์มประเมินความเสี่ยงหญิงตั้งครรภ์</h4>
+        <h4 class="modal-title modal-title-white"><i class="fa fa-edit"></i> แบบฟอร์มประเมินความเสี่ยงหญิงตั้งครรภ์</h4>
       </div>
       <div class="modal-body">
           <form action="#">
               <input type="hidden" id="txt_ans_pid" value="" />
               <input type="hidden" id="txt_ans_gravida" value="" />
               <ul class="nav nav-tabs">
-                  <li class="active"><a href="#tab_ans_history" data-toggle="tab"><i class="icon-time"></i> ประวัติอดีต</a></li>
-                  <li><a href="#tab_ans_current" data-toggle="tab"><i class="icon-th-large"></i> ประวัติครรภ์ปัจจุบัน</a></li>
-                  <li><a href="#tab_ans_ill" data-toggle="tab"><i class="icon-user-md"></i> ประวัติทางอายุรกรรม</a></li>
+                  <li class="active"><a href="#tab_ans_history" data-toggle="tab"><i class="fa fa-times"></i> ประวัติอดีต</a></li>
+                  <li><a href="#tab_ans_current" data-toggle="tab"><i class="fa fa-th-large"></i> ประวัติครรภ์ปัจจุบัน</a></li>
+                  <li><a href="#tab_ans_ill" data-toggle="tab"><i class="fa fa-user-md"></i> ประวัติทางอายุรกรรม</a></li>
               </ul>
               <div class="tab-content">
                 <div class="tab-pane active" id="tab_ans_history">
@@ -340,29 +341,29 @@
           </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-success" id="btn_save_survey"><i class="icon-save"></i> บันทึกข้อมูล</button>
-        <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="icon-remove"></i> ปิดหน้าต่าง</button>
+        <button type="button" class="btn btn-default" id="btn_save_survey"><i class="fa fa-save"></i> บันทึกข้อมูล</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-times"></i> ปิดหน้าต่าง</button>
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
 <div class="modal fade" id="mdl_labor">
-  <div class="modal-dialog" style="width: 780px;">
+  <div class="modal-dialog modal-lg">
     <div class="modal-content">
-      <div class="modal-header">
+      <div class="modal-header modal-header-black">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title"><i class="icon-edit"></i> รายละเอียดเกี่ยวกับการคลอด</h4>
+        <h4 class="modal-title modal-title-white"><i class="fa fa-edit"></i> รายละเอียดเกี่ยวกับการคลอด</h4>
       </div>
       <div class="modal-body">
-        <div class="navbar navbar-default">
-            <form action="#" class="navbar-form">
+        <!-- <div class="navbar navbar-default"> -->
+            <form action="#" class="well well-sm form-inline">
                 ชื่อ - สกุล <input type="text" disabled class="form-control" id="txt_labor_fullname" style="width: 250px;"/>
              <%doc>   วันเกิด <input type="text" disabled class="form-control" id="txt_labor_birth" style="width: 140px;"/></%doc>
                 CID <input type="text" disabled class="form-control" id="txt_labor_cid" style="width: 200px;"/>
                 ครรภ์ที่ <input type="text" disabled class="form-control" id="txt_labor_gravida" style="width: 50px;"/>
             </form>
-        </div>
+        <!-- </div> -->
            <form action="#">
                 <fieldset>
                     <legend>ข้อมูลการคลอด</legend>
@@ -448,28 +449,28 @@
             </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="icon-remove"></i> ปิดหน้าต่าง</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-times"></i> ปิดหน้าต่าง</button>
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
 <div class="modal fade" id="mdl_prenatal">
-  <div class="modal-dialog" style="width: 780px;">
+  <div class="modal-dialog modal-lg">
     <div class="modal-content">
-      <div class="modal-header">
+      <div class="modal-header modal-header-black">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title"><i class="icon-edit"></i> รายละเอียดเกี่ยวกับการตั้งครรภ์</h4>
+        <h4 class="modal-title modal-title-white"><i class="fa fa-edit"></i> รายละเอียดเกี่ยวกับการตั้งครรภ์</h4>
       </div>
       <div class="modal-body">
-        <div class="navbar">
-            <form action="#" class="navbar-form">
+        <!-- <div class="navbar navbar-default"> -->
+            <form action="#" class="well well-sm form-inline">
                 ชื่อ - สกุล <input type="text" disabled class="form-control" id="txt_prenatal_fullname" style="width: 250px;"/>
              <%doc>   วันเกิด <input type="text" disabled class="form-control" id="txt_labor_birth" style="width: 140px;"/></%doc>
                 CID <input type="text" disabled class="form-control" id="txt_prenatal_cid" style="width: 200px;"/>
                 ครรภ์ที่ <input type="text" disabled class="form-control" id="txt_prenatal_gravida" style="width: 50px;"/>
             </form>
-        </div>
+        <!-- </div> -->
            <form action="#">
                 <fieldset>
                     <legend>ข้อมูลการตั้งครรภ์</legend>
@@ -561,19 +562,19 @@
             </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="icon-remove"></i> ปิดหน้าต่าง</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-times"></i> ปิดหน้าต่าง</button>
       </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+    </div>
+  </div>
+</div>
 
 
 <div class="modal fade" id="mdl_appointment">
-  <div class="modal-dialog" style="width: 780px;">
+  <div class="modal-dialog modal-lg">
     <div class="modal-content">
-      <div class="modal-header">
+      <div class="modal-header modal-header-black">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title"><i class="icon-edit"></i> ข้อมูลการนัดครั้งต่อไป</h4>
+        <h4 class="modal-title modal-title-white"><i class="fa fa-edit"></i> ข้อมูลการนัดครั้งต่อไป</h4>
       </div>
       <div class="modal-body">
         <table class="table table-bordered" id="tbl_appoint_list">
@@ -589,10 +590,10 @@
         </table>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="icon-remove"></i> ปิดหน้าต่าง</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-times"></i> ปิดหน้าต่าง</button>
       </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+    </div>
+  </div>
+</div>
 
 <script src="/static/js/apps/anc.js"></script>

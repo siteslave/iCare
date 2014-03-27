@@ -44,7 +44,7 @@
           </form>
       </div>
 
-      <table class="table table-striped" id="tbl_list">
+      <table class="table table-bordered" id="tbl_list">
           <thead>
           <tr>
               <th>วันที่ป่วย</th>

@@ -10,10 +10,10 @@
                 placeholder="เลือกไฟล์..." id="txt_file_name" />
         <input type="file" id="file" name="file" />
         <button type="button" class="btn btn-success" id="btn_select_file">
-            <i class="icon-paper-clip"></i> เลือกไฟล์...
+            <i class="fa fa-paperclip"></i> เลือกไฟล์...
         </button>
         <button type="submit" class="btn btn-primary" id="btn_upload">
-            <i class="icon-upload"></i> อัปโหลดไฟล์
+            <i class="fa fa-upload"></i> อัปโหลดไฟล์
         </button>
     </form>
 </div>

@@ -753,3 +753,288 @@ class AncModel:
         }).count()
 
         return rs
+
+    def count_risk01(self, hospcode, start_date, end_date):
+        self.request.db['anc_survey'].ensure_index('hospcode', pymongo.ASCENDING)
+        self.request.db['anc_survey'].ensure_index('last_update', pymongo.ASCENDING)
+
+        rs = self.request.db['anc_survey'].find({
+            'hospcode': hospcode,
+            'last_update': {
+                '$gte': start_date,
+                '$lte': end_date
+            },
+            'ch1': '1'
+        }).count()
+
+        return rs
+
+    def count_risk02(self, hospcode, start_date, end_date):
+        self.request.db['anc_survey'].ensure_index('hospcode', pymongo.ASCENDING)
+        self.request.db['anc_survey'].ensure_index('last_update', pymongo.ASCENDING)
+
+        rs = self.request.db['anc_survey'].find({
+            'hospcode': hospcode,
+            'last_update': {
+                '$gte': start_date,
+                '$lte': end_date
+            },
+            'ch2': '1'
+        }).count()
+
+        return rs
+
+    def count_risk03(self, hospcode, start_date, end_date):
+        self.request.db['anc_survey'].ensure_index('hospcode', pymongo.ASCENDING)
+        self.request.db['anc_survey'].ensure_index('last_update', pymongo.ASCENDING)
+
+        rs = self.request.db['anc_survey'].find({
+            'hospcode': hospcode,
+            'last_update': {
+                '$gte': start_date,
+                '$lte': end_date
+            },
+            'ch3': '1'
+        }).count()
+
+        return rs
+
+    def count_risk04(self, hospcode, start_date, end_date):
+        self.request.db['anc_survey'].ensure_index('hospcode', pymongo.ASCENDING)
+        self.request.db['anc_survey'].ensure_index('last_update', pymongo.ASCENDING)
+
+        rs = self.request.db['anc_survey'].find({
+            'hospcode': hospcode,
+            'last_update': {
+                '$gte': start_date,
+                '$lte': end_date
+            },
+            'ch4': '1'
+        }).count()
+
+        return rs
+
+    def count_risk05(self, hospcode, start_date, end_date):
+        self.request.db['anc_survey'].ensure_index('hospcode', pymongo.ASCENDING)
+        self.request.db['anc_survey'].ensure_index('last_update', pymongo.ASCENDING)
+
+        rs = self.request.db['anc_survey'].find({
+            'hospcode': hospcode,
+            'last_update': {
+                '$gte': start_date,
+                '$lte': end_date
+            },
+            'ch5': '1'
+        }).count()
+
+        return rs
+
+    def count_risk06(self, hospcode, start_date, end_date):
+        self.request.db['anc_survey'].ensure_index('hospcode', pymongo.ASCENDING)
+        self.request.db['anc_survey'].ensure_index('last_update', pymongo.ASCENDING)
+
+        rs = self.request.db['anc_survey'].find({
+            'hospcode': hospcode,
+            'last_update': {
+                '$gte': start_date,
+                '$lte': end_date
+            },
+            'ch6': '1'
+        }).count()
+
+        return rs
+
+    def count_risk07(self, hospcode, start_date, end_date):
+        self.request.db['anc_survey'].ensure_index('hospcode', pymongo.ASCENDING)
+        self.request.db['anc_survey'].ensure_index('last_update', pymongo.ASCENDING)
+
+        rs = self.request.db['anc_survey'].find({
+            'hospcode': hospcode,
+            'last_update': {
+                '$gte': start_date,
+                '$lte': end_date
+            },
+            'ch7': '1'
+        }).count()
+
+        return rs
+
+    def count_risk08(self, hospcode, start_date, end_date):
+        self.request.db['anc_survey'].ensure_index('hospcode', pymongo.ASCENDING)
+        self.request.db['anc_survey'].ensure_index('last_update', pymongo.ASCENDING)
+
+        rs = self.request.db['anc_survey'].find({
+            'hospcode': hospcode,
+            'last_update': {
+                '$gte': start_date,
+                '$lte': end_date
+            },
+            'ch8': '1'
+        }).count()
+
+        return rs
+
+    def count_risk09(self, hospcode, start_date, end_date):
+        self.request.db['anc_survey'].ensure_index('hospcode', pymongo.ASCENDING)
+        self.request.db['anc_survey'].ensure_index('last_update', pymongo.ASCENDING)
+
+        rs = self.request.db['anc_survey'].find({
+            'hospcode': hospcode,
+            'last_update': {
+                '$gte': start_date,
+                '$lte': end_date
+            },
+            'ch9': '1'
+        }).count()
+
+        return rs
+
+    def count_risk10(self, hospcode, start_date, end_date):
+        self.request.db['anc_survey'].ensure_index('hospcode', pymongo.ASCENDING)
+        self.request.db['anc_survey'].ensure_index('last_update', pymongo.ASCENDING)
+
+        rs = self.request.db['anc_survey'].find({
+            'hospcode': hospcode,
+            'last_update': {
+                '$gte': start_date,
+                '$lte': end_date
+            },
+            'ch10': '1'
+        }).count()
+
+        return rs
+
+    def count_risk11(self, hospcode, start_date, end_date):
+        self.request.db['anc_survey'].ensure_index('hospcode', pymongo.ASCENDING)
+        self.request.db['anc_survey'].ensure_index('last_update', pymongo.ASCENDING)
+
+        rs = self.request.db['anc_survey'].find({
+            'hospcode': hospcode,
+            'last_update': {
+                '$gte': start_date,
+                '$lte': end_date
+            },
+            'ch11': '1'
+        }).count()
+
+        return rs
+
+    def count_risk12(self, hospcode, start_date, end_date):
+        self.request.db['anc_survey'].ensure_index('hospcode', pymongo.ASCENDING)
+        self.request.db['anc_survey'].ensure_index('last_update', pymongo.ASCENDING)
+
+        rs = self.request.db['anc_survey'].find({
+            'hospcode': hospcode,
+            'last_update': {
+                '$gte': start_date,
+                '$lte': end_date
+            },
+            'ch12': '1'
+        }).count()
+
+        return rs
+
+    def count_risk13(self, hospcode, start_date, end_date):
+        self.request.db['anc_survey'].ensure_index('hospcode', pymongo.ASCENDING)
+        self.request.db['anc_survey'].ensure_index('last_update', pymongo.ASCENDING)
+
+        rs = self.request.db['anc_survey'].find({
+            'hospcode': hospcode,
+            'last_update': {
+                '$gte': start_date,
+                '$lte': end_date
+            },
+            'ch13': '1'
+        }).count()
+
+        return rs
+
+    def count_risk14(self, hospcode, start_date, end_date):
+        self.request.db['anc_survey'].ensure_index('hospcode', pymongo.ASCENDING)
+        self.request.db['anc_survey'].ensure_index('last_update', pymongo.ASCENDING)
+
+        rs = self.request.db['anc_survey'].find({
+            'hospcode': hospcode,
+            'last_update': {
+                '$gte': start_date,
+                '$lte': end_date
+            },
+            'ch14': '1'
+        }).count()
+
+        return rs
+
+    def count_risk15(self, hospcode, start_date, end_date):
+        self.request.db['anc_survey'].ensure_index('hospcode', pymongo.ASCENDING)
+        self.request.db['anc_survey'].ensure_index('last_update', pymongo.ASCENDING)
+
+        rs = self.request.db['anc_survey'].find({
+            'hospcode': hospcode,
+            'last_update': {
+                '$gte': start_date,
+                '$lte': end_date
+            },
+            'ch15': '1'
+        }).count()
+
+        return rs
+
+    def count_risk16(self, hospcode, start_date, end_date):
+        self.request.db['anc_survey'].ensure_index('hospcode', pymongo.ASCENDING)
+        self.request.db['anc_survey'].ensure_index('last_update', pymongo.ASCENDING)
+
+        rs = self.request.db['anc_survey'].find({
+            'hospcode': hospcode,
+            'last_update': {
+                '$gte': start_date,
+                '$lte': end_date
+            },
+            'ch16': '1'
+        }).count()
+
+        return rs
+
+    def count_risk17(self, hospcode, start_date, end_date):
+        self.request.db['anc_survey'].ensure_index('hospcode', pymongo.ASCENDING)
+        self.request.db['anc_survey'].ensure_index('last_update', pymongo.ASCENDING)
+
+        rs = self.request.db['anc_survey'].find({
+            'hospcode': hospcode,
+            'last_update': {
+                '$gte': start_date,
+                '$lte': end_date
+            },
+            'ch17': '1'
+        }).count()
+
+        return rs
+
+    def count_risk18(self, hospcode, start_date, end_date):
+        self.request.db['anc_survey'].ensure_index('hospcode', pymongo.ASCENDING)
+        self.request.db['anc_survey'].ensure_index('last_update', pymongo.ASCENDING)
+
+        rs = self.request.db['anc_survey'].find({
+            'hospcode': hospcode,
+            'last_update': {
+                '$gte': start_date,
+                '$lte': end_date
+            },
+            'ch18': '1'
+        }).count()
+
+        return rs
+
+    def get_risk_list_by_type(self, hospcode, choice, start_date, end_date):
+        self.request.db['anc_survey'].ensure_index('hospcode', pymongo.ASCENDING)
+        self.request.db['anc_survey'].ensure_index('last_update', pymongo.ASCENDING)
+
+        rs = self.request.db['anc_survey'].find({
+            'hospcode': hospcode,
+            str(choice): '1',
+            'last_update': {
+                '$gte': start_date,
+                '$lte': end_date
+            }
+        })
+
+        return rs

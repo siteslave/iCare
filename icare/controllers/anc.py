@@ -315,7 +315,7 @@ def save_survey(request):
                 'gravida': gravida,
                 'cid': person.get_cid_from_pid(pid, request.session['hospcode']),
                 'hospcode': request.session['hospcode'],
-                'last_update': datetime.today().isoformat()
+                'last_update': h.get_current_stringdate()
             }
 
             anc.save_survey(doc)
@@ -556,6 +556,7 @@ def anc_get_list_map_total(request):
     else:
         return {'ok': 0, 'msg': 'Not ajax request'}
 
+
 @view_config(route_name='anc_get_list_map', request_method='POST', renderer='json')
 def anc_get_list_map(request):
     if 'logged' not in request.session:
@@ -602,6 +603,7 @@ def anc_get_list_map(request):
                 return {'ok': 0, 'msg': u'ไม่พบข้อมูล'}
         else:
             return {'ok': 0, 'msg': 'Not ajax request.'}
+
             
 @view_config(route_name='anc_all_latlng', renderer='json')
 def anc_all_latlng(request):
@@ -672,3 +674,109 @@ def anc_all_latlng(request):
     else:
         return {'ok': 0, 'msg': 'Not ajax request'}
 
+
+@view_config(route_name='anc_get_risk_by_group', renderer='json', request_method='POST')
+def get_risk_by_group(request):
+
+    if 'logged' not in request.session:
+        return HTTPFound(location='/signin')
+
+    if request.is_xhr:
+
+        csrf_token = request.params['csrf_token']
+        is_token = (csrf_token == unicode(request.session.get_csrf_token()))
+
+        start_date = h.jsdate_to_string(request.params['start_date'])
+        end_date = h.jsdate_to_string(request.params['end_date'])
+
+        if is_token:
+
+            hospcode = request.params['hospcode'] if 'hospcode' in request.params else request.session['hospcode']
+
+            anc = AncModel(request)
+
+            rs01 = anc.count_risk01(hospcode, start_date, end_date)
+            rs02 = anc.count_risk02(hospcode, start_date, end_date)
+            rs03 = anc.count_risk03(hospcode, start_date, end_date)
+            rs04 = anc.count_risk04(hospcode, start_date, end_date)
+            rs05 = anc.count_risk05(hospcode, start_date, end_date)
+            rs06 = anc.count_risk06(hospcode, start_date, end_date)
+            rs07 = anc.count_risk07(hospcode, start_date, end_date)
+            rs08 = anc.count_risk08(hospcode, start_date, end_date)
+            rs09 = anc.count_risk09(hospcode, start_date, end_date)
+            rs10 = anc.count_risk10(hospcode, start_date, end_date)
+            rs11 = anc.count_risk11(hospcode, start_date, end_date)
+            rs12 = anc.count_risk12(hospcode, start_date, end_date)
+            rs13 = anc.count_risk13(hospcode, start_date, end_date)
+            rs14 = anc.count_risk14(hospcode, start_date, end_date)
+            rs15 = anc.count_risk15(hospcode, start_date, end_date)
+            rs16 = anc.count_risk16(hospcode, start_date, end_date)
+            rs17 = anc.count_risk17(hospcode, start_date, end_date)
+            rs18 = anc.count_risk18(hospcode, start_date, end_date)
+
+            obj = {
+                "risk01": rs01,
+                "risk02": rs02,
+                "risk03": rs03,
+                "risk04": rs04,
+                "risk05": rs05,
+                "risk06": rs06,
+                "risk07": rs07,
+                "risk08": rs08,
+                "risk09": rs09,
+                "risk10": rs10,
+                "risk11": rs11,
+                "risk12": rs12,
+                "risk13": rs13,
+                "risk14": rs14,
+                "risk15": rs15,
+                "risk16": rs16,
+                "risk17": rs17,
+                "risk18": rs18,
+            }
+
+            return {'ok': 1, 'rows': [obj]}
+
+
+@view_config(route_name='anc_get_risk_list_by_type', renderer='json')
+def anc_get_risk_list_by_type(request):
+
+    if 'logged' not in request.session:
+        return HTTPFound(location='/signin')
+
+    if request.is_xhr:
+
+        csrf_token = request.params['csrf_token']
+        is_token = (csrf_token == unicode(request.session.get_csrf_token()))
+
+        if is_token:
+
+            start_date = h.jsdate_to_string(request.params['start_date'])
+            end_date = h.jsdate_to_string(request.params['end_date'])
+            choice = request.params['choice']
+
+            hospcode = request.params['hospcode'] if 'hospcode' in request.params else request.session['hospcode']
+
+            anc = AncModel(request)
+            person = PersonModel(request)
+
+            rs = anc.get_risk_list_by_type(hospcode, choice, start_date, end_date)
+
+            if rs:
+                rows = []
+                for r in rs:
+                    p = person.get_person_detail(r['pid'], request.session['hospcode'])
+                    obj = {
+                        'pid': r['pid'],
+                        'cid': p['cid'],
+                        'fullname': p['name'] + ' ' + p['lname'],
+                        'birth': h.to_thai_date(p['birth']),
+                        'age': h.count_age(p['birth'])
+                    }
+
+                    rows.append(obj)
+
+                return {'ok': 1, 'rows': rows}
+
+            else:
+                return {'ok': 0, 'msg': u'ไม่พบรายการ'}

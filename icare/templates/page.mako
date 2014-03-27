@@ -1,5 +1,68 @@
 <%inherit file="layout/default.mako" />
+<ul class="breadcrumb">
+  <li class="active">หน้าหลัก</li>
+</ul>
 <p class="lead"><i class="icon-th-list"></i> Dashboard : หน้าหลัก</p>
+##<div class="row">
+##    <div class="col-sm-6">
+##        <ul class="ds-btn">
+##             <li>
+##                  <a class="btn btn-success btn-lg" href="http://dotstrap.com/">
+##                  <i class="fa fa-file fa-lg pull-left"></i><span>User Profile<br><small>Lorem ipsum dolor</small></span></a>
+##
+##                </li>
+##                <li>
+##                     <a class="btn btn-lg btn-primary" href="http://dotstrap.com/">
+##                  <i class="glyphicon glyphicon-user pull-left"></i><span>User Profile<br><small>Lorem ipsum dolor</small></span></a>
+##
+##                </li>
+##                <li>
+##                     <a class="btn btn-lg btn-primary" href="http://dotstrap.com/">
+##                  <i class="glyphicon glyphicon-user pull-left"></i><span>User Profile<br><small>Lorem ipsum dolor</small></span></a>
+##
+##                </li>
+##                <li>
+##                     <a class="btn btn-lg btn-primary" href="http://dotstrap.com/">
+##                  <i class="glyphicon glyphicon-user pull-left"></i><span>User Profile<br><small>Lorem ipsum dolor</small></span></a>
+##
+##                </li>
+##        </ul>
+##    </div>
+##    <div class="col-sm-6">
+##        <div class="blockquote-box clearfix">
+##                <div class="square pull-left">
+##                    <img src="http://placehold.it/60/8e44ad/FFF&text=15" alt="" class="" />
+##                </div>
+##                <h4>
+##                    Bootsnipp</h4>
+##                <p>
+##                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a
+##                    ante.
+##                </p>
+##            </div>
+##            <div class="blockquote-box blockquote-primary clearfix">
+##                <div class="square pull-left">
+##                    <span class="glyphicon glyphicon-music glyphicon-lg"></span>
+##                </div>
+##                <h4>
+##                    Let's music play</h4>
+##                <p>
+##                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a
+##                    ante. <a href="http://www.jquery2dotnet.com/search/label/jquery">jquery2dotnet</a>
+##                </p>
+##            </div>
+##    </div>
+####    <div class="col-sm-6">
+####        <div class="alert alert-success">
+####            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+####                ×</button>
+####           <span class="fa fa-check"></span> <strong>Success Message</strong>
+####            <hr class="message-inner-separator">
+####            <p>
+####                You successfully read this important alert message.</p>
+####        </div>
+####    </div>
+##</div>
 <div class="row">
     <div class="col-sm-6">
         <div class="panel panel-info">
@@ -63,7 +126,7 @@
                 <h3 class="panel-title">รายชื่อหญิงครบกำหนดฝากครรภ์ (ในเดือนนี้)</h3>
             </div>
             <div class="panel-body">
-                <table class="table table-striped" id="tbl_anc_list">
+                <table class="table table-bordered" id="tbl_anc_list">
                     <thead>
                     <tr>
                         <th>เลขบัตรประชาชน</th>
@@ -81,7 +144,7 @@
 
             <div class="panel-footer">
                 <a href="/reports/anc" class="btn btn-success">
-                    ดูรายชื่อทั้งหมด [ <span class="label label-danger" id="spn_anc_all"></span> ] <i class="icon-arrow-right"></i>
+                    ดูรายชื่อทั้งหมด [ <span class="label label-primary" id="spn_anc_all"></span> ] <i class="icon-arrow-right"></i>
                 </a>
             </div>
         </div>
@@ -109,7 +172,7 @@
             </div>
             <div class="panel-footer">
                 <a href="/reports/mch" class="btn btn-success">
-                    ดูรายชื่อทั้งหมด [ <span class="label label-danger" id="spn_mch_all"></span> ] <i class="icon-arrow-right"></i>
+                    ดูรายชื่อทั้งหมด [ <span class="label label-primary" id="spn_mch_all"></span> ] <i class="icon-arrow-right"></i>
                 </a>
             </div>
         </div>

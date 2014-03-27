@@ -5,21 +5,21 @@ $(function() {
         show_postnatal: function() {
             $('#mdl_postnatal').modal({
                 keyboard: false,
-                backdrop: 'static'
+                backdrop: false
             });
         },
 
         show_labor: function() {
             $('#mdl_labor').modal({
                 keyboard: false,
-                backdrop: 'static'
+                backdrop: false
             });
         },
 
         show_appoint: function() {
             $('#mdl_appointment').modal({
                 keyboard: false,
-                backdrop: 'static'
+                backdrop: false
             });
         }
 
@@ -100,27 +100,27 @@ $(function() {
 
                 $('#tbl_list > tbody').append(
                     '<tr ' + tr_class + '>' +
-                        '<td>' + v.cid + '</td>' +
+                        '<td class="text-center">' + v.cid + '</td>' +
                         '<td>' + v.fullname + '</td>' +
                         '<td>' + v.birth + '</td>' +
                         '<td class="hidden-md" title="อายุ ณ วันที่คลอด">' + v.age.year +'-' + v.age.month + '-' + v.age.day + '</td>' +
-                        '<td>' + v.gravida + '</td>' +
+                        '<td class="text-center">' + v.gravida + '</td>' +
                         '<td class="hidden-md">' + v.bdate + '</td>' +
                         '<td class="hidden-md">[' + v.bhospcode + '] ' + v.bhospname + '</td>' +
                         '<td class="hidden-md">' + btype + '</td>' +
-                        '<td>' + v.count_postnatal + '</td>' +
-                        '<td><div class="btn-group">' +
+                        '<td class="text-center">' + v.count_postnatal + '</td>' +
+                        '<td class="text-center"><div class="btn-group">' +
                         '<a href="javascript:void(0);" class="btn btn-default btn-small" data-name="btn_labor" ' +
                         'data-cid="' + v.cid + '" data-gravida="' + v.gravida + '" rel="tooltip" title="ข้อมูลการคลอด">' +
-                        '<i class="icon-file-text"></i></a>' +
+                        '<i class="fa fa-file-text"></i></a>' +
                         '<a href="javascript:void(0);" class="btn btn-default btn-small" data-name="btn_postnatal" ' +
                         'data-pid="' + v.pid + '" data-gravida="' + v.gravida + '" data-fullname="'+ v.fullname +'" ' +
                         'data-cid="'+ v.cid +'" rel="tooltip" title="ข้อมูลเยี่ยมหลังคลอด">' +
-                        '<i class="icon-edit"></i></a>' +
+                        '<i class="fa fa-edit"></i></a>' +
                         '<a href="javascript:void(0);" class="btn btn-default btn-small" data-name="btn_all_postnatal" ' +
                         'data-gravida="' + v.gravida + '" ' +
                         'data-cid="'+ v.cid +'" rel="tooltip" title="ข้อมูลเยี่ยมหลังคลอดทั้งหมด">' +
-                        '<i class="icon-share"></i></a>' +
+                        '<i class="fa fa-share"></i></a>' +
                         '</div></td>' +
                         '</tr>'
                 );
@@ -191,60 +191,7 @@ $(function() {
                         });
 
                     },
-                    onFormat: function(type){
-                        switch (type) {
-
-                            case 'block':
-
-                                if (!this.active)
-                                    return '<li class="disabled"><a href="">' + this.value + '</a></li>';
-                                else if (this.value != this.page)
-                                    return '<li><a href="#' + this.value + '">' + this.value + '</a></li>';
-                                return '<li class="active"><a href="#">' + this.value + '</a></li>';
-
-                            case 'right':
-                            case 'left':
-
-                                if (!this.active) {
-                                    return "";
-                                }
-                                return '<li><a href="#' + this.value + '">' + this.value + '</a></li>';
-
-                            case 'next':
-
-                                if (this.active) {
-                                    return '<li><a href="#' + this.value + '">&raquo;</a></li>';
-                                }
-                                return '<li class="disabled"><a href="">&raquo;</a></li>';
-
-                            case 'prev':
-
-                                if (this.active) {
-                                    return '<li><a href="#' + this.value + '">&laquo;</a></li>';
-                                }
-                                return '<li class="disabled"><a href="">&laquo;</a></li>';
-
-                            case 'first':
-
-                                if (this.active) {
-                                    return '<li><a href="#' + this.value + '">&lt;</a></li>';
-                                }
-                                return '<li class="disabled"><a href="">&lt;</a></li>';
-
-                            case 'last':
-
-                                if (this.active) {
-                                    return '<li><a href="#' + this.value + '">&gt;</a></li>';
-                                }
-                                return '<li class="disabled"><a href="">&gt;</a></li>';
-
-                            case 'fill':
-                                if (this.active) {
-                                    return '<li class="disabled"><a href="#">...</a></li>';
-                                }
-                        }
-                        return ""; // return nothing for missing branches
-                    }
+                    onFormat: app.setPagingFormat
                 });
             }
         });
@@ -376,13 +323,13 @@ $(function() {
 
                 var is_appoint = v.appoint ? '<a href="javascript:void(0);" data-name="btn_get_appointment" class="btn btn-default" title="ข้อมูลนัดครั้งต่อไป" rel="tooltip"' +
                         'data-seq="'+ v.seq +'" data-pid="'+ v.pid +'" data-hospcode="' + v.hospcode + '">' +
-                        '<i class="icon-calendar"></i></a>' : '<p class="text-muted"><i class="icon-minus"></i></p>';
+                        '<i class="fa fa-calendar"></i></a>' : '<p class="text-muted"><i class="fa fa-minus"></i></p>';
 
                 $('#tbl_visit_list > tbody').append(
                     '<tr>' +
-                        '<td>' + i + '</td>' +
-                        '<td>' + v.ppcare + '</td>' +
-                        '<td>' + v.gravida + '</td>' +
+                        '<td class="text-center">' + i + '</td>' +
+                        '<td class="text-center">' + v.ppcare + '</td>' +
+                        '<td class="text-center">' + v.gravida + '</td>' +
                         '<td>[' + v.ppplace_code + '] ' + v.ppplace_name + '</td>' +
                         '<td>' + result + '</td>' +
                         '<td><div class="btn-group">' + is_appoint + '</div></td>' +
@@ -425,8 +372,8 @@ $(function() {
 
                 $('#tbl_appoint_list > tbody').append(
                     '<tr>' +
-                        '<td>' + i + '</td>' +
-                        '<td>' + v.apdate + '</td>' +
+                        '<td class="text-center">' + i + '</td>' +
+                        '<td class="text-center">' + v.apdate + '</td>' +
                         '<td>' + v.aptype + '</td>' +
                         '<td>[' + v.apdiag_code + '] ' + v.apdiag_name + '</td>' +
                         '</tr>'

@@ -1,0 +1,333 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"Npr",
+				"NProgress.done"
+			]
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 47.0,
+		"selected_items":
+		[
+			[
+				"Package Control: inst",
+				"Package Control: Install Package"
+			],
+			[
+				"Package Control: ",
+				"Package Control: List Packages"
+			],
+			[
+				"Package Control: Inst",
+				"Package Control: Install Package"
+			],
+			[
+				"Package Control: Ins",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 449.0
+	},
+	"console":
+	{
+		"height": 139.0,
+		"history":
+		[
+			"print('Hello')",
+			"ls"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/Volumes/Data/Projects/Python/iCare/icare/templates/anc.mako",
+		"/Users/Satit/Library/Application Support/Sublime Text 3/Packages/Default/Default (OSX).sublime-keymap",
+		"/Volumes/Data/Projects/Python/iCare/icare/templates/admins.mako",
+		"/Volumes/Data/Projects/Python/iCare/icare/static/js/apps/mch.js",
+		"/Volumes/Data/Projects/Python/iCare/icare/controllers/admins.py",
+		"/Volumes/Data/Projects/Python/iCare/icare/templates/layout/default.mako",
+		"/Volumes/Data/Projects/Python/iCare/icare/static/js/apps/anc.js",
+		"/Volumes/Data/Projects/Python/iCare/icare/templates/reports_newborn_wlt2500.mako",
+		"/Volumes/Data/Projects/Python/iCare/icare/templates/wbc612.mako",
+		"/Volumes/Data/Projects/Python/iCare/icare/controllers/wbc612.py",
+		"/Volumes/Data/Projects/Python/iCare/icare/static/js/apps/wbc612.js",
+		"/Volumes/Project/Python/iCare/build/lib/icare/templates/layout/default.mako",
+		"/Volumes/Project/Python/iCare/icare/templates/layout/default.mako",
+		"/Volumes/Project/Python/iCare/icare/templates/reports_anc.mako",
+		"/Volumes/Project/Python/iCare/icare/helpers/icare_helper.py",
+		"/Volumes/Project/Python/iCare/build/lib/icare/templates/wbc612.mako",
+		"/Volumes/Project/Python/iCare/build/lib/icare/controllers/wbc612.py",
+		"/Volumes/Project/Python/iCare/icare/models/wbc612_model.py",
+		"/Volumes/Project/Python/iCare/icare/controllers/wbc02.py",
+		"/Volumes/Project/Python/iCare/build/lib/icare/helpers/icare_helper.py",
+		"/Volumes/Project/Python/iCare/icare/controllers/home.py",
+		"/Volumes/Project/Python/iCare/iCare.sublime-project",
+		"/Volumes/Project/Python/iCare/dist/iCare-0.0-py2.7.egg",
+		"/Volumes/Project/Python/iCare/icare/static/css/bootstrap-glyphicons.css",
+		"/Volumes/Project/Python/iCare/icare/static/js/bootstrap-datepicker.th.js",
+		"/Volumes/Project/Python/iCare/icare/controllers/wbc35.py",
+		"/Volumes/Project/Python/iCare/icare/controllers/wbc612.py",
+		"/Volumes/Project/Python/iCare/icare/templates/wbc02.mako",
+		"/Volumes/Project/Python/iCare/icare/static/fonts/fontawesome-webfont.svg",
+		"/Volumes/Project/Python/iCare/icare/templates/reports_anc_12ws.mako",
+		"/Volumes/Project/Python/iCare/icare/templates/reports_anc_coverages.mako",
+		"/Volumes/Project/Python/iCare/icare/templates/reports_anc_risk.mako",
+		"/Volumes/Project/Python/iCare/icare/static/js/apps/reports_anc.js",
+		"/Volumes/Project/Python/iCare/icare/static/js/apps/reports_anc_12ws.js",
+		"/Volumes/Project/Python/iCare/icare/static/js/apps/reports_mch.js",
+		"/Volumes/Project/Python/iCare/icare/templates/wbc35.mako",
+		"/Volumes/Project/Python/iCare/icare/static/icheck/skins/futurico/futurico.css",
+		"/Volumes/Project/Python/iCare/setup.cfg",
+		"/Volumes/Project/Python/iCare/icare/static/js/underscore-min.js",
+		"/Volumes/Project/Python/iCare/icare/controllers/anc.py",
+		"/Volumes/Project/Python/iCare/build/lib/icare/static/js/apps/anc.js",
+		"/Volumes/Project/Python/iCare/build/lib/icare/models/anc_model.py",
+		"/Volumes/Project/Python/iCare/icare/static/js/apps/anc.js",
+		"/Volumes/Project/Python/iCare/build/lib/icare/templates/anc.mako",
+		"/Volumes/Project/Python/iCare/build/lib/icare/controllers/anc.py",
+		"/Volumes/Project/Python/iCare/icare/models/anc_model.py",
+		"/Volumes/Project/Python/iCare/icare/templates/anc.mako",
+		"/Volumes/Project/Python/iCare/icare/static/js/app.js",
+		"/Volumes/Project/Python/iCare/icare/static/js/apps/employers.js",
+		"/Volumes/Project/Python/iCare/icare/static/js/apps/users.js",
+		"/Volumes/Project/Python/iCare/icare/templates/users_admin.mako",
+		"/Volumes/Project/Python/iCare/icare/static/js/apps/reports_anc_risk.js",
+		"/Volumes/Project/Python/iCare/icare/static/icheck/skins/square/red.css",
+		"/Volumes/Project/Python/iCare/development.ini",
+		"/Volumes/Project/Python/iCare/icare/controllers/users_admin.py",
+		"/Volumes/Project/Python/iCare/icare/templates/users_denied.mako",
+		"/Volumes/Project/Python/iCare/build/lib/icare/controllers/users.py",
+		"/Volumes/Project/Python/iCare/icare/models/users_admin_model.py",
+		"/Volumes/Project/Python/iCare/icare/controllers/users.py",
+		"/Volumes/Project/Python/iCare/icare/controllers/uploads.py",
+		"/Volumes/Project/Python/iCare/icare/templates/reports_mch.mako",
+		"/Volumes/Project/Python/iCare/icare/models/report_model.py",
+		"/Volumes/Project/Python/iCare/icare/controllers/reports.py",
+		"/Volumes/Project/Python/iCare/README.txt",
+		"/Volumes/Project/Python/iCare/build/lib/icare/templates/employers.mako",
+		"/Volumes/Project/Python/iCare/build/lib/icare/controllers/employers.py",
+		"/Volumes/Project/Python/iCare/icare/models/employers_model.py",
+		"/Volumes/Project/Python/iCare/icare/templates/employers.mako",
+		"/Volumes/Project/Python/iCare/icare/controllers/employers.py",
+		"/Volumes/Project/Python/iCare/icare/static/css/app.css",
+		"/Volumes/Project/Python/iCare/icare/controllers/admins.py",
+		"/Volumes/Project/Python/iCare/icare/templates/admins_users.mako",
+		"/Volumes/Project/Python/iCare/icare/static/css/nprogress.css",
+		"/Volumes/Project/Python/iCare/icare/templates/mch.mako",
+		"/Volumes/Project/Python/iCare/icare/templates/mch_map.mako",
+		"/Volumes/Project/Python/iCare/icare/templates/ncdscreen.mako",
+		"/Volumes/Project/Python/iCare/icare/templates/page.mako",
+		"/Volumes/Project/Python/iCare/icare/templates/reports_newborn_milk.mako",
+		"/Volumes/Project/Python/iCare/icare/templates/reports_newborn_wlt2500.mako",
+		"/Volumes/Project/Python/iCare/icare/templates/babies.mako",
+		"/Volumes/Project/Python/iCare/icare/templates/equipment_services.mako",
+		"/Volumes/Project/Python/iCare/icare/templates/labor_other.mako",
+		"/Volumes/Project/Python/iCare/icare/static/js/apps/admins.users.js",
+		"/Volumes/Project/Python/iCare/icare/templates/equipment.mako",
+		"/Volumes/Project/Python/iCare/icare/templates/project.mako",
+		"/Volumes/Project/Python/iCare/icare/static/js/apps/equipment.js",
+		"/Volumes/Project/Python/iCare/icare/static/js/apps/projects.js",
+		"/Volumes/Project/Python/iCare/icare/static/bootflat/js/application.js",
+		"/Volumes/Project/Python/iCare/icare/static/bootflat/bootflat/css/bootflat.css",
+		"/Volumes/Project/Python/iCare/icare/static/bootflat/css/shCore.css",
+		"/Volumes/Project/Python/iCare/icare/static/bootflat/css/site.min.css"
+	],
+	"find":
+	{
+		"height": 25.0
+	},
+	"find_in_files":
+	{
+		"height": 93.0,
+		"where_history":
+		[
+			"/Volumes/Project/Python/iCare/icare/templates"
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"msg",
+			"wbc612",
+			"btn-default",
+			"HTTPFound",
+			"btn-success",
+			"danger",
+			"bootstrap.min.js"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"btn-default",
+			"primary"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 25.0
+	},
+	"input":
+	{
+		"height": 0.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"project": "app.sublime-project",
+	"replace":
+	{
+		"height": 46.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+			[
+				"defaul",
+				"icare/templates/layout/default.mako"
+			],
+			[
+				"wbc612",
+				"icare/static/js/apps/wbc612.js"
+			],
+			[
+				"helper",
+				"icare/helpers/icare_helper.py"
+			],
+			[
+				"wbc",
+				"icare/controllers/wbc612.py"
+			],
+			[
+				"report_anc",
+				"icare/templates/reports_anc.mako"
+			],
+			[
+				"wlt",
+				"icare/templates/reports_newborn_wlt2500.mako"
+			],
+			[
+				"anc.mako",
+				"icare/templates/anc.mako"
+			],
+			[
+				"anc",
+				"build/lib/icare/static/js/apps/anc.js"
+			],
+			[
+				"user",
+				"icare/templates/users_admin.mako"
+			],
+			[
+				"users",
+				"icare/static/js/apps/users.js"
+			],
+			[
+				"report_mch",
+				"icare/static/js/apps/reports_mch.js"
+			],
+			[
+				"report_anc_ri",
+				"icare/static/js/apps/reports_anc_risk.js"
+			],
+			[
+				"emp",
+				"icare/static/js/apps/employers.js"
+			],
+			[
+				"app",
+				"icare/static/js/app.js"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 237.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

@@ -13,7 +13,6 @@
     <!-- Bootstrap core CSS -->
     <link href="/static/css/bootstrap.min.css" rel="stylesheet">
     <link href="/static/css/font-awesome.min.css" rel="stylesheet">
-    <link href="/static/css/font-awesome-ie7.min.css" rel="stylesheet">
     <link href="/static/css/freeow/freeow.css" rel="stylesheet">
 
     <script src="/static/js/jquery.js"></script>
@@ -66,7 +65,7 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-       <a class="navbar-brand" href="${request.application_url}"><i class="icon-windows"></i> iCare</a>
+       <a class="navbar-brand" href="${request.application_url}"><i class="fa fa-windows"></i> iCare</a>
         <div class="collapse navbar-collapse navbar-ex1-collapse">
           <ul class="nav navbar-nav">
             <li class="dropdown">
@@ -74,8 +73,8 @@
                   <span class="icon-cogs"></span> จัดการข้อมูล <b class="caret"></b></a>
               <ul class="dropdown-menu">
                 <li class="dropdown-header">SETTINGS</li>
-                <li><a href="${request.route_url('admin_users')}"><i class="icon-calendar"></i> ทะเบียนผู้ใช้งาน</a></li>
-                <!-- <li><a href="${request.route_url('mch_index')}"><i class="icon-user-md"></i> ทะเบียนบุคลากร</a></li> -->
+                <li><a href="${request.route_url('admin_users')}"><i class="fa fa-calendar"></i> ทะเบียนผู้ใช้งาน</a></li>
+                <!-- <li><a href="${request.route_url('mch_index')}"><i class="fa fa--user-md"></i> ทะเบียนบุคลากร</a></li> -->
                   <!-- <li class="divider"></li> -->
               </ul>
             </li>
@@ -83,13 +82,13 @@
           <ul class="nav navbar-nav pull-right">
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                    <span class="icon-cogs"></span> ตั้งค่า<b class="caret"></b></a>
+                    <span class="fa fa-cogs"></span> ตั้งค่า<b class="caret"></b></a>
               <ul class="dropdown-menu">
                 <li class="dropdown-header">${request.session['fullname']} [${request.session['hospcode']}]</li>
-                <li><a href="#"><i class="icon-user"></i> ข้อมูลผู้ใช้งาน</a></li>
-                <li><a href="#"><i class="icon-key"></i> เปลี่ยนรหัสผ่าน</a></li>
+                <li><a href="#"><i class="fa fa-user fa-fw"></i> ข้อมูลผู้ใช้งาน</a></li>
+                <li><a href="#"><i class="fa fa-key fa-fw"></i> เปลี่ยนรหัสผ่าน</a></li>
                 <li class="divider"></li>
-                <li><a href="${request.route_url('signout')}"><i class="icon-signout"></i> ออกจากระบบ</a></li>
+                <li><a href="${request.route_url('signout')}"><i class="fa fa-signout"></i> ออกจากระบบ</a></li>
               </ul>
             </li>
           </ul>

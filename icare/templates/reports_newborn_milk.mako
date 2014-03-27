@@ -11,22 +11,22 @@
 <form action="#" class="well well-sm">
     <div class="btn-group">
         <button type="button" id="btn_refresh" class="btn btn-success" rel="tooltip" title="Refresh">
-            <i class="icon-refresh"></i> รีเฟรช
+            <i class="fa fa-refresh"></i> รีเฟรช
         </button>
 
-        <button type="button" id="btn_process" class="btn btn-danger" rel="tooltip" title="ประมวลผลข้อมูล">
-            <i class="icon-cogs"></i> ประมวลผล
+        <button type="button" id="btn_process" class="btn btn-primary" rel="tooltip" title="ประมวลผลข้อมูล">
+            <i class="fa fa-cogs"></i> ประมวลผล
         </button>
 
     </div>
 
     <button type="button" id="btn_total" class="btn btn-primary pull-right" rel="tooltip" title="จำนวนทั้งหมด">
-        <i class="icon-th-list"></i> จำนวนทั้งหมด <span id="spn_total"><strong>0</strong></span> คน
+        <i class="fa fa-th-list"></i> จำนวนทั้งหมด <span id="spn_total"><strong>0</strong></span> คน
     </button>
 
 </form>
 
-<table class="table table-striped" id="tbl_list">
+<table class="table table-bordered" id="tbl_list">
     <thead>
     <tr>
         <th>เลขบัตรประชาชน</th>

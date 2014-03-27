@@ -38,17 +38,8 @@ def get_list_total(request):
 
         wbc = Wbc612Model(request)
 
-        start_date = request.params['start_date']
-        end_date = request.params['end_date']
-
-        start_date = start_date.split('/')
-        end_date = end_date.split('/')
-
-        sy = int(start_date[2]) - 543
-        ey = int(end_date[2]) - 543
-
-        start_date = str(sy) + start_date[1] + start_date[0]
-        end_date = str(ey) + end_date[1] + end_date[0]
+        start_date = h.jsdate_to_string(request.params['start_date'])
+        end_date = h.jsdate_to_string(request.params['end_date'])
 
         try:
             total = wbc.get_list_total(request.session['hospcode'], start_date, end_date)
@@ -70,17 +61,8 @@ def get_list(request):
 
             if is_token:
 
-                start_date = request.params['start_date']
-                end_date = request.params['end_date']
-
-                start_date = start_date.split('/')
-                end_date = end_date.split('/')
-
-                sy = int(start_date[2]) - 543
-                ey = int(end_date[2]) - 543
-
-                start_date = str(sy) + start_date[1] + start_date[0]
-                end_date = str(ey) + end_date[1] + end_date[0]
+                start_date = h.jsdate_to_string(request.params['start_date'])
+                end_date = h.jsdate_to_string(request.params['end_date'])
 
                 start = request.params['start']
                 stop = request.params['stop']
@@ -135,18 +117,10 @@ def get_list_total_by_vid(request):
 
         wbc = Wbc612Model(request)
 
-        start_date = request.params['start_date']
-        end_date = request.params['end_date']
+        start_date = h.jsdate_to_string(request.params['start_date'])
+        end_date = h.jsdate_to_string(request.params['end_date'])
+
         vid = request.params['vid']
-
-        start_date = start_date.split('/')
-        end_date = end_date.split('/')
-
-        sy = int(start_date[2]) - 543
-        ey = int(end_date[2]) - 543
-
-        start_date = str(sy) + start_date[1] + start_date[0]
-        end_date = str(ey) + end_date[1] + end_date[0]
 
         hid = wbc.get_hid_from_village(request.session['hospcode'], vid)
 
@@ -170,18 +144,9 @@ def get_list_by_vid(request):
 
             if is_token:
 
-                start_date = request.params['start_date']
-                end_date = request.params['end_date']
+                start_date = h.jsdate_to_string(request.params['start_date'])
+                end_date = h.jsdate_to_string(request.params['end_date'])
                 vid = request.params['vid']
-
-                start_date = start_date.split('/')
-                end_date = end_date.split('/')
-
-                sy = int(start_date[2]) - 543
-                ey = int(end_date[2]) - 543
-
-                start_date = str(sy) + start_date[1] + start_date[0]
-                end_date = str(ey) + end_date[1] + end_date[0]
 
                 start = request.params['start']
                 stop = request.params['stop']

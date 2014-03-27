@@ -57,6 +57,7 @@ def get_total(request):
             return {'ok': 0, 'msg': e.message}
     else:
         return {'ok': 0, 'msg': 'Not ajax request'}
+
         
 @view_config(route_name='employer_detail', request_method='POST', renderer='json')
 def get_detail(request):
@@ -79,14 +80,20 @@ def get_detail(request):
                         'sex': r['sex'],
                         'position': str(r['position']),
                         'position_id': r['position_id'] if 'position_id' in r else '-',
-                        'email': r['email'],
-                        'telephone': r['telephone'],
+                        'email': r['email'] if 'email' in r else '-',
+                        'telephone': r['telephone'] if 'telephone' in r else '-',
                         'grade': str(r['grade']),
-                        'department': r['department'],
-                        'start_date': r['start_date'],
-                        'end_date': r['end_date'],
+                        'department': r['department'] if 'department' in r else '-',
+                        'start_date': r['start_date'] if 'start_date' in r else '',
+                        'end_date': r['end_date'] if 'end_date' in r else '',
                         'position_id': r['position_id'] if 'position_id' in r else '-',
-                        'status': r['status'] if 'status' in r else '0'
+                        'status': r['status'] if 'status' in r else '0',
+                        'address': r['address'] if 'address' in r else '-',
+                        'skype': r['skype'] if 'skype' in r else '-',
+                        'facebook': r['facebook'] if 'facebook' in r else '-',
+                        'line': r['line'] if 'line' in r else '-',
+                        'graduate': r['graduate'] if 'graduate' in r else '',
+                        'graduate_place': r['graduate_place'] if 'graduate_place' in r else '-'
                         
                     }
                     
@@ -131,7 +138,13 @@ def search(request):
                        'end_date': r['end_date'],
                        'email': r['email'],
                        'telephone': r['telephone'],
-                       'status': r['status'] if 'status' in r else '0'
+                       'status': r['status'] if 'status' in r else '0',
+                       'address': r['address'] if 'address' in r else '-',
+                       'skype': r['skype'] if 'skype' in r else '-',
+                       'facebook': r['facebook'] if 'facebook' in r else '-',
+                       'line': r['line'] if 'line' in r else '-',
+                       'graduate': r['graduate'] if 'graduate' in r else '',
+                       'graduate_place': r['graduate_place'] if 'graduate_place' in r else '-'
                        
                    }
 
@@ -175,7 +188,13 @@ def get_list(request):
                        'end_date': r['end_date'],
                        'email': r['email'],
                        'telephone': r['telephone'],
-                       'status': r['status'] if 'status' in r else '0'
+                       'status': r['status'] if 'status' in r else '0',
+                       'address': r['address'] if 'address' in r else '-',
+                       'skype': r['skype'] if 'skype' in r else '-',
+                       'facebook': r['facebook'] if 'facebook' in r else '-',
+                       'line': r['line'] if 'line' in r else '-',
+                       'graduate': r['graduate'] if 'graduate' in r else '',
+                       'graduate_place': r['graduate_place'] if 'graduate_place' in r else '-'
                        
                    }
 
@@ -211,6 +230,12 @@ def save_new(request):
             start_date = request.params["sd"]
             end_date = request.params["ed"]
             status = request.params["st"]
+            line = request.params['line']
+            facebook = request.params['facebook']
+            skype = request.params['skype']
+            address = request.params['address']
+            graduate = request.params['graduate']
+            graduate_place = request.params['graduate_place']
             # Check data is valid
             chk = fullname and cid and birth and sex and position
             # Data is valid
@@ -222,7 +247,10 @@ def save_new(request):
 
                 if id:
                     # Update
-                    emp.update(ObjectId(id), fullname, birth, sex, ObjectId(position), ObjectId(position_grade), department, email, telephone, start_date, end_date, status, position_id)
+                    emp.update(ObjectId(id), fullname, birth, sex, ObjectId(position), 
+                        ObjectId(position_grade), department, email, telephone, 
+                        start_date, end_date, status, position_id,
+                        skype, line, facebook, address, graduate, graduate_place)
 
                     return {"ok": 1}
                 else:
@@ -234,7 +262,10 @@ def save_new(request):
                         return {'ok': 0, 'msg': u'เลขบัตรประชาชนซ้ำ'}
                     else:
                         # Save new employer
-                        rs = emp.save_new(request.session['owner'], fullname, cid, birth, sex, ObjectId(position), ObjectId(position_grade), department, email, telephone, start_date, end_date, status, position_id)
+                        rs = emp.save_new(request.session['owner'], fullname, cid, birth, sex, 
+                            ObjectId(position), ObjectId(position_grade), department, 
+                            email, telephone, start_date, end_date, status, position_id,
+                            skype, line, facebook, address, graduate, graduate_place)
 
                         if rs:
                             return {"ok": 1}
@@ -262,10 +293,12 @@ def save_meetings(request):
         title = request.params['t']
         owner_name = request.params['o']
         place_name = request.params['p']
+        hour = request.params['hour']
+
         id = request.params["id"] if 'id' in request.params else False
         
         if id:
-            rs = emp.update_meeting(request.session['owner'], cid, id, title, start_date, end_date, owner_name, place_name)
+            rs = emp.update_meeting(request.session['owner'], cid, id, title, start_date, end_date, owner_name, place_name, hour)
             if rs:
                 return {'ok': 1}
             else:
@@ -278,7 +311,7 @@ def save_meetings(request):
                 return {'ok': 0, 'msg': 'ข้อมูลซ้ำ'}
             else:
                 #Save
-                rs = emp.save_meetings(request.session['owner'], cid, title, start_date, end_date, owner_name, place_name)
+                rs = emp.save_meetings(request.session['owner'], cid, title, start_date, end_date, owner_name, place_name, hour)
             
                 if rs:
                     return {'ok': 1}
@@ -308,7 +341,8 @@ def get_meetings(request):
                         'start_date': r['start_date'],
                         'end_date': r['end_date'],
                         'owner_name': r['owner_name'],
-                        'place_name': r['place_name']
+                        'place_name': r['place_name'],
+                        'hour': r['hour'] if 'hour' in r else '-'
                     }
                 
                     rows.append(obj)
@@ -318,7 +352,8 @@ def get_meetings(request):
                 return {'ok': 0, 'msg': 'ไม่พบรายการ'}
         else:
             return {'ok': 0, 'msg': 'ไม่พบรายการ'}    
-                
+
+
 @view_config(route_name="employer_remove_meeting", request_method="POST", renderer="json")
 def remove_meetings(request):
     if "logged" not in request.session:
@@ -332,4 +367,82 @@ def remove_meetings(request):
         
         rs = emp.remove_meeting(request.session['owner'], cid, id)
         
+        return {'ok': 1} if rs else {'ok': 0, 'msg': 'ไม่สามารถลบรายการได้'}
+
+
+@view_config(route_name='employer_get_topics', request_method='POST', renderer='json')
+def get_topics(request):
+    if 'logged' not in request.session:
+        return HTTPFound(location='/signin')
+    else:
+
+        if request.is_xhr:  # is ajax request
+            empid = request.params['id']
+            emp = EmployersModel(request)
+            rs = emp.get_topics(ObjectId(empid))
+            if rs:
+                rows = []
+            if 'topics' in rs:
+                for r in rs['topics']:
+                    obj = {
+                        'id': str(r['id']),
+                        'topic_name': r['topic_name'],
+                        'topic_type': r['topic_type'],
+                        'request_date': r['request_date'],
+                        'desc': r['desc']
+                    }
+                
+                    rows.append(obj)
+                
+                return {'ok': 1, 'rows': rows}
+            else: 
+                return {'ok': 0, 'msg': 'ไม่พบรายการ'}       
+        else:
+            return {'ok': 0, 'msg': 'Not ajax request'}
+
+
+@view_config(route_name="employer_save_topic", request_method="POST", renderer="json")
+def save_topic(request):
+    if "logged" not in request.session:
+        return HTTPFound(location="/signin")
+    else:
+        # Call employers model
+        emp = EmployersModel(request)
+        
+        empid = request.params['empid']
+        topic_name = request.params['topic_name']
+        topic_type = request.params['topic_type']
+        desc = request.params['desc']
+
+        topic_id = request.params["topic_id"] if 'topic_id' in request.params else False
+        
+        if topic_id:
+            rs = emp.update_topic(ObjectId(empid), ObjectId(topic_id), topic_name, topic_type, desc)
+            if rs:
+                return {'ok': 1, 'msg': 'Update'}
+            else:
+                return {'ok': 0, 'msg': 'ไม่สามารถปรับปรุงรายการได้'}
+        else:
+            request_date = h.get_current_jsdate()
+            rs = emp.save_topic(ObjectId(empid), topic_name, topic_type, desc, request_date)
+            
+            if rs:
+                return {'ok': 1, 'msg': 'Insert'}
+            else:
+                return {'ok': 0, 'msg': 'ไม่สามารถบันทึกรายการได้'}
+
+
+@view_config(route_name="employer_remove_topic", request_method="POST", renderer="json")
+def remove_topic(request):
+    if "logged" not in request.session:
+        return HTTPFound(location="/signin")
+    else:
+        # Call employers model
+        emp = EmployersModel(request)
+
+        employer_id = request.params['employer_id']
+        topic_id = request.params['topic_id']
+
+        rs = emp.remove_topic(ObjectId(str(employer_id)), ObjectId(str(topic_id)))
+
         return {'ok': 1} if rs else {'ok': 0, 'msg': 'ไม่สามารถลบรายการได้'}

@@ -134,6 +134,9 @@ def main(global_config, **settings):
         config.add_route('employer_save_meeting', '/save_meeting')
         config.add_route('employer_get_meeting', '/get_meetings')
         config.add_route('employer_remove_meeting', '/remove_meeting')
+        config.add_route('employer_get_topics', '/get_topics')
+        config.add_route('employer_save_topic', '/save_topic')
+        config.add_route('employer_remove_topic', '/remove_topic')
         
     def reports_route(config):
         config.add_route('reports_get_babies_total', '/get_babies_total')
@@ -143,6 +146,10 @@ def main(global_config, **settings):
         config.add_route('report_get_anc_risk_detail', '/risk/detail')
         config.add_route('report_get_anc_history', '/risk/anc_history')
         config.add_route('reports_anc_risk', '/anc_risk')
+
+        config.add_route('anc_get_risk_by_group', '/risk/get_anc_risk_by_group')
+        config.add_route('anc_get_risk_list_by_type', '/risk/get_risk_list_by_type')
+
         config.add_route('report_anc', '/anc')
         config.add_route('report_anc_get_list', '/anc/list')
         config.add_route('report_anc_get_total', '/anc/total')
@@ -178,7 +185,8 @@ def main(global_config, **settings):
         config.add_route('report_index_get_total', '/alltotal')
 
     def labor_other_route(config):
-        pass
+        config.add_route('labor_other_get_list', '/get_list')
+        config.add_route('labor_other_get_total', '/get_total')
 
     def users_admin_route(config):
         config.add_route('users_admin_get_list', '/list')
@@ -196,6 +204,29 @@ def main(global_config, **settings):
         config.add_route('users_remove', '/users/remove')
         config.add_route('users_changepass', '/users/changepass')
         config.add_route('app_change_password', '/changepass')
+
+    def equipment_route(config):
+        config.add_route('save_equipment', '/save')
+        config.add_route('equipment_remove', '/remove')
+        config.add_route('equipment_search', '/search')
+        config.add_route('equipment_services', '/services/{id}')
+        config.add_route('equipment_get_total', '/get_total')
+        config.add_route('equipment_get_list', '/get_list')
+        config.add_route('equipment_save_service', '/save_service')
+        config.add_route('equipment_get_service_list', '/get_service_list')
+        config.add_route('equipment_get_detail', '/get_detail')
+        config.add_route('equipment_get_service_detail', '/get_service_detail')
+        config.add_route('equipment_remove_service', '/remove_service')
+
+    def project_route(config):
+        config.add_route('save_project', '/save')
+        config.add_route('project_get_total', '/get_total')
+        config.add_route('project_get_list', '/get_list')
+        config.add_route('project_get_detail', '/get_detail')
+        config.add_route('project_remove', '/remove')
+        config.add_route('project_search', '/search')
+        config.add_route('project_save_report', '/save_report')
+        config.add_route('project_get_report', '/get_report')
 
     config.add_request_method(add_db, 'db', reify=True)
     config.add_request_method(add_fs, 'fs', reify=True)
@@ -215,10 +246,16 @@ def main(global_config, **settings):
     config.include(ncdscreen_route, route_prefix='/ncdscreen')
     config.include(employers_route, route_prefix='/employers')
     config.include(reports_route, route_prefix='/reports')
-    config.include(labor_other_route, route_prefix='/labor_other')
     config.include(users_admin_route, route_prefix='/uadm')
 
+    config.include(equipment_route, route_prefix='/equipment')
+    config.include(project_route, route_prefix='/projects')
+
+    config.include(labor_other_route, route_prefix='/labor')
+
     config.add_route('employers_index', '/employers')
+    config.add_route('equipment_index', '/equipment')
+    config.add_route('project_index', '/projects')
 
     config.add_route('home', '/')
     config.add_route('uploads', '/uploads')
