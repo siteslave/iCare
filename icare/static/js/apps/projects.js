@@ -233,7 +233,6 @@ $(function() {
 
     //Set project list
     project.set_list = function(data) {
-        $('#tbl_list > tbody').empty();
 
         $.each(data, function(i, v) {
             $('#tbl_list > tbody').append(

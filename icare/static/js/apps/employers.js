@@ -187,8 +187,6 @@ $(function() {
 	};
 	//Set employer list
 	emp.set_list = function(data) {
-		$('#tbl_list > tbody').empty();
-		
 		$.each(data, function(i, v) {
 			var status = v.status == '1' ? 'ปกติ' : 'ไม่อยู่';
 			var tr_class = v.status == '0' ? 'class="warning"' : '';
@@ -236,6 +234,7 @@ $(function() {
         emp.ajax.get_topics(empid, function(err, data) {
             if(err) {
                 app.alert(err);
+                $('#tbl_tlist > tbody').empty().append('<tr><td colspan="6">ไม่พบรายการ</td></tr>');
             } else {
                 //set topics list
                 if(_.size(data)) {
