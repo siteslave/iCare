@@ -224,7 +224,7 @@ class MchModel:
                     elif 8 <= diff_date1.days <= 15:
                         care1 = birth + timedelta(days=7)
                         care2 = datetime.strptime(date[0], '%Y%m%d')
-                        care3 = date[1]
+                        care3 = datetime.strptime(date[1], '%Y%m%d')
                         #care3 = birth + timedelta(days=16)
 
                         care1 = datetime.strftime(care1, '%Y%m%d')
