@@ -87,7 +87,7 @@
               </div>
               <div class="row">
                   <div class="col-sm-4">
-                      <label for="chk_is_active">ระงับใช้งาน</label>
+                      <label for="chk_is_active">ใช้งาน</label>
                       <input type="checkbox" id="chk_is_active" />
                   </div>
               </div>

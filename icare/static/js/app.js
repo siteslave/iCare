@@ -230,8 +230,10 @@ $(function() {
 
     $(document).ajaxStart(function() {
         NProgress.start();
+        $.blockUI({ message: null });
     }).ajaxStop(function() {
         NProgress.done(true);
+        $.unblockUI();
     });
 
     var get_labor_other_total = function(start_date, end_date, cb) {
