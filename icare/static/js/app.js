@@ -230,7 +230,12 @@ $(function() {
 
     $(document).ajaxStart(function() {
         NProgress.start();
-        $.blockUI({ message: null });
+        $.blockUI({
+            message: null,
+            overlayCSS: {
+                opacity: 0.3
+            }
+        });
     }).ajaxStop(function() {
         NProgress.done(true);
         $.unblockUI();
