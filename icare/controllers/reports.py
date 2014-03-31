@@ -30,7 +30,7 @@ def index_view(request):
                 
     villages = h.get_villages(request, request.session['hospcode'])
     return {'title': u'หน้าหลัก', 'villages': villages}
-ยพ
+
 
 @view_config(route_name="reports_anc_risk", renderer="reports_anc_risk.mako")
 def report_anc_risk_view(request):
