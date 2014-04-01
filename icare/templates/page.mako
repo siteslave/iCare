@@ -63,6 +63,37 @@
 ####        </div>
 ####    </div>
 ##</div>
+##<div class="row">
+##    <div class="col-sm-6">
+##        <div class="blockquote-box blockquote-primary clearfix">
+##            <div class="square pull-left">
+##                <h3 style="color: white;"><span class="fa fa-cogs fa-lg"></span></h3>
+##            </div>
+##            <h4>
+##                ประมวลผลข้อมูล</h4>
+##            <p>
+##                ประมวลข้อมูลเพื่อใช้สำหรับการตรวจสอบความครอบคลุมและความสมบูรณ์ของข้อมูล ซึ่งจำเป็นที่ทุกครั้งหลังจากอัปโหลดไฟล 43 แฟ้มแล้ว
+##                เราต้องทำการประมวลผลข้อมูล
+##            </p>
+##        </div>
+##    </div>
+##
+##    <div class="col-sm-6">
+##        <div class="alert alert-primary">
+##            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+##                ×</button>
+##           <span class="fa fa-refresh"></span> <strong>ประมวลผลข้อมูล</strong>
+##            <hr class="message-inner-separator">
+##            <p>
+##                คลิกที่ปุ่มนี้เพื่อทำการประมวลผลข้อมูล สำหรับการคำนวณผลงานและความสมบูรณ์ของข้อมูล ทุกครั้งหลังจากอัปโหลด 43 แฟ้ม ควรคลิกที่ปุ่มประมวลผลข้อมูล
+##                <button type="button" class="btn btn-primary">
+##                    <i class="fa fa-refresh fa-lg"></i> ประมวลผลข้อมูล
+##                </button>
+##            </p>
+##        </div>
+##    </div>
+##
+##</div>
 <div class="row">
     <div class="col-sm-6">
         <div class="panel panel-info">
