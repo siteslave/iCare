@@ -46,8 +46,7 @@
         <div class="col-sm-6 col-md-4 col-md-offset-4">
             <h1 class="text-center login-title">ลงชื่อเข้าใช้งานโปรแกรม iCare</h1>
             <div class="account-wall">
-                <img class="profile-img" src="https://lh5.googleusercontent.com/-b0-k99FZlyE/AAAAAAAAAAI/AAAAAAAAAAA/eu7opA4byxI/photo.jpg?sz=120"
-                    alt="">
+                <img class="profile-img" src="/static/img/128_face.jpg">
                 <form class="form-signin" action="/signin" method="post">
                     <input type="hidden" name="csrf_token" value="${request.session.get_csrf_token()}"/>
                     <input type="text" name="username" class="form-control" placeholder="Username" required autofocus>
