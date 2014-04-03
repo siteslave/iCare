@@ -39,6 +39,7 @@ def do_login(request):
     csrf_token = request.params['csrf_token']
     username = request.params['username']
     password = h.get_hash(request.params['password'])
+    isProcess = request.params['isProcess']
 
     auth = Auth()
 
@@ -55,16 +56,17 @@ def do_login(request):
             session['user_type'] = users['user_type']
             session['id'] = str(users['_id'])
 
-            #process data
-            anc = AncModel(request)
-            mch = MchModel(request)
-            babies = BabiesModel(request)
+            if isProcess:
+                #process data
+                anc = AncModel(request)
+                mch = MchModel(request)
+                babies = BabiesModel(request)
 
-            anc.do_process_list(users['hospcode'])
-            anc.do_process_12weeks(users['hospcode'])
-
-            mch.do_process_forecast(users['hospcode'])
-            babies.process_milk(users['hospcode'])
+                anc.do_process_list(users['hospcode'])
+                anc.do_process_12weeks(users['hospcode'])
+    
+                mch.do_process_forecast(users['hospcode'])
+                babies.process_milk(users['hospcode'])
 
             if users['user_type'] == '1':
                 return HTTPFound(location='/admins/users')
