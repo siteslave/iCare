@@ -7,6 +7,9 @@ from pyramid.httpexceptions import (
 )
 
 from icare.helpers.auth import Auth
+from icare.models.anc_model import AncModel
+from icare.models.babies_model import BabiesModel
+from icare.models.mch_model import MchModel
 
 
 @view_config(route_name='home', renderer='page.mako')
@@ -51,6 +54,17 @@ def do_login(request):
             session['fullname'] = users['fullname']
             session['user_type'] = users['user_type']
             session['id'] = str(users['_id'])
+
+            #process data
+            anc = AncModel(request)
+            mch = MchModel(request)
+            babies = BabiesModel(request)
+
+            anc.do_process_list(users['hospcode'])
+            anc.do_process_12weeks(users['hospcode'])
+
+            mch.do_process_forecast(users['hospcode'])
+            babies.process_milk(users['hospcode'])
 
             if users['user_type'] == '1':
                 return HTTPFound(location='/admins/users')

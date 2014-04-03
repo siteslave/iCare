@@ -7,7 +7,7 @@
 
 <ul class="nav nav-tabs">
   <li class="active"><a href="#home" data-toggle="tab"><i class="fa fa-windows"></i> ทะเบียนฝากครรภ์ <span class="badge" id="spn_anc_total">0</span></a></li>
-  <li><a href="#profile" data-toggle="tab"><i class="fa fa-briefcase"></i> ประวัติการรับบริการ</a></li>
+  <li><a href="#profile" data-toggle="tab"><i class="fa fa-briefcase"></i> ประวัติการรับบริการ (ในเขต/นอกเขต)</a></li>
 </ul>
 
 <div class="tab-content">

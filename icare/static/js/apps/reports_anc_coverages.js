@@ -38,11 +38,11 @@ $(function() {
 
                 $('#tbl_list > tbody').append(
                     '<tr>' +
-                        '<td>' + v.cid + '</td>' +
+                        '<td class="text-center">' + v.cid + '</td>' +
                         '<td>' + v.fullname + '</td>' +
-                        '<td>' + v.birth + '</td>' +
-                        '<td>' + v.age.year + '-' + v.age.month + '-' + v.age.day + '</td>' +
-                        '<td>' + numeral(v.total).format('0, 0') + '</td>' +
+                        '<td class="text-center">' + v.birth + '</td>' +
+                        '<td class="text-center">' + v.age.year + '-' + v.age.month + '-' + v.age.day + '</td>' +
+                        '<td class="text-center">' + numeral(v.total).format('0, 0') + '</td>' +
                         '<td>' + v.address + '</td>' +
                         '</tr>'
                 );

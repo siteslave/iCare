@@ -224,8 +224,6 @@ app.set_runtime = function() {
       });
 };
 
-
-
 $(function() {
 
     $(document).ajaxStart(function() {

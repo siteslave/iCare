@@ -14,7 +14,28 @@ class MchModel:
         self.request.db['labor'].ensure_index('hospcode', pymongo.ASCENDING)
         self.request.db['labor'].ensure_index('bdate', pymongo.ASCENDING)
 
-        rs = self.request.db['labor'].find({'hospcode': hospcode}).\
+        rs = self.request.db['labor'].find({
+            'hospcode': hospcode,
+            'bdate': {
+                '$ne': ''
+            }
+        }).\
+            sort('bdate', pymongo.ASCENDING).skip(start).limit(limit)
+
+        return rs
+
+    def get_list_by_birth(self, hospcode, start_date, end_date, start, limit):
+
+        self.request.db['labor'].ensure_index('hospcode', pymongo.ASCENDING)
+        self.request.db['labor'].ensure_index('bdate', pymongo.ASCENDING)
+
+        rs = self.request.db['labor'].find({
+            'hospcode': hospcode,
+            'bdate': {
+                '$gte': start_date,
+                '$lte': end_date
+            }
+        }).\
             sort('bdate', pymongo.ASCENDING).skip(start).limit(limit)
 
         return rs
@@ -34,8 +55,28 @@ class MchModel:
     def get_list_total(self, hospcode):
 
         self.request.db['labor'].ensure_index('hospcode', pymongo.ASCENDING)
+        self.request.db['labor'].ensure_index('bdate', pymongo.ASCENDING)
 
-        rs = self.request.db['labor'].find({'hospcode': hospcode}).count()
+        rs = self.request.db['labor'].find({
+            'hospcode': hospcode,
+            'bdate': {
+                '$ne': ''
+            }
+        }).count()
+        return rs
+
+    def get_list_total_by_birth(self, hospcode, start_date, end_date):
+
+        self.request.db['labor'].ensure_index('hospcode', pymongo.ASCENDING)
+        self.request.db['labor'].ensure_index('bdate', pymongo.ASCENDING)
+
+        rs = self.request.db['labor'].find({
+            'hospcode': hospcode,
+            'bdate': {
+                '$gte': start_date,
+                '$lte': end_date
+            }
+        }).count()
         return rs
 
     def get_postnatal(self, pid, gravida, hospcode):

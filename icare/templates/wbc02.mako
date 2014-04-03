@@ -16,7 +16,7 @@
         <div class="row">
           <div class="col-sm-2">
               <div class="form-group">
-                  <label for="txt_start_date" class="col-sm-3 control-label">ตั้งแต่</label>
+                  <label for="txt_start_date" class="col-sm-3 control-label">เกิด</label>
                   <div class="input-group date col-sm-9" data-type="date-picker">
                       <input type="text" id="txt_start_date"  class="form-control" placeholder="วว/ดด/ปปปป"/>
                       <span class="input-group-addon"><i class="fa fa-calendar"></i></span>

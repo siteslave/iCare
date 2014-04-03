@@ -72,8 +72,8 @@
               <ul class="dropdown-menu">
                 <li class="dropdown-header">MOTHER & CHILD</li>
                 <li><a href="${request.route_url('anc_index')}"><i class="fa fa-calendar fa-fw"></i> ข้อมูลการฝากครรภ์</a></li>
-                <li><a href="${request.route_url('mch_index')}"><i class="fa fa-user-md fa-fw"></i> การให้บริการแม่หลังคลอด</a></li>
-                <li><a href="${request.route_url('babies_index')}"><i class="fa fa-suitcase fa-fw"></i> ทะเบียนเด็กแรกเกิด</a></li>
+                <li><a href="${request.route_url('mch_index')}"><i class="fa fa-user-md fa-fw"></i> ทะเบียนหญิงคลอด/ดูแลหลังคลอด</a></li>
+                <li><a href="${request.route_url('babies_index')}"><i class="fa fa-suitcase fa-fw"></i> ทะเบียนเด็กแรกเกิด/ดูแลหลังคลอด</a></li>
                   <li class="divider"></li>
                   <li class="dropdown-header">VACCINES SERVICES</li>
                   <li><a href="${request.route_url('wbc02_index')}"><i class="fa fa-check fa-fw"></i> วัคซีนและโภชนาการเด็ก 0-2 ปี</a></li>

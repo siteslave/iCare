@@ -63,6 +63,30 @@ def get_list_total(request):
         return {'ok': 0, 'msg': 'Not ajax request'}
 
 
+@view_config(route_name='mch_get_list_total_by_birth', renderer='json')
+def get_list_total_by_birth(request):
+    if 'logged' not in request.session:
+        return {'ok': 0, 'msg': 'Please login.'}
+    else:
+        csrf_token = request.params['csrf_token']
+        start_date = h.jsdate_to_string(request.params['start_date'])
+        end_date = h.jsdate_to_string(request.params['end_date'])
+
+        is_token = (csrf_token == unicode(request.session.get_csrf_token()))
+
+        if is_token:
+
+            mch = MchModel(request)
+
+            try:
+                total = mch.get_list_total_by_birth(request.session['hospcode'], start_date, end_date)
+                return {'ok': 1, 'total': total}
+            except Exception as e:
+                return {'ok': 0, 'msg': e.message}
+        else:
+            return {'ok': 0, 'msg': 'Not ajax request'}
+
+
 @view_config(route_name='mch_get_list', request_method='POST', renderer='json')
 def get_list(request):
     if 'logged' not in request.session:
@@ -88,6 +112,63 @@ def get_list(request):
                 if rs:
                     for r in rs:
                         p = person.get_person_detail(r['pid'], request.session['hospcode'])
+                        obj = {
+                            'pid': r['pid'],
+                            'hospcode': r['hospcode'],
+                            'gravida': r['gravida'],
+                            'fullname': p['name'] + '  ' + p['lname'],
+                            'cid': p['cid'],
+                            'birth': h.to_thai_date(p['birth']),
+                            'age': h.count_age(p['birth'], r['bdate']),
+                            'bdate': h.to_thai_date(r['bdate']),
+                            'bplace': r['bplace'],
+                            'bhospcode': r['bhosp'],
+                            'bhospname': h.get_hospital_name(request, r['bhosp']),
+                            'sborn': r['sborn'],
+                            'lborn': r['lborn'],
+                            'btype': r['btype'],
+                            'count_postnatal': mch.get_count_postnatal(r['pid'], r['gravida'], r['hospcode'])
+                        }
+                        rows.append(obj)
+
+                    return {'ok': 1, 'rows': rows}
+                else:
+                    return {'ok': 0, 'msg': u'ไม่พบข้อมูล'}
+            else:
+                return {'ok': 0, 'msg': 'Token not found.'}
+
+        else:
+            return {'ok': 0, 'msg': 'Not ajax request.'}
+
+
+@view_config(route_name='mch_get_list_by_birth', request_method='POST', renderer='json')
+def get_list_by_birth(request):
+    if 'logged' not in request.session:
+        return {'ok': 0, 'msg': 'Please login.'}
+    else:
+        if request.is_xhr:  # is ajax request
+            csrf_token = request.params['csrf_token']
+            start_date = h.jsdate_to_string(request.params['start_date'])
+            end_date = h.jsdate_to_string(request.params['end_date'])
+
+            is_token = (csrf_token == unicode(request.session.get_csrf_token()))
+
+            if is_token:
+
+                start = request.params['start']
+                stop = request.params['stop']
+
+                limit = int(stop) - int(start)
+
+                mch = MchModel(request)
+                person = PersonModel(request)
+
+                rs = mch.get_list_by_birth(request.session['hospcode'], start_date, end_date, int(start), int(limit))
+                rows = []
+
+                if rs:
+                    for r in rs:
+                        p = person.get_person_detail(r['pid'], r['hospcode'])
                         obj = {
                             'pid': r['pid'],
                             'hospcode': r['hospcode'],

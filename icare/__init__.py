@@ -66,6 +66,8 @@ def main(global_config, **settings):
         config.add_route('mch_get_postnatal_all', '/get_postnatal_all')
         config.add_route('mch_get_appointment', '/get_appointment')
         config.add_route('mch_map', '/mch_map')
+        config.add_route('mch_get_list_total_by_birth', '/get_total_by_birth')
+        config.add_route('mch_get_list_by_birth', '/get_list_by_birth')
 
     def babies_route(config):
         config.add_route('babies_search', '/search')
@@ -74,6 +76,8 @@ def main(global_config, **settings):
         config.add_route('babies_get_care', '/get_care')
         config.add_route('babies_get_care_all', '/get_care_all')
         config.add_route('babies_get_newborn', '/get_newborn')
+        config.add_route('babies_get_total_by_birth', '/get_total_by_birth')
+        config.add_route('babies_get_list_by_birth', '/get_list_by_birth')
 
     def wbc02_route(config):
         config.add_route('wbc02_get_list', '/get_list')

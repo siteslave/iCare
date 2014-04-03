@@ -7,28 +7,49 @@
 
 <ul class="nav nav-tabs">
   <li class="active"><a href="#home" data-toggle="tab"><i class="fa fa-windows"></i> ทะเบียนเด็กแรกเกิด <span class="badge" id="spn_babies_total">0</span></a></li>
-  <li><a href="#profile" data-toggle="tab"><i class="fa fa-briefcase"></i> ประวัติการรับบริการ</a></li>
+  <li><a href="#profile" data-toggle="tab"><i class="fa fa-briefcase"></i> ประวัติการรับบริการ (ในเขต/นอกเขต)</a></li>
 </ul>
 <div class="tab-content">
   <div class="tab-pane active" id="home">
       <br>
       <!-- <div class="navbar navbar-default"> -->
-          <form action="#" class="form-inline well well-sm">
+          <form class="form-inline well well-sm" action="#">
               <div class="row">
+                  <div class="col-sm-3" style="width: 220px;">
+                      <div class="form-group">
+                          <label class="col-sm-3 control-label" for="txt_start_date">คลอดตั้งแต่</label>
+                          <div data-type="date-picker" class="input-group date col-sm-9">
+                              <input type="text" placeholder="วว/ดด/ปปปป" class="form-control" id="txt_start_date">
+                              <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="col-sm-2" style="width: 220px;">
+                      <div class="form-group">
+                          <label class="col-sm-2 control-label" for="txt_end_date"> ถึง </label>
+                          <div data-type="date-picker" class="input-group date col-sm-9">
+                              <input type="text" placeholder="วว/ดด/ปปปป" class="form-control" id="txt_end_date">
+                              <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="col-sm-1">
+                      <button class="btn btn-primary" id="btn_search_by_birth">
+                          <i class="fa fa-search"></i>
+                      </button> |
+                  </div>
                   <div class="col-sm-5">
                       <div class="input-group">
-                          <input type="text" class="form-control"
-                            placeholder="ระบุเลขบัตรประชาชน" id="txt_query"
-                            rel="tooltip" title="ระบุคำค้นหา เช่น เลขบัตรประชาชน เป็นต้น"/>
+                          <input type="text" title="" rel="tooltip" id="txt_query" placeholder="ระบุเลขบัตรประชาชน" class="form-control" data-original-title="ระบุคำค้นหา เช่น เลขบัตรประชาชน เป็นต้น">
                           <span class="input-group-btn">
-                              <button type="button" class="btn btn-primary" id="btn_search">
+                              <button id="btn_search" class="btn btn-primary" type="button">
                                   <i class="fa fa-search"></i> ค้นหา
                               </button>
                           </span>
                       </div>
                   </div>
-                  <div class="col-sm-7">
-                      <button type="button" class="btn btn-success pull-right" id="btn_refresh">
+                  <div class="col-sm-1">
+                      <button id="btn_refresh" class="btn btn-default pull-right" type="button">
                           <i class="fa fa-refresh"></i> รีเฟรช
                       </button>
                   </div>

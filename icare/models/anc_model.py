@@ -28,7 +28,8 @@ class AncModel:
         """
         Get total record
         """
-        self.request.db['anc'].ensure_index('hospcode', pymongo.ASCENDING)
+        self.request.db['anc_coverages'].ensure_index('hospcode', pymongo.ASCENDING)
+        self.request.db['anc_coverages'].ensure_index('typearea', pymongo.ASCENDING)
 
         rs = self.request.db['anc_coverages'].find({
             'hospcode': self.request.session['hospcode'],
@@ -49,53 +50,57 @@ class AncModel:
 
         return rs
 
-    def get_last_anc(self, pid, gravida):
+    def get_last_anc(self, pid, gravida, hospcode):
         self.request.db['anc'].ensure_index('hospcode', pymongo.ASCENDING)
         self.request.db['anc'].ensure_index('pid', pymongo.ASCENDING)
         self.request.db['anc'].ensure_index('gravida', pymongo.ASCENDING)
         self.request.db['anc'].ensure_index('date_serv', pymongo.ASCENDING)
 
         rs = self.request.db['anc'].find({
-            'hospcode': self.request.session['hospcode'],
+            'hospcode': hospcode,
             'pid': pid,
             'gravida': gravida
         }).sort('date_serv', pymongo.DESCENDING).limit(1)
 
         return rs[0]['date_serv']
 
-    def get_first_anc(self, pid, gravida):
+    def get_first_anc(self, pid, gravida, hospcode):
         self.request.db['anc'].ensure_index('hospcode', pymongo.ASCENDING)
         self.request.db['anc'].ensure_index('pid', pymongo.ASCENDING)
         self.request.db['anc'].ensure_index('date_serv', pymongo.ASCENDING)
         self.request.db['anc'].ensure_index('gravida', pymongo.ASCENDING)
 
         rs = self.request.db['anc'].find({
-            'hospcode': self.request.session['hospcode'],
+            'hospcode': hospcode,
             'pid': pid,
             'gravida': gravida
         }).sort('date_serv', pymongo.ASCENDING).limit(1)
 
         return rs[0]['date_serv']
 
-    def get_labor_detail(self, pid, gravida):
+    def get_labor_detail(self, pid, gravida, hospcode):
         self.request.db['anc'].ensure_index('hospcode', pymongo.ASCENDING)
         self.request.db['anc'].ensure_index('pid', pymongo.ASCENDING)
         self.request.db['anc'].ensure_index('gravida', pymongo.ASCENDING)
 
         rs = self.request.db['labor'].find_one({
-            'hospcode': self.request.session['hospcode'],
+            'hospcode': hospcode,
             'pid': pid,
             'gravida': gravida,
         })
 
         return rs
 
-    def get_labor_detail_by_cid(self, cid, gravida):
+    def get_labor_detail_by_cid(self, cid, gravida, hospcode):
         self.request.db['anc'].ensure_index('hospcode', pymongo.ASCENDING)
         self.request.db['anc'].ensure_index('cid', pymongo.ASCENDING)
         self.request.db['anc'].ensure_index('gravida', pymongo.ASCENDING)
 
-        rs = self.request.db['labor'].find_one({'cid': cid, 'gravida': gravida})
+        rs = self.request.db['labor'].find_one({
+            'cid': cid,
+            'gravida': gravida,
+            'hospcode': hospcode
+        })
 
         return rs
 

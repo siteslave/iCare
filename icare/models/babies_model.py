@@ -15,10 +15,65 @@ class BabiesModel:
         """
         self.request.db['newborn'].ensure_index('hospcode', pymongo.ASCENDING)
         self.request.db['newborn'].ensure_index('pid', pymongo.ASCENDING)
+        self.request.db['newborn'].ensure_index('bdate', pymongo.ASCENDING)
 
         rs = self.request.db['newborn'].find({
-            'hospcode': self.request.session['hospcode']
-        }).sort('pid', pymongo.ASCENDING).skip(start).limit(limit)
+            'hospcode': self.request.session['hospcode'],
+            'bdate': {
+                '$ne': ''
+            }
+        }).sort('bdate', pymongo.ASCENDING).skip(start).limit(limit)
+
+        return rs
+
+    def get_list_by_birth(self, start_date, end_date, start, limit):
+        """
+         Get person list
+        """
+        self.request.db['newborn'].ensure_index('hospcode', pymongo.ASCENDING)
+        self.request.db['newborn'].ensure_index('pid', pymongo.ASCENDING)
+        self.request.db['newborn'].ensure_index('bdate', pymongo.ASCENDING)
+
+        rs = self.request.db['newborn'].find({
+            'hospcode': self.request.session['hospcode'],
+            'bdate': {
+                '$gte': start_date,
+                '$lte': end_date
+            }
+        }).sort('bdate', pymongo.ASCENDING).skip(start).limit(limit)
+
+        return rs
+
+    def get_list_total(self):
+        """
+        Get total record
+        """
+        self.request.db['newborn'].ensure_index('hospcode', pymongo.ASCENDING)
+        self.request.db['newborn'].ensure_index('bdate', pymongo.ASCENDING)
+
+        rs = self.request.db['newborn'].find({
+            'hospcode': self.request.session['hospcode'],
+            'bdate': {
+                '$ne': ''
+            }
+        }).count()
+
+        return rs
+
+    def get_list_total_by_birth(self, start_date, end_date):
+        """
+        Get total record
+        """
+        self.request.db['newborn'].ensure_index('hospcode', pymongo.ASCENDING)
+        self.request.db['newborn'].ensure_index('bdate', pymongo.ASCENDING)
+
+        rs = self.request.db['newborn'].find({
+            'hospcode': self.request.session['hospcode'],
+            'bdate': {
+                '$gte': start_date,
+                '$lte': end_date
+            }
+        }).count()
 
         return rs
 
@@ -33,18 +88,6 @@ class BabiesModel:
             'hospcode': self.request.session['hospcode'],
             'cid': cid,
         })
-
-        return rs
-
-    def get_list_total(self):
-        """
-        Get total record
-        """
-        self.request.db['newborn'].ensure_index('hospcode', pymongo.ASCENDING)
-
-        rs = self.request.db['newborn'].find({
-            'hospcode': self.request.session['hospcode']
-        }).count()
 
         return rs
 

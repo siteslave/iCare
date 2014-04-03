@@ -11,7 +11,7 @@ requires = [
     'waitress',
     'pymongo',
     'pyramid_mako',
-    #'gunicorn'
+    'gunicorn'
 ]
 
 setup(name='iCare',

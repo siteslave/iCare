@@ -69,9 +69,9 @@ def get_list(request):
             rows = []
             if rs:
                 for r in rs:
-                    labor = anc.get_labor_detail(r['pid'], r['gravida'])
-                    prenatal = anc.get_prenatal_detail(r['pid'], r['gravida'], request.session['hospcode'])
-                    p = person.get_person_detail(r['pid'], request.session['hospcode'])
+                    labor = anc.get_labor_detail(r['pid'], r['gravida'], r['hospcode'])
+                    prenatal = anc.get_prenatal_detail(r['pid'], r['gravida'], r['hospcode'])
+                    p = person.get_person_detail(r['pid'], r['hospcode'])
 
                     bdate = h.to_thai_date(labor['bdate']) if labor else '-'
                     edc = h.to_thai_date(prenatal['edc']) if prenatal else '-'
@@ -85,9 +85,9 @@ def get_list(request):
                         'fullname': p['name'] + '  ' + p['lname'],
                         'cid': p['cid'],
                         'birth': h.to_thai_date(p['birth']),
-                        'age': h.count_age(p['birth'], anc.get_first_anc(p['pid'], r['gravida'])),
-                        'first_visit': h.to_thai_date(anc.get_first_anc(p['pid'], r['gravida'])),
-                        'last_visit': h.to_thai_date(anc.get_last_anc(p['pid'], r['gravida'])),
+                        'age': h.count_age(p['birth'], anc.get_first_anc(p['pid'], r['gravida'], r['hospcode'])),
+                        'first_visit': h.to_thai_date(anc.get_first_anc(p['pid'], r['gravida'], r['hospcode'])),
+                        'last_visit': h.to_thai_date(anc.get_last_anc(p['pid'], r['gravida'], r['hospcode'])),
                         'bdate': bdate,
                         'edc': edc,
                         'lmp': lmp,
@@ -127,7 +127,7 @@ def get_visit(request):
             rows = []
 
             for v in visit:
-                labor = anc.get_labor_detail(v['pid'], v['gravida'])
+                labor = anc.get_labor_detail(v['pid'], v['gravida'], v['hospcode'])
                 is_labor = 1 if labor else 0
 
                 obj = {
@@ -347,7 +347,7 @@ def get_labor(request):
             anc = AncModel(request)
             person = PersonModel(request)
 
-            r = anc.get_labor_detail_by_cid(cid, gravida)
+            r = anc.get_labor_detail_by_cid(cid, gravida, request.session['hospcode'])
             p = person.get_person_detail(r['pid'], request.session['hospcode'])
 
             if r:
@@ -496,7 +496,7 @@ def search(request):
             rows = []
             if rs:
                 for r in rs:
-                    labor = anc.get_labor_detail(r['pid'], r['gravida'])
+                    labor = anc.get_labor_detail(r['pid'], r['gravida'], request.session['hospcode'])
                     prenatal = anc.get_prenatal_detail(r['pid'], r['gravida'], request.session['hospcode'])
                     p = person.get_person_detail(r['pid'], request.session['hospcode'])
 
@@ -513,8 +513,8 @@ def search(request):
                         'cid': p['cid'],
                         'birth': h.to_thai_date(p['birth']),
                         'age': h.count_age(p['birth']),
-                        'first_visit': h.to_thai_date(anc.get_first_anc(p['pid'], r['gravida'])),
-                        'last_visit': h.to_thai_date(anc.get_last_anc(p['pid'], r['gravida'])),
+                        'first_visit': h.to_thai_date(anc.get_first_anc(p['pid'], r['gravida'], r['hospcode'])),
+                        'last_visit': h.to_thai_date(anc.get_last_anc(p['pid'], r['gravida'], r['hospcode'])),
                         'bdate': bdate,
                         'edc': edc,
                         'lmp': lmp,

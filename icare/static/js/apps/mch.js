@@ -31,6 +31,14 @@ $(function() {
                 e ? cb (e, null) : cb (null, v.total);
             });
         },
+        get_total_by_birth: function (start_date, end_date, cb) {
+            app.ajax('/mch/get_total_by_birth', {
+                start_date: start_date,
+                end_date: end_date
+            }, function(e, v) {
+                e ? cb (e, null) : cb (null, v.total);
+            });
+        },
 
         search: function (cid, cb) {
             app.ajax('/mch/search', { cid: cid}, function(e, v) {
@@ -40,6 +48,17 @@ $(function() {
 
         get_list: function (s, t, cb) {
             app.ajax('/mch/get_list', { start: s, stop: t }, function (e, v) {
+               e ? cb (e, null) : cb (null, v.rows);
+            });
+        },
+
+        get_list_by_birth: function (start_date, end_date, s, t, cb) {
+            app.ajax('/mch/get_list_by_birth', {
+                start: s,
+                stop: t,
+                start_date: start_date,
+                end_date: end_date
+            }, function (e, v) {
                e ? cb (e, null) : cb (null, v.rows);
             });
         },
@@ -139,7 +158,7 @@ $(function() {
         var cid = $('#txt_query').val();
 
         if(!cid) {
-            app.alert('กรุณาระบุเลขบัตรประชาชนเด็ก ที่ต้องการค้นหา');
+            app.alert('กรุณาระบุเลขบัตรประชาชน ที่ต้องการค้นหา');
         } else {
             mch.search(cid);
         }
@@ -162,6 +181,56 @@ $(function() {
         e.preventDefault();
         mch.get_list();
     });
+
+    $('#btn_search_by_birth').on('click', function(e) {
+
+        e.preventDefault();
+
+        var start_date = $('#txt_start_date').val(),
+            end_date = $('#txt_end_date').val();
+
+        if(!start_date) {
+            app.alert('กรุณาระบุวันเริ่มต้นคลอด');
+        } else if(!end_date) {
+            app.alert('กรุณาระบุวันสิ้นสุดการคลอด');
+        } else {
+            mch.get_list_by_birth(start_date, end_date);
+        }
+    });
+
+    mch.get_list_by_birth = function(start_date, end_date) {
+        mch.ajax.get_total_by_birth(start_date, end_date, function(e, total) {
+            if (e) {
+                app.alert(e);
+            } else {
+                $('#paging').fadeIn('slow');
+                $('#spn_mch_total').html(total.toFixed());
+                $('#paging').paging(total, {
+                    format: " < . (qq -) nnncnnn (- pp) . >",
+                    perpage: app.record_per_page,
+                    lapping: 1,
+                    page: app.get_cookie('mch_paging_birth'),
+                    onSelect: function(page) {
+                        app.set_cookie('mch_paging_birth', page);
+
+                        mch.ajax.get_list_by_birth(start_date, end_date, this.slice[0], this.slice[1], function(e, rs){
+
+                            $('#tbl_list > tbody').empty();
+
+                            if(e) {
+                                app.alert(e);
+                                $('#tbl_list > tbody').append('<tr><td colspan="10">ไม่พบข้อมูล</td></td></tr>');
+                            } else {
+                                mch.set_list(rs);
+                            }
+                        });
+
+                    },
+                    onFormat: app.setPagingFormat
+                });
+            }
+        });
+    };
 
     mch.get_list = function() {
         mch.ajax.get_total(function(e, total) {
