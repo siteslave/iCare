@@ -2,6 +2,7 @@
 import pymongo
 from datetime import datetime
 from datetime import timedelta
+from icare.models.person_model import PersonModel
 
 
 class MchModel:
@@ -16,6 +17,9 @@ class MchModel:
 
         rs = self.request.db['labor'].find({
             'hospcode': hospcode,
+            # 'typearea': {
+            #     '$in': ['1', '3']
+            # },
             'bdate': {
                 '$ne': ''
             }
@@ -31,6 +35,9 @@ class MchModel:
 
         rs = self.request.db['labor'].find({
             'hospcode': hospcode,
+            # 'typearea': {
+            #     '$in': ['1', '3']
+            # },
             'bdate': {
                 '$gte': start_date,
                 '$lte': end_date
@@ -59,6 +66,9 @@ class MchModel:
 
         rs = self.request.db['labor'].find({
             'hospcode': hospcode,
+            # 'typearea': {
+            #     '$in': ['1', '3']
+            # },
             'bdate': {
                 '$ne': ''
             }
@@ -72,6 +82,9 @@ class MchModel:
 
         rs = self.request.db['labor'].find({
             'hospcode': hospcode,
+            # 'typearea': {
+            #     '$in': ['1', '3']
+            # },
             'bdate': {
                 '$gte': start_date,
                 '$lte': end_date
@@ -345,13 +358,17 @@ class MchModel:
         self.request.db['labor'].ensure_index('pid', pymongo.ASCENDING)
         self.request.db['labor'].ensure_index('gravida', pymongo.ASCENDING)
 
+        person = PersonModel(self.request)
+        typearea = person.get_type_area(pid, hospcode)
+
         self.request.db['labor'].update({
             'hospcode': hospcode,
             'pid': pid,
             'gravida': gravida
         }, {
             '$set': {
-                'ppcares': pcares
+                'ppcares': pcares,
+                'typearea': typearea
             }
         })
 

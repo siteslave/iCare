@@ -248,13 +248,13 @@ $(function() {
         });
     };
 
-    setInterval(function() {
-        var date_range = app.get_current_date_range();
-
-        get_labor_other_total(date_range.start_date, date_range.end_date, function(err, total) {
-            console.log(total);
-        });
-    }, 50000);
+//    setInterval(function() {
+//        var date_range = app.get_current_date_range();
+//
+//        get_labor_other_total(date_range.start_date, date_range.end_date, function(err, total) {
+//            console.log(total);
+//        });
+//    }, 50000);
 
     var show_app_change_password = function () {
         $('#mdl_app_change_password').modal({

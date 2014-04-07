@@ -53,6 +53,63 @@ class PersonModel:
 
         return rs['hid'] if rs else None
 
+    def get_vid_from_address(self, pid, hospcode):
+        self.request.db['address'].ensure_index('hospcode', pymongo.ASCENDING)
+        self.request.db['address'].ensure_index('pid', pymongo.ASCENDING)
+
+        rs = self.request.db['address'].find_one({
+            'hospcode': hospcode,
+            'pid': pid
+        }, {'_id': 0, 'changwat': 1, 'ampur': 1, 'tambon': 1, 'village': 1, 'houseno': 1})
+
+        if rs:
+            changwat = rs['changwat'] if 'changwat' in rs else '00'
+            ampur = rs['ampur'] if 'ampur' in rs else '00'
+            tambon = rs['tambon'] if 'tambon' in rs else '00'
+            village = rs['village'] if 'village' in rs else '00'
+
+            villages = '%s%s%s%s' % (changwat, ampur, tambon, village)
+
+            return {'vid': villages, 'house': rs['houseno']}
+
+        else:
+            return {'vid': '00000000', 'house': '00'}
+
+    def get_vid_from_home(self, hid, hospcode):
+        self.request.db['home'].ensure_index('hospcode', pymongo.ASCENDING)
+        self.request.db['home'].ensure_index('hid', pymongo.ASCENDING)
+
+        rs = self.request.db['home'].find_one({
+            'hospcode': hospcode,
+            'hid': hid
+        }, {'_id': 0, 'changwat': 1, 'ampur': 1, 'tambon': 1, 'village': 1, 'house': 1})
+
+        #return rs
+
+        if rs:
+
+            changwat = rs['changwat'] if 'changwat' in rs else '00'
+            ampur = rs['ampur'] if 'ampur' in rs else '00'
+            tambon = rs['tambon'] if 'tambon' in rs else '00'
+            village = rs['village'] if 'village' in rs else '00'
+
+            villages = '%s%s%s%s' % (changwat, ampur, tambon, village)
+
+            return {'vid': villages, 'house': rs['house']}
+        else:
+            return {'vid': '00000000', 'house': '00'}
+
+    def get_type_area(self, pid, hospcode):
+        self.request.db['person'].ensure_index('hospcode', pymongo.ASCENDING)
+        self.request.db['person'].ensure_index('cid', pymongo.ASCENDING)
+
+        rs = self.request.db['person'].find_one({
+            'hospcode': hospcode,
+            'pid': pid
+        })
+
+        return rs['typearea'] if rs else None
+
     def get_pid_from_hid(self, hospcode, hid):
 
         rs = self.request.db['person'].find({

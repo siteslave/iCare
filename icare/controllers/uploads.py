@@ -8,17 +8,26 @@ from pyramid.view import view_config
 
 @view_config(route_name='uploads', renderer='uploads.mako')
 def index_view(request):
+    if 'logged' not in request.session:
+        return HTTPFound(location='/signin')
+
     if request.session['user_type'] == '1':
         return HTTPFound(location='/admins')
-        
+
     return {'title': u'อัปโหลดไฟล์'}
 
 
 @view_config(route_name='uploads', request_method='POST', renderer="do_uploads.mako")
 def do_upload(request):
+    if 'logged' not in request.session:
+        return HTTPFound(location='/signin')
+
+    if request.session['user_type'] == '1':
+        return HTTPFound(location='/admins')
+
     if request.POST['file'].file:
 
-        uploaded_directory = '/tmp/hdc'
+        uploaded_directory = '/tmp/hdc/data'
         # True file name
         file_name = request.POST['file'].filename
         # Actual file data
@@ -28,7 +37,8 @@ def do_upload(request):
 
         if file_extension.upper() == 'ZIP':
             # New file name
-            file_path = os.path.join(uploaded_directory, '%s.zip' % uuid.uuid4())
+            #file_path = os.path.join(uploaded_directory, '%s.zip' % uuid.uuid4())
+            file_path = os.path.join(uploaded_directory, '%s' % file_name)
             # Temp file while uploading success
             temp_file = file_path + '~'
             output_file = open(temp_file, 'wb')

@@ -33,12 +33,19 @@
                           </div>
                       </div>
                   </div>
-                  <div class="col-sm-1">
-                      <button class="btn btn-primary" id="btn_search_by_birth">
-                          <i class="fa fa-search"></i>
-                      </button> |
+                  <div class="col-sm-2">
+                      <div class="btn-group">
+                          <button class="btn btn-primary" id="btn_search_by_birth" rel="tooltip" title="search">
+                              <i class="fa fa-search"></i>
+                          </button>
+                          <button id="btn_refresh" class="btn btn-default" type="button"
+                                  rel="tooltip" title="refresh">
+                              <i class="fa fa-refresh"></i>
+                          </button>
+                      </div>
+
                   </div>
-                  <div class="col-sm-5">
+                  <div class="col-sm-5 visible-lg">
                       <div class="input-group">
                           <input type="text" title="" rel="tooltip" id="txt_query" placeholder="ระบุเลขบัตรประชาชน" class="form-control" data-original-title="ระบุคำค้นหา เช่น เลขบัตรประชาชน เป็นต้น">
                           <span class="input-group-btn">
@@ -47,11 +54,6 @@
                               </button>
                           </span>
                       </div>
-                  </div>
-                  <div class="col-sm-1">
-                      <button id="btn_refresh" class="btn btn-default pull-right" type="button">
-                          <i class="fa fa-refresh"></i> รีเฟรช
-                      </button>
                   </div>
               </div>
 
@@ -64,18 +66,19 @@
               <th>เลขบัตรประชาชน</th>
               <th>ชื่อ - สกุล</th>
               <th>วันเกิด</th>
-              <th class="hidden-md">อายุ (ป-ด-ว)</th>
+              <th class="visible-lg">อายุ (ป-ด-ว)</th>
+              <th class="visible-lg">T</th>
               <th>ครรภ์ที่</th>
-              <th class="hidden-md">วันที่คลอด</th>
-              <th class="hidden-md">สถานบริการ</th>
-              <th class="hidden-md">วิธีคลอด</th>
+              <th class="visible-lg">วันที่คลอด</th>
+              <th class="visible-lg">สถานบริการ</th>
+              <th class="visible-lg">วิธีคลอด</th>
               <th>เยี่ยม (ครั้ง)</th>
-              <th></th>
+              <th>#</th>
           </tr>
           </thead>
           <tbody>
           <tr>
-             <td colspan="10">ไม่พบรายการ</td>
+             <td colspan="11">ไม่พบรายการ</td>
           </tr>
           </tbody>
       </table>
@@ -255,9 +258,9 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-times"></i> ปิดหน้าต่าง</button>
       </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+    </div>
+  </div>
+</div>
 
 
 <div class="modal fade" id="mdl_appointment">
@@ -283,8 +286,8 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-times"></i> ปิดหน้าต่าง</button>
       </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+    </div>
+  </div>
+</div>
 
 <script src="/static/js/apps/mch.js"></script>

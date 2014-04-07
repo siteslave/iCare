@@ -53,7 +53,7 @@
                     <input type="password" name="password" class="form-control" placeholder="Password" required>
 
 
-                    <input type="checkbox" class="clearfix" checked id="isProcess" name="isProcess"/> ประมวลผลข้อมูลก่อนใช้งาน
+                    <input type="checkbox" class="clearfix" id="isProcess" name="isProcess"/> ประมวลผลข้อมูลก่อนใช้งาน
 <br/>
 <br/>
                     <button class="btn btn-lg btn-success btn-block" type="submit">

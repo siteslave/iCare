@@ -33,12 +33,19 @@
                           </div>
                       </div>
                   </div>
-                  <div class="col-sm-1">
-                      <button class="btn btn-primary" id="btn_search_by_birth">
-                          <i class="fa fa-search"></i>
-                      </button> |
+                  <div class="col-sm-2">
+                      <div class="btn-group">
+                          <button class="btn btn-primary" id="btn_search_by_birth"
+                                  rel="tooltip" title="search">
+                              <i class="fa fa-search"></i>
+                          </button>
+                          <button id="btn_refresh" class="btn btn-default"
+                                  rel="tooltip" title="refresh" type="button">
+                              <i class="fa fa-refresh"></i>
+                          </button>
+                      </div>
                   </div>
-                  <div class="col-sm-5">
+                  <div class="col-sm-5 visible-lg">
                       <div class="input-group">
                           <input type="text" title="" rel="tooltip" id="txt_query" placeholder="ระบุเลขบัตรประชาชน" class="form-control" data-original-title="ระบุคำค้นหา เช่น เลขบัตรประชาชน เป็นต้น">
                           <span class="input-group-btn">
@@ -47,11 +54,6 @@
                               </button>
                           </span>
                       </div>
-                  </div>
-                  <div class="col-sm-1">
-                      <button id="btn_refresh" class="btn btn-default pull-right" type="button">
-                          <i class="fa fa-refresh"></i> รีเฟรช
-                      </button>
                   </div>
               </div>
 
@@ -62,16 +64,16 @@
           <tr>
               <th>เลขบัตรประชาชน</th>
               <th>ชื่อ - สกุล</th>
-              <th>วันเกิด</th>
-              <th>อายุ (ป-ด-ว)</th>
+              <th class="visible-lg">วันเกิด</th>
+              <th class="visible-lg">อายุ (ป-ด-ว)</th>
               <th>เพศ</th>
               <th>น้ำหนัก (g)</th>
-              <th>มารดา</th>
+              <th class="visible-lg">มารดา</th>
             <%doc>  <th>สถานที่</th>
               <th>สถานพยาบาล</th></%doc>
               <th>ครรภ์ที่</th>
               <th>เยี่ยม (ครั้ง)</th>
-              <th></th>
+              <th>#</th>
           </tr>
           </thead>
           <tbody>

@@ -208,10 +208,10 @@ $(function(){
                     '<tr>' +
                         '<td class="text-center">' + v.cid + '</td>' +
                         '<td>' + v.fullname + '</td>' +
-                        '<td class="text-center hidden-md hidden-sm">' + v.birth + '</td>' +
+                        '<td class="text-center visible-lg">' + v.birth + '</td>' +
                         '<td class="text-center">' + v.age.year +'-' + v.age.month + '-' + v.age.day + '</td>' +
                         '<td class="text-center">' + sex + '</td>' +
-                        '<td class="hidden-md hidden-sm">' + v.address + '</td>' +
+                        '<td class="visible-lg">' + v.address + '</td>' +
                         '<td class="text-center">' + is_nutrition + '</td>' +
                         '<td><div class="progress progress-striped" title="'+vcc_per.toFixed(2)+'%">' +
                         '<div class="progress-bar progress-bar-info" style="width: '+vcc_per.toFixed()+'%"></div>' +

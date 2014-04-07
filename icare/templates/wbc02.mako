@@ -44,10 +44,10 @@
           <div class="col-sm-2">
               <div class="btn-group">
                   <button type="button" id="btn_filter" class="btn btn-primary" rel="tooltip" title="แสดงตามเงื่อนไข">
-                      <i class="fa fa-search"></i> แสดง
+                      <i class="fa fa-search"></i>
                   </button>
                   <button type="button" id="btn_refresh" class="btn btn-default" rel="tooltip" title="แสดงทั้งหมด">
-                      <i class="fa fa-refresh"></i> รีเฟรช
+                      <i class="fa fa-refresh"></i>
                   </button>
               </div>
           </div>
@@ -60,13 +60,13 @@
             <tr>
                 <th>เลขบัตรประชาชน</th>
                 <th>ชื่อ-สกุล</th>
-                <th class="hidden-md hidden-sm">วันเกิด</th>
+                <th class="visible-lg">วันเกิด</th>
                 <th>อายุ (ป-ด-ว)</th>
                 <th>เพศ</th>
-                <th class="hidden-md hidden-sm">ที่อยู่</th>
+                <th class="visible-lg">ที่อยู่</th>
                 <th>พัฒนาการ</th>
                 <th>% วัคซีน</th>
-                <th></th>
+                <th>#</th>
             </tr>
             </thead>
             <tbody>

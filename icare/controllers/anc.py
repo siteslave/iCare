@@ -103,6 +103,48 @@ def get_list(request):
             return {'ok': 0, 'msg': 'Not ajax request.'}
 
 
+@view_config(route_name='anc_get_visit_all', request_method='POST', renderer='json')
+def anc_get_visit_all(request):
+    if 'logged' not in request.session:
+        return {'ok': 0, 'msg': 'Please login.'}
+
+    if request.is_xhr:
+        cid = request.params['cid']
+        csrf_token = request.params['csrf_token']
+
+        is_token = (csrf_token == unicode(request.session.get_csrf_token()))
+
+        if is_token:
+            anc = AncModel(request)
+            visit = anc.get_visit_all(cid)
+            rows = []
+
+            for v in visit:
+
+                obj = {
+                    'pid': v['pid'],
+                    'cid': v['cid'],
+                    'seq': v['seq'],
+                    'date_serv': h.to_thai_date(v['date_serv']),
+                    'gravida': v['gravida'],
+                    'ancno': v['ancno'],
+                    'ga': v['ga'],
+                    'ancresult': v['ancresult'],
+                    'hospcode': v['hospcode'],
+                    'ancplace': v['ancplace'],
+                    'hospname': h.get_hospital_name(request, v['hospcode']),
+                    'ancplace_name': h.get_hospital_name(request, v['ancplace']),
+                }
+
+                rows.append(obj)
+
+            return {'ok': 1, 'rows': rows}
+        else:
+            return {'ok': 0, 'msg': 'Not authorized.'}
+    else:
+        return {'ok': 0, 'msg': 'Not ajax request'}
+
+
 @view_config(route_name='anc_get_visit', request_method='POST', renderer='json')
 def get_visit(request):
     if 'logged' not in request.session:
@@ -140,7 +182,9 @@ def get_visit(request):
                     'ga': v['ga'],
                     'ancresult': v['ancresult'],
                     'hospcode': v['hospcode'],
+                    'ancplace': v['ancplace'],
                     'hospname': h.get_hospital_name(request, v['hospcode']),
+                    'ancplace_name': h.get_hospital_name(request, v['ancplace']),
                     'is_survey': anc.get_survey_status(v['pid'], v['gravida'], v['hospcode']),
                     'is_labor': is_labor,
                     'appoint': mch.count_appointment(v['pid'], v['hospcode'], v['seq'])
@@ -352,7 +396,7 @@ def get_labor(request):
 
             if r:
                 obj = {
-                    'pid': r['pid'],
+                    'pฟืแid': r['pid'],
                     'cid': p['cid'],
                     'fullname': p['name'] + ' ' + p['lname'],
                     'birth': h.to_thai_date(p['birth']),

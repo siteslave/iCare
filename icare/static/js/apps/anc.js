@@ -197,7 +197,8 @@ $(function() {
                 $('#tbl_visit_list > tbody').append(
                     '<tr>' +
                         '<td class="text-center">' + v.date_serv + '</td>' +
-                        '<td>' + v.hospcode + ' ' + v.hospname + '</td>' +
+                        '<td>[' + v.hospcode + '] ' + v.hospname + '</td>' +
+                        '<td>[' + v.ancplace + '] ' + v.ancplace_name + '</td>' +
                         '<td class="text-center">' + v.gravida + '</td>' +
                         '<td class="text-center">' + v.ancno + '</td>' +
                         '<td class="text-center">' + v.ga + '</td>' +
@@ -217,7 +218,7 @@ $(function() {
             app.set_runtime();
         }
         else {
-            $('#tbl_visit_list > tbody').append('<tr><td colspan="10">ไม่พบข้อมูล</td></td></tr>');
+            $('#tbl_visit_list > tbody').append('<tr><td colspan="11">ไม่พบข้อมูล</td></td></tr>');
         }
     };
 

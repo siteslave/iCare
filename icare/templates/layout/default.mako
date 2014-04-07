@@ -74,7 +74,9 @@
                 <li><a href="${request.route_url('anc_index')}"><i class="fa fa-calendar fa-fw"></i> ข้อมูลการฝากครรภ์</a></li>
                 <li><a href="${request.route_url('mch_index')}"><i class="fa fa-user-md fa-fw"></i> ทะเบียนหญิงคลอด/ดูแลหลังคลอด</a></li>
                 <li><a href="${request.route_url('babies_index')}"><i class="fa fa-suitcase fa-fw"></i> ทะเบียนเด็กแรกเกิด/ดูแลหลังคลอด</a></li>
-                  <li class="divider"></li>
+                <li class="divider"></li>
+                <li><a href="${request.route_url('labor_other_index')}"><i class="fa fa-suitcase fa-fw"></i> ตรวจสอบข้อมูลการคลอดจากโรงพยาบาล</a></li>
+<li class="divider"></li>
                   <li class="dropdown-header">VACCINES SERVICES</li>
                   <li><a href="${request.route_url('wbc02_index')}"><i class="fa fa-check fa-fw"></i> วัคซีนและโภชนาการเด็ก 0-2 ปี</a></li>
                   <li><a href="${request.route_url('wbc35_index')}"><i class="fa fa-check fa-fw"></i> วัคซีนและโภชนาการเด็ก 3-5 ปี</a></li>
@@ -166,17 +168,17 @@
             </li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
-              <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><span
-                    class="fa fa-comments"></span> ข้อความ <span class="label label-primary">5</span>
-                </a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#"><i class="fa fa-check"></i> [3440400677068] ศิวาพร ศรีธรรมา</a></li>
-                        <li><a href="#"><i class="fa fa-check"></i> [1100500996943] วนิดา ฟั่นปั๋น</a></li>
-                        <li><a href="#"><i class="fa fa-check"></i> [3440400678285] เบญจวรรณ บุตราช</a></li>
-                        <li class="divider"></li>
-                        <li><a href="#" class="text-center"><i class="fa fa-th-list"></i> ทั้งหมด</a></li>
-                    </ul>
-                </li>
+##              <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><span
+##                    class="fa fa-comments"></span> ข้อความ <span class="label label-primary">5</span>
+##                </a>
+##                    <ul class="dropdown-menu">
+##                        <li><a href="#"><i class="fa fa-check"></i> [3440400677068] ศิวาพร ศรีธรรมา</a></li>
+##                        <li><a href="#"><i class="fa fa-check"></i> [1100500996943] วนิดา ฟั่นปั๋น</a></li>
+##                        <li><a href="#"><i class="fa fa-check"></i> [3440400678285] เบญจวรรณ บุตราช</a></li>
+##                        <li class="divider"></li>
+##                        <li><a href="#" class="text-center"><i class="fa fa-th-list"></i> ทั้งหมด</a></li>
+##                    </ul>
+##                </li>
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                     <span class="fa fa-cogs"></span> ตัวเลือก<b class="caret"></b></a>

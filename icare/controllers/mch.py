@@ -127,6 +127,7 @@ def get_list(request):
                             'sborn': r['sborn'],
                             'lborn': r['lborn'],
                             'btype': r['btype'],
+                            'typearea': r['typearea'] if 'typearea' in r else '0',
                             'count_postnatal': mch.get_count_postnatal(r['pid'], r['gravida'], r['hospcode'])
                         }
                         rows.append(obj)
@@ -184,6 +185,7 @@ def get_list_by_birth(request):
                             'sborn': r['sborn'],
                             'lborn': r['lborn'],
                             'btype': r['btype'],
+                            'typearea': r['typearea'],
                             'count_postnatal': mch.get_count_postnatal(r['pid'], r['gravida'], r['hospcode'])
                         }
                         rows.append(obj)
@@ -236,6 +238,7 @@ def search(request):
                             'sborn': r['sborn'],
                             'lborn': r['lborn'],
                             'btype': r['btype'],
+                            'typearea': r['typearea'],
                             'count_postnatal': mch.get_count_postnatal(r['pid'], r['gravida'], r['hospcode'])
                         }
                         rows.append(obj)

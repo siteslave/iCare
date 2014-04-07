@@ -122,11 +122,12 @@ $(function() {
                         '<td class="text-center">' + v.cid + '</td>' +
                         '<td>' + v.fullname + '</td>' +
                         '<td>' + v.birth + '</td>' +
-                        '<td class="hidden-md" title="อายุ ณ วันที่คลอด">' + v.age.year +'-' + v.age.month + '-' + v.age.day + '</td>' +
+                        '<td class="visible-lg" title="อายุ ณ วันที่คลอด">' + v.age.year +'-' + v.age.month + '-' + v.age.day + '</td>' +
+                        '<td class="visible-lg">' + v.typearea + '</td>' +
                         '<td class="text-center">' + v.gravida + '</td>' +
-                        '<td class="hidden-md">' + v.bdate + '</td>' +
-                        '<td class="hidden-md">[' + v.bhospcode + '] ' + v.bhospname + '</td>' +
-                        '<td class="hidden-md">' + btype + '</td>' +
+                        '<td class="visible-lg">' + v.bdate + '</td>' +
+                        '<td class="visible-lg">[' + v.bhospcode + '] ' + v.bhospname + '</td>' +
+                        '<td class="visible-lg">' + btype + '</td>' +
                         '<td class="text-center">' + v.count_postnatal + '</td>' +
                         '<td class="text-center"><div class="btn-group">' +
                         '<a href="javascript:void(0);" class="btn btn-default btn-small" data-name="btn_labor" ' +
@@ -148,7 +149,7 @@ $(function() {
             app.set_runtime();
         }
         else {
-            $('#tbl_list > tbody').append('<tr><td colspan="9">ไม่พบข้อมูล</td></td></tr>');
+            $('#tbl_list > tbody').append('<tr><td colspan="11">ไม่พบข้อมูล</td></td></tr>');
         }
     };
 

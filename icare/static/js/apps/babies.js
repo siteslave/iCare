@@ -175,10 +175,10 @@ $(function() {
                         '<td class="text-center">' + v.cid + '</td>' +
                         '<td>' + v.fullname + '</td>' +
                         '<td class="text-center">' + v.birth + '</td>' +
-                        '<td class="text-center" title="อายุ ณ วันที่คลอด">' + v.age.year +'-' + v.age.month + '-' + v.age.day + '</td>' +
+                        '<td class="visible-lg text-center" title="อายุ ณ วันที่คลอด">' + v.age.year +'-' + v.age.month + '-' + v.age.day + '</td>' +
                         '<td class="text-center">' + sex + '</td>' +
                         '<td class="text-center">' + v.bweight + '</td>' +
-                        '<td>' + v.mother.fullname + '</td>' +
+                        '<td class="visible-lg">' + v.mother.fullname + '</td>' +
                         '<td class="text-center">' + v.gravida + '</td>' +
                         '<td class="text-center">' + v.care + '</td>' +
                         '<td class="text-center"><div class="btn-group">' +

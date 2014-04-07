@@ -128,6 +128,17 @@ class AncModel:
 
         return rs
 
+    def get_visit_all(self, cid):
+        #self.request.db['anc'].ensure_index('hospcode', pymongo.ASCENDING)
+        self.request.db['anc'].ensure_index('cid', pymongo.ASCENDING)
+
+        rs = self.request.db['anc'].find({
+            #'hospcode': self.request.session['hospcode'],
+            'cid': cid
+        }).sort('date_serv', pymongo.ASCENDING)
+
+        return rs
+
     def get_visit_list_total(self, cid):
         #self.request.db['anc'].ensure_index('hospcode', pymongo.ASCENDING)
         self.request.db['anc'].ensure_index('cid', pymongo.ASCENDING)
@@ -724,7 +735,7 @@ class AncModel:
                         'pid': i['pid'],
                         'cid': p['cid'],
                         'gravida': i['gravida'],
-                        'typearea': p['typearea'],
+                        'typearea': p['typearea']
                     }
 
                     self.request.db['anc_12weeks'].insert(doc)

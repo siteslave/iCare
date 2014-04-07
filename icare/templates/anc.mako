@@ -57,7 +57,7 @@
               <th class="hidden-md">LMP</th></%doc>
               <th>คลอด</th>
               <th>ประเมิน</th>
-              <th></th>
+              <th>#</th>
           </tr>
           </thead>
           <tbody>
@@ -94,6 +94,7 @@
           <thead>
           <tr>
               <th>วันที่</th>
+              <th>บันทึกโดย</th>
               <th>สถานที่ตรวจ</th>
               <th>ครรภ์ที่</th>
               <th>ช่วงที่</th>
@@ -107,7 +108,7 @@
           </thead>
           <tbody>
           <tr>
-             <td colspan="10">ไม่พบรายการ</td>
+             <td colspan="11">ไม่พบรายการ</td>
           </tr>
           </tbody>
       </table>

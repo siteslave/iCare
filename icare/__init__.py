@@ -58,6 +58,8 @@ def main(global_config, **settings):
         config.add_route('anc_get_list_map', '/get_list_map')
         config.add_route('anc_get_list_map_total', '/get_list_map_total')
 
+        config.add_route('anc_get_visit_all', '/get_visit_all')
+
     def mch_route(config):
         config.add_route('mch_get_list', '/get_list')
         config.add_route('mch_search', '/search')
@@ -191,6 +193,8 @@ def main(global_config, **settings):
     def labor_other_route(config):
         config.add_route('labor_other_get_list', '/get_list')
         config.add_route('labor_other_get_total', '/get_total')
+        config.add_route('labor_other_do_process', '/do_process')
+        config.add_route('labor_get_labor', '/get_labor')
 
     def users_admin_route(config):
         config.add_route('users_admin_get_list', '/list')
@@ -255,7 +259,7 @@ def main(global_config, **settings):
     config.include(equipment_route, route_prefix='/equipment')
     config.include(project_route, route_prefix='/projects')
 
-    config.include(labor_other_route, route_prefix='/labor')
+    config.include(labor_other_route, route_prefix='/labor_other')
 
     config.add_route('employers_index', '/employers')
     config.add_route('equipment_index', '/equipment')

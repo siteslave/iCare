@@ -142,6 +142,23 @@ class ICHelper:
         else:
             return []
 
+    def get_labor_hospital_list(self, request):
+
+        rs = request.db['ref_owners'].find()
+        if rs:
+            rows = []
+            for r in rs:
+                obj = {
+                    'id': r['_id'],
+                    'hospname': r['hospname'],
+                    'hospcode': r['hospcode']
+                }
+
+                rows.append(obj)
+            return rows
+        else:
+            return []
+
 
     def get_position_grade_list(self, request):
         rs = request.db['ref_position_grades'].find()

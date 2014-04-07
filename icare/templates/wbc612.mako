@@ -41,8 +41,8 @@
                     </select>
                   </div>
                   <div class="col-sm-2">
-                    <button type="button" class="btn btn-primary" id="btn_filter">
-                        <i class="fa fa-search"></i> แสดง
+                    <button type="button" class="btn btn-primary" id="btn_filter" title="แสดง" rel="tooltip">
+                        <i class="fa fa-search"></i>
                     </button>
                   </div>  
                 </div>
@@ -54,10 +54,10 @@
             <tr>
                 <th>เลขบัตรประชาชน</th>
                 <th>ชื่อ-สกุล</th>
-                <th class="hidden-md hidden-sm">วันเกิด</th>
+                <th class="visible-lg">วันเกิด</th>
                 <th>อายุ (ป-ด-ว)</th>
                 <th>เพศ</th>
-                <th class="hidden-md hidden-sm">ที่อยู่</th>
+                <th class="visible-lg">ที่อยู่</th>
                 <th>พัฒนาการ</th>
                 <th>% วัคซีน</th>
                 <th>#</th>
