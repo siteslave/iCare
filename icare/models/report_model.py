@@ -240,9 +240,11 @@ class ReportModel:
     def get_12weeks_total(self, hospcode):
 
         self.request.db['anc_12weeks'].ensure_index('hospcode', pymongo.ASCENDING)
+        self.request.db['anc_12weeks'].ensure_index('typearea', pymongo.ASCENDING)
 
         total = self.request.db['anc_12weeks'].find({
-            'hospcode': hospcode
+            'hospcode': hospcode,
+            'typearea': {'$in': ['1', '3']}
         }).count()
 
         return total
@@ -250,12 +252,12 @@ class ReportModel:
     def get_anc_coverages_total(self, hospcode):
         self.request.db['anc_coverages'].ensure_index('hospcode', pymongo.ASCENDING)
         self.request.db['anc_coverages'].ensure_index('total', pymongo.ASCENDING)
-        #self.request.db['anc_coverages'].ensure_index('typearea', pymongo.ASCENDING)
+        self.request.db['anc_coverages'].ensure_index('typearea', pymongo.ASCENDING)
 
         rs = self.request.db['anc_coverages'].find({
                 'hospcode': hospcode,
-                #'typearea': {'$in': ['1', '3']},
-                'total': 5
+                'typearea': {'$in': ['1', '3']},
+                'total': {'$gte': 5}
         }).count()
 
         return rs

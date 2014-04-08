@@ -43,6 +43,7 @@ class AncModel:
         Get distinct pid from anc collection
         """
         self.request.db['anc'].ensure_index('hospcode', pymongo.ASCENDING)
+        self.request.db['anc'].ensure_index('pid', pymongo.ASCENDING)
 
         rs = self.request.db['anc'].find({
             'hospcode': self.request.session['hospcode']
@@ -120,6 +121,7 @@ class AncModel:
     def get_visit_list(self, cid, start, limit):
         #self.request.db['anc'].ensure_index('hospcode', pymongo.ASCENDING)
         self.request.db['anc'].ensure_index('cid', pymongo.ASCENDING)
+        self.request.db['anc'].ensure_index('date_serv', pymongo.ASCENDING)
 
         rs = self.request.db['anc'].find({
             #'hospcode': self.request.session['hospcode'],

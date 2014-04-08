@@ -122,7 +122,7 @@
                         <td>ฝากครรภ์ <= 12 สัปดาห์</td><td><span id="spn_weeks"></span></td>
                     </tr>
                     <tr>
-                        <td>เยี่ยมครบ 5 ครั้ง</td><td><span id="spn_coverages"></span></td>
+                        <td>ฝากครรภ์ครบ 5 ครั้ง</td><td><span id="spn_coverages"></span></td>
                     </tr>
                     </tbody>
                 </table>
