@@ -215,42 +215,42 @@ def get_anc_risk_list_search(request):
 @view_config(route_name='report_get_anc_history', request_method='POST', renderer='json')
 def get_anc_history(request):
     if 'logged' not in request.session:
-        return HTTPFound(location='/signin')
-
-    if request.is_xhr:
-        cid = request.params['cid']
-        csrf_token = request.params['csrf_token']
-
-        is_token = (csrf_token == unicode(request.session.get_csrf_token()))
-
-        if is_token:
-            rpt = ReportModel(request)
-
-            visit = rpt.get_anc_history(cid)
-            rows = []
-
-            for v in visit:
-
-                obj = {
-                    'pid': v['pid'],
-                    'cid': v['cid'],
-                    'seq': v['seq'],
-                    'date_serv': h.to_thai_date(v['date_serv']),
-                    'gravida': v['gravida'],
-                    'ancno': v['ancno'],
-                    'ga': v['ga'],
-                    'ancresult': v['ancresult'],
-                    'hospcode': v['hospcode'],
-                    'hospname': h.get_hospital_name(request, v['hospcode'])
-                }
-
-                rows.append(obj)
-
-            return {'ok': 1, 'rows': rows}
-        else:
-            return {'ok': 0, 'msg': 'Not authorized.'}
+        return {'ok': 0, 'msg': 'Please login.'}
     else:
-        return {'ok': 0, 'msg': 'Not ajax request'}
+        if request.is_xhr:
+            cid = request.params['cid']
+            csrf_token = request.params['csrf_token']
+
+            is_token = (csrf_token == unicode(request.session.get_csrf_token()))
+
+            if is_token:
+                rpt = ReportModel(request)
+
+                visit = rpt.get_anc_history(cid)
+                rows = []
+
+                for v in visit:
+
+                    obj = {
+                        'pid': v['pid'],
+                        'cid': v['cid'],
+                        'seq': v['seq'],
+                        'date_serv': h.to_thai_date(v['date_serv']),
+                        'gravida': v['gravida'],
+                        'ancno': v['ancno'],
+                        'ga': v['ga'],
+                        'ancresult': v['ancresult'],
+                        'hospcode': v['hospcode'],
+                        'hospname': h.get_hospital_name(request, v['hospcode'])
+                    }
+
+                    rows.append(obj)
+
+                return {'ok': 1, 'rows': rows}
+            else:
+                return {'ok': 0, 'msg': 'Not authorized.'}
+        else:
+            return {'ok': 0, 'msg': 'Not ajax request'}
 
 
 """
@@ -302,126 +302,117 @@ def get_anc_total(request):
 @view_config(route_name='report_anc_get_list', renderer='json', request_method='POST')
 def anc_get_list(request):
     if 'logged' not in request.session:
-        return HTTPFound(location='/signin')
-
-    if request.session['user_type'] == '1':
-        return HTTPFound(location='/admins')
-
-    t = request.params['t'] if 't' in request.params else '-1'
-
-    start = request.params['start']
-    stop = request.params['stop']
-
-    limit = int(stop) - int(start)
-
-    rpt = ReportModel(request)
-
-    if t == '1':
-        #get success
-        rs = rpt.get_anc_list_success(request.session['hospcode'], int(start), int(limit))
-    elif t == '0':
-        #get not success
-        rs = rpt.get_anc_list_not_success(request.session['hospcode'], int(start), int(limit))
+        return {'ok': 0, 'msg': 'Please login.'}
     else:
-        #get all
-        rs = rpt.get_anc_list_all(request.session['hospcode'], int(start), int(limit))
+        t = request.params['t'] if 't' in request.params else '-1'
 
-    if rs:
-        person = PersonModel(request)
-        rows = []
+        start = request.params['start']
+        stop = request.params['stop']
 
-        for r in rs:
-            p = person.get_person_detail(r['pid'], r['hospcode'])
-            obj = {
-                'fullname': p['name'] + '  ' + p['lname'],
-                'cid': p['cid'],
-                'birth': h.to_thai_date(p['birth']),
-                'age': h.count_age(p['birth']),
-                'sex': p['sex'],
-                #'address': h.get_address(request, r['hid'], r['hospcode']),
-                'coverages': r['coverages'] if 'coverages' in r else None
-            }
+        limit = int(stop) - int(start)
 
-            rows.append(obj)
+        rpt = ReportModel(request)
 
-        return {'ok': 1, 'rows': rows}
-    else:
-        return {'ok': 0, 'msg': 'Not success'}
+        if t == '1':
+            #get success
+            rs = rpt.get_anc_list_success(request.session['hospcode'], int(start), int(limit))
+        elif t == '0':
+            #get not success
+            rs = rpt.get_anc_list_not_success(request.session['hospcode'], int(start), int(limit))
+        else:
+            #get all
+            rs = rpt.get_anc_list_all(request.session['hospcode'], int(start), int(limit))
+
+        if rs:
+            person = PersonModel(request)
+            rows = []
+
+            for r in rs:
+                p = person.get_person_detail(r['pid'], r['hospcode'])
+                obj = {
+                    'fullname': p['name'] + '  ' + p['lname'],
+                    'cid': p['cid'],
+                    'birth': h.to_thai_date(p['birth']),
+                    'age': h.count_age(p['birth']),
+                    'sex': p['sex'],
+                    #'address': h.get_address(request, r['hid'], r['hospcode']),
+                    'coverages': r['coverages'] if 'coverages' in r else None
+                }
+
+                rows.append(obj)
+
+            return {'ok': 1, 'rows': rows}
+        else:
+            return {'ok': 0, 'msg': 'Not success'}
 
 
 @view_config(route_name='report_anc_get_forecast_filter', renderer='json', request_method='POST')
 def anc_get_forecast_filter(request):
     if 'logged' not in request.session:
-        return HTTPFound(location='/signin')
-
-    if request.session['user_type'] == '1':
-        return HTTPFound(location='/admins')
-
-    rpt = ReportModel(request)
-    person = PersonModel(request)
-
-    start_date = h.jsdate_to_string(request.params['s'])
-    end_date = h.jsdate_to_string(request.params['e'])
-
-    rs = rpt.get_anc_forecast_filter(request.session['hospcode'], start_date, end_date)
-
-    if rs:
-        rows = []
-
-        for r in rs:
-            p = person.get_person_detail(r['pid'], r['hospcode'])
-            obj = {
-                'fullname': p['name'] + '  ' + p['lname'],
-                'cid': p['cid'],
-                'birth': h.to_thai_date(p['birth']),
-                'age': h.count_age(p['birth']),
-                'sex': p['sex'],
-                #'address': h.get_address(request, r['hid'], r['hospcode']),
-                'coverages': r['coverages'] if 'coverages' in r else None
-            }
-
-            rows.append(obj)
-
-        return {'ok': 1, 'rows': rows}
+        return {'ok': 0, 'msg': 'Please login.'}
     else:
-        return {'ok': 0, 'msg': 'ไม่พบรายการ'}
+        rpt = ReportModel(request)
+        person = PersonModel(request)
+
+        start_date = h.jsdate_to_string(request.params['s'])
+        end_date = h.jsdate_to_string(request.params['e'])
+
+        rs = rpt.get_anc_forecast_filter(request.session['hospcode'], start_date, end_date)
+
+        if rs:
+            rows = []
+
+            for r in rs:
+                p = person.get_person_detail(r['pid'], r['hospcode'])
+                obj = {
+                    'fullname': p['name'] + '  ' + p['lname'],
+                    'cid': p['cid'],
+                    'birth': h.to_thai_date(p['birth']),
+                    'age': h.count_age(p['birth']),
+                    'sex': p['sex'],
+                    #'address': h.get_address(request, r['hid'], r['hospcode']),
+                    'coverages': r['coverages'] if 'coverages' in r else None
+                }
+
+                rows.append(obj)
+
+            return {'ok': 1, 'rows': rows}
+        else:
+            return {'ok': 0, 'msg': 'ไม่พบรายการ'}
 
 
 @view_config(route_name='report_anc_search', renderer='json', request_method='POST')
 def anc_search(request):
     if 'logged' not in request.session:
-        return HTTPFound(location='/signin')
-
-    if request.session['user_type'] == '1':
-        return HTTPFound(location='/admins')
-
-    rpt = ReportModel(request)
-    person = PersonModel(request)
-
-    cid = request.params['cid']
-
-    rs = rpt.get_anc_search(request.session['hospcode'], cid)
-
-    if rs:
-        rows = []
-
-        for r in rs:
-            p = person.get_person_detail(r['pid'], r['hospcode'])
-            obj = {
-                'fullname': p['name'] + '  ' + p['lname'],
-                'cid': p['cid'],
-                'birth': h.to_thai_date(p['birth']),
-                'age': h.count_age(p['birth']),
-                'sex': p['sex'],
-                #'address': h.get_address(request, r['hid'], r['hospcode']),
-                'coverages': r['coverages'] if 'coverages' in r else None
-            }
-
-            rows.append(obj)
-
-        return {'ok': 1, 'rows': rows}
+        return {'ok': 0, 'msg': 'Please login.'}
     else:
-        return {'ok': 0, 'msg': 'ไม่พบรายการ'}
+        rpt = ReportModel(request)
+        person = PersonModel(request)
+
+        cid = request.params['cid']
+
+        rs = rpt.get_anc_search(request.session['hospcode'], cid)
+
+        if rs:
+            rows = []
+
+            for r in rs:
+                p = person.get_person_detail(r['pid'], r['hospcode'])
+                obj = {
+                    'fullname': p['name'] + '  ' + p['lname'],
+                    'cid': p['cid'],
+                    'birth': h.to_thai_date(p['birth']),
+                    'age': h.count_age(p['birth']),
+                    'sex': p['sex'],
+                    #'address': h.get_address(request, r['hid'], r['hospcode']),
+                    'coverages': r['coverages'] if 'coverages' in r else None
+                }
+
+                rows.append(obj)
+
+            return {'ok': 1, 'rows': rows}
+        else:
+            return {'ok': 0, 'msg': 'ไม่พบรายการ'}
 
 """
 MCH Modules
@@ -442,66 +433,60 @@ def report_mch_index_view(request):
 @view_config(route_name='reports_mch_do_process', renderer='json')
 def reports_mch_do_process_view(request):
     if 'logged' not in request.session:
-        return HTTPFound(location='/signin')
-
-    if request.session['user_type'] == '1':
-        return HTTPFound(location='/admins')
-
-    mch = MchModel(request)
-    try:
-        mch.do_process_forecast(request.session['hospcode'])
-        return {'ok': 1}
-    except Exception as ex:
-        return {'ok': 0, 'msg': ex.message}
+        return {'ok': 0, 'msg': 'Please login.'}
+    else:
+        mch = MchModel(request)
+        try:
+            mch.do_process_forecast(request.session['hospcode'])
+            return {'ok': 1}
+        except Exception as ex:
+            return {'ok': 0, 'msg': ex.message}
 
 
 @view_config(route_name='report_mch_list', renderer='json', request_method='POST')
 def report_mch_list(request):
     if 'logged' not in request.session:
-        return HTTPFound(location='/signin')
-
-    if request.session['user_type'] == '1':
-        return HTTPFound(location='/admins')
-
-    start = request.params['start']
-    stop = request.params['stop']
-
-    limit = int(stop) - int(start)
-
-    mch = MchModel(request)
-    person = PersonModel(request)
-
-    if request.params['s'] != "" and request.params['e'] != "":
-        #Get by date
-        start_date = h.jsdate_to_string(request.params['s'])
-        end_date = h.jsdate_to_string(request.params['e'])
-
-        rs = mch.get_labor_forecast_filter_list(request.session['hospcode'], start_date, end_date,
-                                                int(start), int(limit))
+        return {'ok': 0, 'msg': 'Please login.'}
     else:
-        rs = mch.get_labor_forecast_list(request.session['hospcode'], int(start), int(limit))
+        start = request.params['start']
+        stop = request.params['stop']
 
-    if rs:
-        rows = []
+        limit = int(stop) - int(start)
 
-        for r in rs:
-            p = person.get_person_detail(r['pid'], r['hospcode'])
-            obj = {
-                'fullname': p['name'] + '  ' + p['lname'],
-                'cid': p['cid'],
-                'birth': h.to_thai_date(p['birth']),
-                'age': h.count_age(p['birth']),
-                'sex': p['sex'],
-                'bdate': h.to_thai_date(r['bdate']),
-                #'address': h.get_address(request, r['hid'], r['hospcode']),
-                'ppcares': r['ppcares'] if 'ppcares' in r else None
-            }
+        mch = MchModel(request)
+        person = PersonModel(request)
 
-            rows.append(obj)
+        if request.params['s'] != "" and request.params['e'] != "":
+            #Get by date
+            start_date = h.jsdate_to_string(request.params['s'])
+            end_date = h.jsdate_to_string(request.params['e'])
 
-        return {'ok': 1, 'rows': rows}
-    else:
-        return {'ok': 0, 'msg': 'ไม่พบรายการ'}
+            rs = mch.get_labor_forecast_filter_list(request.session['hospcode'], start_date, end_date,
+                                                    int(start), int(limit))
+        else:
+            rs = mch.get_labor_forecast_list(request.session['hospcode'], int(start), int(limit))
+
+        if rs:
+            rows = []
+
+            for r in rs:
+                p = person.get_person_detail(r['pid'], r['hospcode'])
+                obj = {
+                    'fullname': p['name'] + '  ' + p['lname'],
+                    'cid': p['cid'],
+                    'birth': h.to_thai_date(p['birth']),
+                    'age': h.count_age(p['birth']),
+                    'sex': p['sex'],
+                    'bdate': h.to_thai_date(r['bdate']),
+                    #'address': h.get_address(request, r['hid'], r['hospcode']),
+                    'ppcares': r['ppcares'] if 'ppcares' in r else None
+                }
+
+                rows.append(obj)
+
+            return {'ok': 1, 'rows': rows}
+        else:
+            return {'ok': 0, 'msg': 'ไม่พบรายการ'}
 
 
 @view_config(route_name='report_mch_total', request_method='POST', renderer='json')
@@ -536,95 +521,89 @@ def report_mch_total(request):
 @view_config(route_name='report_mch_target_per_month', renderer='json', request_method='POST')
 def report_mch_target_per_month(request):
     if 'logged' not in request.session:
-        return HTTPFound(location='/signin')
-
-    if request.session['user_type'] == '1':
-        return HTTPFound(location='/admins')
-
-    mch = MchModel(request)
-    person = PersonModel(request)
-
-    current_date = datetime.now()
-    current_month = datetime.strftime(current_date, '%m')
-    current_year = datetime.strftime(current_date, '%Y')
-    end_day_of_month = calendar.monthrange(int(current_year), int(current_month))[1]
-
-    start_date = date(int(current_year), int(current_month), 1)
-    end_date = date(int(current_year), int(current_month), int(end_day_of_month))
-
-    start_date = datetime.strftime(start_date, '%Y%m%d')
-    end_date = datetime.strftime(end_date, '%Y%m%d')
-
-    rs = mch.get_target_per_month(request.session['hospcode'], start_date, end_date)
-
-    if rs:
-        rows = []
-
-        for r in rs:
-            p = person.get_person_detail(r['pid'], r['hospcode'])
-            obj = {
-                'fullname': p['name'] + '  ' + p['lname'],
-                'cid': p['cid'],
-                #'birth': h.to_thai_date(p['birth']),
-                'age': h.count_age(p['birth']),
-                #'sex': p['sex'],
-                #'bdate': h.to_thai_date(r['bdate']),
-                #'address': h.get_address(request, r['hid'], r['hospcode']),
-                #'ppcares': r['ppcares'] if 'ppcares' in r else None
-            }
-
-            rows.append(obj)
-
-        return {'ok': 1, 'rows': rows}
+        return {'ok': 0, 'msg': 'Please login.'}
     else:
-        return {'ok': 0, 'msg': 'ไม่พบรายการ'}
+        mch = MchModel(request)
+        person = PersonModel(request)
+
+        current_date = datetime.now()
+        current_month = datetime.strftime(current_date, '%m')
+        current_year = datetime.strftime(current_date, '%Y')
+        end_day_of_month = calendar.monthrange(int(current_year), int(current_month))[1]
+
+        start_date = date(int(current_year), int(current_month), 1)
+        end_date = date(int(current_year), int(current_month), int(end_day_of_month))
+
+        start_date = datetime.strftime(start_date, '%Y%m%d')
+        end_date = datetime.strftime(end_date, '%Y%m%d')
+
+        rs = mch.get_target_per_month(request.session['hospcode'], start_date, end_date)
+
+        if rs:
+            rows = []
+
+            for r in rs:
+                p = person.get_person_detail(r['pid'], r['hospcode'])
+                obj = {
+                    'fullname': p['name'] + '  ' + p['lname'],
+                    'cid': p['cid'],
+                    #'birth': h.to_thai_date(p['birth']),
+                    'age': h.count_age(p['birth']),
+                    #'sex': p['sex'],
+                    #'bdate': h.to_thai_date(r['bdate']),
+                    #'address': h.get_address(request, r['hid'], r['hospcode']),
+                    #'ppcares': r['ppcares'] if 'ppcares' in r else None
+                }
+
+                rows.append(obj)
+
+            return {'ok': 1, 'rows': rows}
+        else:
+            return {'ok': 0, 'msg': 'ไม่พบรายการ'}
 
 
 @view_config(route_name='report_anc_target_per_month', renderer='json', request_method='POST')
 def report_anc_target_per_month(request):
     if 'logged' not in request.session:
-        return HTTPFound(location='/signin')
-
-    if request.session['user_type'] == '1':
-        return HTTPFound(location='/admins')
-
-    rpt = ReportModel(request)
-    person = PersonModel(request)
-
-    current_date = datetime.now()
-    current_month = datetime.strftime(current_date, '%m')
-    current_year = datetime.strftime(current_date, '%Y')
-    end_day_of_month = calendar.monthrange(int(current_year), int(current_month))[1]
-
-    start_date = date(int(current_year), int(current_month), 1)
-    end_date = date(int(current_year), int(current_month), int(end_day_of_month))
-
-    start_date = datetime.strftime(start_date, '%Y%m%d')
-    end_date = datetime.strftime(end_date, '%Y%m%d')
-
-    rs = rpt.get_anc_target_per_month(request.session['hospcode'], start_date, end_date)
-
-    if rs:
-        rows = []
-
-        for r in rs:
-            p = person.get_person_detail(r['pid'], r['hospcode'])
-            obj = {
-                'fullname': p['name'] + '  ' + p['lname'],
-                'cid': p['cid'],
-                #'birth': h.to_thai_date(p['birth']),
-                'age': h.count_age(p['birth']),
-                #'sex': p['sex'],
-                #'bdate': h.to_thai_date(r['bdate']),
-                #'address': h.get_address(request, r['hid'], r['hospcode']),
-                #'ppcares': r['ppcares'] if 'ppcares' in r else None
-            }
-
-            rows.append(obj)
-
-        return {'ok': 1, 'rows': rows}
+        return {'ok': 0, 'msg': 'Please login.'}
     else:
-        return {'ok': 0, 'msg': 'ไม่พบรายการ'}
+        rpt = ReportModel(request)
+        person = PersonModel(request)
+
+        current_date = datetime.now()
+        current_month = datetime.strftime(current_date, '%m')
+        current_year = datetime.strftime(current_date, '%Y')
+        end_day_of_month = calendar.monthrange(int(current_year), int(current_month))[1]
+
+        start_date = date(int(current_year), int(current_month), 1)
+        end_date = date(int(current_year), int(current_month), int(end_day_of_month))
+
+        start_date = datetime.strftime(start_date, '%Y%m%d')
+        end_date = datetime.strftime(end_date, '%Y%m%d')
+
+        rs = rpt.get_anc_target_per_month(request.session['hospcode'], start_date, end_date)
+
+        if rs:
+            rows = []
+
+            for r in rs:
+                p = person.get_person_detail(r['pid'], r['hospcode'])
+                obj = {
+                    'fullname': p['name'] + '  ' + p['lname'],
+                    'cid': p['cid'],
+                    #'birth': h.to_thai_date(p['birth']),
+                    'age': h.count_age(p['birth']),
+                    #'sex': p['sex'],
+                    #'bdate': h.to_thai_date(r['bdate']),
+                    #'address': h.get_address(request, r['hid'], r['hospcode']),
+                    #'ppcares': r['ppcares'] if 'ppcares' in r else None
+                }
+
+                rows.append(obj)
+
+            return {'ok': 1, 'rows': rows}
+        else:
+            return {'ok': 0, 'msg': 'ไม่พบรายการ'}
 
 """
 Newborn
@@ -645,102 +624,96 @@ def reports_newborn_wlt2500(request):
 @view_config(route_name='reports_newborn_weight_less_than_2500', renderer='json', request_method='POST')
 def reports_newborn_weight_less_than_2500(request):
     if 'logged' not in request.session:
-        return HTTPFound(location='/signin')
+        return {'ok': 0, 'msg': 'Please login.'}
+    else:
+        if request.is_xhr:  # is ajax request
+            csrf_token = request.params['csrf_token']
+            is_token = (csrf_token == unicode(request.session.get_csrf_token()))
 
-    if request.session['user_type'] == '1':
-        return HTTPFound(location='/admins')
+            if is_token:
 
-    if request.is_xhr:  # is ajax request
-        csrf_token = request.params['csrf_token']
-        is_token = (csrf_token == unicode(request.session.get_csrf_token()))
+                babies = BabiesModel(request)
+                person = PersonModel(request)
 
-        if is_token:
+                start = request.params['start']
+                stop = request.params['stop']
 
-            babies = BabiesModel(request)
-            person = PersonModel(request)
+                limit = int(stop) - int(start)
 
-            start = request.params['start']
-            stop = request.params['stop']
+                rs = babies.get_newborn_weight_less_than_2500(request.session['hospcode'], int(start), int(limit))
 
-            limit = int(stop) - int(start)
+                if rs:
+                    rows = []
 
-            rs = babies.get_newborn_weight_less_than_2500(request.session['hospcode'], int(start), int(limit))
+                    for r in rs:
+                        p = person.get_person_detail(r['pid'], r['hospcode'])
+                        obj = {
+                            'fullname': p['name'] + '  ' + p['lname'],
+                            'cid': p['cid'],
+                            'birth': h.to_thai_date(p['birth']),
+                            'age': h.count_age(p['birth']),
+                            'sex': p['sex'],
+                            'birth': h.to_thai_date(p['birth']),
+                            'address': h.get_address(request, p['hid'], r['hospcode']),
+                            'bweight': r['bweight'],
+                            'hospcode': r['hospcode'],
+                            'pid': r['pid'],
+                            'gravida': r['gravida']
+                        }
 
-            if rs:
-                rows = []
+                        rows.append(obj)
 
-                for r in rs:
-                    p = person.get_person_detail(r['pid'], r['hospcode'])
-                    obj = {
-                        'fullname': p['name'] + '  ' + p['lname'],
-                        'cid': p['cid'],
-                        'birth': h.to_thai_date(p['birth']),
-                        'age': h.count_age(p['birth']),
-                        'sex': p['sex'],
-                        'birth': h.to_thai_date(p['birth']),
-                        'address': h.get_address(request, p['hid'], r['hospcode']),
-                        'bweight': r['bweight'],
-                        'hospcode': r['hospcode'],
-                        'pid': r['pid'],
-                        'gravida': r['gravida']
-                    }
-
-                    rows.append(obj)
-
-                return {'ok': 1, 'rows': rows}
+                    return {'ok': 1, 'rows': rows}
+                else:
+                    return {'ok': 0, 'msg': 'ไม่พบรายการ'}
             else:
-                return {'ok': 0, 'msg': 'ไม่พบรายการ'}
-        else:
-            return {'ok': 0, 'msg': 'Invalid token key.'}
+                return {'ok': 0, 'msg': 'Invalid token key.'}
 
 
 @view_config(route_name='reports_newborn_weight_less_than_2500_search', renderer='json', request_method='POST')
 def reports_newborn_weight_less_than_2500_search(request):
     if 'logged' not in request.session:
-        return HTTPFound(location='/signin')
+        return {'ok': 0, 'msg': 'Please login.'}
+    else:
+        if request.is_xhr:  # is ajax request
+            csrf_token = request.params['csrf_token']
+            is_token = (csrf_token == unicode(request.session.get_csrf_token()))
 
-    if request.session['user_type'] == '1':
-        return HTTPFound(location='/admins')
+            if is_token:
 
-    if request.is_xhr:  # is ajax request
-        csrf_token = request.params['csrf_token']
-        is_token = (csrf_token == unicode(request.session.get_csrf_token()))
+                babies = BabiesModel(request)
+                person = PersonModel(request)
 
-        if is_token:
+                cid = request.params['cid'] if 'cid' in request.params else '0000000000000'
 
-            babies = BabiesModel(request)
-            person = PersonModel(request)
+                rs = babies.search_newborn_weight_less_than_2500(cid, request.session['hospcode'])
 
-            cid = request.params['cid'] if 'cid' in request.params else '0000000000000'
+                if rs:
+                    rows = []
 
-            rs = babies.search_newborn_weight_less_than_2500(cid, request.session['hospcode'])
+                    for r in rs:
+                        p = person.get_person_detail(r['pid'], r['hospcode'])
+                        obj = {
+                            'fullname': p['name'] + '  ' + p['lname'],
+                            'cid': p['cid'],
+                            'birth': h.to_thai_date(p['birth']),
+                            'age': h.count_age(p['birth']),
+                            'sex': p['sex'],
+                            'address': h.get_address(request, p['hid'], r['hospcode']),
+                            'bweight': r['bweight'],
+                            'hospcode': r['hospcode'],
+                            'pid': r['pid'],
+                            'gravida': r['gravida']
+                            #'ppcares': r['ppcares'] if 'ppcares' in r else None
+                        }
 
-            if rs:
-                rows = []
+                        rows.append(obj)
 
-                for r in rs:
-                    p = person.get_person_detail(r['pid'], r['hospcode'])
-                    obj = {
-                        'fullname': p['name'] + '  ' + p['lname'],
-                        'cid': p['cid'],
-                        'birth': h.to_thai_date(p['birth']),
-                        'age': h.count_age(p['birth']),
-                        'sex': p['sex'],
-                        'address': h.get_address(request, p['hid'], r['hospcode']),
-                        'bweight': r['bweight'],
-                        'hospcode': r['hospcode'],
-                        'pid': r['pid'],
-                        'gravida': r['gravida']
-                        #'ppcares': r['ppcares'] if 'ppcares' in r else None
-                    }
-
-                    rows.append(obj)
-
-                return {'ok': 1, 'rows': rows}
+                    return {'ok': 1, 'rows': rows}
+                else:
+                    return {'ok': 0, 'msg': 'ไม่พบรายการ'}
             else:
-                return {'ok': 0, 'msg': 'ไม่พบรายการ'}
-        else:
-            return {'ok': 0, 'msg': 'Invalid token key.'}
+                return {'ok': 0, 'msg': 'Invalid token key.'}
 
 
 @view_config(route_name='reports_newborn_weight_less_than_2500_total', request_method='POST', renderer='json')
@@ -797,51 +770,48 @@ def reports_milk_process(request):
 @view_config(route_name='reports_milk_list', renderer='json', request_method='POST')
 def reports_milk_list(request):
     if 'logged' not in request.session:
-        return HTTPFound(location='/signin')
+        return {'ok': 0, 'msg': 'Please login.'}
+    else:
+        if request.is_xhr:  # is ajax request
+            csrf_token = request.params['csrf_token']
+            is_token = (csrf_token == unicode(request.session.get_csrf_token()))
 
-    if request.session['user_type'] == '1':
-        return HTTPFound(location='/admins')
+            if is_token:
 
-    if request.is_xhr:  # is ajax request
-        csrf_token = request.params['csrf_token']
-        is_token = (csrf_token == unicode(request.session.get_csrf_token()))
+                babies = BabiesModel(request)
+                person = PersonModel(request)
 
-        if is_token:
+                start = request.params['start']
+                stop = request.params['stop']
 
-            babies = BabiesModel(request)
-            person = PersonModel(request)
+                limit = int(stop) - int(start)
 
-            start = request.params['start']
-            stop = request.params['stop']
+                rs = babies.get_milk_list(request.session['hospcode'], int(start), int(limit))
 
-            limit = int(stop) - int(start)
+                if rs:
+                    rows = []
 
-            rs = babies.get_milk_list(request.session['hospcode'], int(start), int(limit))
+                    for r in rs:
+                        p = person.get_person_detail(r['pid'], r['hospcode'])
+                        obj = {
+                            'fullname': p['name'] + '  ' + p['lname'],
+                            'cid': p['cid'],
+                            'birth': h.to_thai_date(p['birth']),
+                            'age': h.count_age(p['birth']),
+                            'sex': p['sex'],
+                            'address': h.get_address(request, p['hid'], r['hospcode']),
+                            'hospcode': r['hospcode'],
+                            'pid': r['pid'],
+                            'total': r['total']
+                        }
 
-            if rs:
-                rows = []
+                        rows.append(obj)
 
-                for r in rs:
-                    p = person.get_person_detail(r['pid'], r['hospcode'])
-                    obj = {
-                        'fullname': p['name'] + '  ' + p['lname'],
-                        'cid': p['cid'],
-                        'birth': h.to_thai_date(p['birth']),
-                        'age': h.count_age(p['birth']),
-                        'sex': p['sex'],
-                        'address': h.get_address(request, p['hid'], r['hospcode']),
-                        'hospcode': r['hospcode'],
-                        'pid': r['pid'],
-                        'total': r['total']
-                    }
-
-                    rows.append(obj)
-
-                return {'ok': 1, 'rows': rows}
+                    return {'ok': 1, 'rows': rows}
+                else:
+                    return {'ok': 0, 'msg': 'ไม่พบรายการ'}
             else:
-                return {'ok': 0, 'msg': 'ไม่พบรายการ'}
-        else:
-            return {'ok': 0, 'msg': 'Invalid token key.'}
+                return {'ok': 0, 'msg': 'Invalid token key.'}
 
 
 @view_config(route_name='reports_milk_total', request_method='POST', renderer='json')
@@ -880,108 +850,102 @@ def reports_anc_coverages_index(request):
 @view_config(route_name='reports_anc_coverages_list', renderer='json', request_method='POST')
 def reports_anc_coverages_list(request):
     if 'logged' not in request.session:
-        return HTTPFound(location='/signin')
+        return {'ok': 0, 'msg': 'Please login.'}
+    else:
+        if request.is_xhr:  # is ajax request
+            csrf_token = request.params['csrf_token']
+            is_token = (csrf_token == unicode(request.session.get_csrf_token()))
 
-    if request.session['user_type'] == '1':
-        return HTTPFound(location='/admins')
+            if is_token:
 
-    if request.is_xhr:  # is ajax request
-        csrf_token = request.params['csrf_token']
-        is_token = (csrf_token == unicode(request.session.get_csrf_token()))
+                anc = AncModel(request)
+                person = PersonModel(request)
 
-        if is_token:
+                # 1 = All
+                # 2 = Cover
+                # 3 = Not cover
 
-            anc = AncModel(request)
-            person = PersonModel(request)
+                t = request.params['t'] if 't' in request.params else '1'
+                start = request.params['start']
+                stop = request.params['stop']
 
-            # 1 = All
-            # 2 = Cover
-            # 3 = Not cover
+                limit = int(stop) - int(start)
 
-            t = request.params['t'] if 't' in request.params else '1'
-            start = request.params['start']
-            stop = request.params['stop']
+                if t == '2':
+                    rs = anc.get_anc_coverages(request.session['hospcode'], int(start), int(limit))
+                elif t == '3':
+                    rs = anc.get_anc_not_coverages(request.session['hospcode'], int(start), int(limit))
+                else:
+                    rs = anc.get_anc_coverages_all(request.session['hospcode'], int(start), int(limit))
 
-            limit = int(stop) - int(start)
+                if rs:
+                    rows = []
 
-            if t == '2':
-                rs = anc.get_anc_coverages(request.session['hospcode'], int(start), int(limit))
-            elif t == '3':
-                rs = anc.get_anc_not_coverages(request.session['hospcode'], int(start), int(limit))
+                    for r in rs:
+                        p = person.get_person_detail(r['pid'], r['hospcode'])
+                        obj = {
+                            'fullname': p['name'] + '  ' + p['lname'],
+                            'cid': p['cid'],
+                            'birth': h.to_thai_date(p['birth']),
+                            'age': h.count_age(p['birth']),
+                            'sex': p['sex'],
+                            'address': h.get_address(request, p['hid'], r['hospcode']),
+                            'hospcode': r['hospcode'],
+                            'pid': r['pid'],
+                            'total': r['total']
+                        }
+
+                        rows.append(obj)
+
+                    return {'ok': 1, 'rows': rows}
+                else:
+                    return {'ok': 0, 'msg': 'ไม่พบรายการ'}
             else:
-                rs = anc.get_anc_coverages_all(request.session['hospcode'], int(start), int(limit))
-
-            if rs:
-                rows = []
-
-                for r in rs:
-                    p = person.get_person_detail(r['pid'], r['hospcode'])
-                    obj = {
-                        'fullname': p['name'] + '  ' + p['lname'],
-                        'cid': p['cid'],
-                        'birth': h.to_thai_date(p['birth']),
-                        'age': h.count_age(p['birth']),
-                        'sex': p['sex'],
-                        'address': h.get_address(request, p['hid'], r['hospcode']),
-                        'hospcode': r['hospcode'],
-                        'pid': r['pid'],
-                        'total': r['total']
-                    }
-
-                    rows.append(obj)
-
-                return {'ok': 1, 'rows': rows}
-            else:
-                return {'ok': 0, 'msg': 'ไม่พบรายการ'}
-        else:
-            return {'ok': 0, 'msg': 'Invalid token key.'}
+                return {'ok': 0, 'msg': 'Invalid token key.'}
 
 
 @view_config(route_name='reports_anc_coverages_search', renderer='json', request_method='POST')
 def reports_anc_coverages_search(request):
     if 'logged' not in request.session:
-        return HTTPFound(location='/signin')
+        return {'ok': 0, 'msg': 'Please login.'}
+    else:
+        if request.is_xhr:  # is ajax request
+            csrf_token = request.params['csrf_token']
+            is_token = (csrf_token == unicode(request.session.get_csrf_token()))
 
-    if request.session['user_type'] == '1':
-        return HTTPFound(location='/admins')
+            if is_token:
 
-    if request.is_xhr:  # is ajax request
-        csrf_token = request.params['csrf_token']
-        is_token = (csrf_token == unicode(request.session.get_csrf_token()))
+                anc = AncModel(request)
+                person = PersonModel(request)
 
-        if is_token:
+                cid = request.params['cid']
 
-            anc = AncModel(request)
-            person = PersonModel(request)
+                rs = anc.search_anc_coverages(request.session['hospcode'], cid)
 
-            cid = request.params['cid']
+                if rs:
+                    rows = []
 
-            rs = anc.search_anc_coverages(request.session['hospcode'], cid)
+                    for r in rs:
+                        p = person.get_person_detail(r['pid'], r['hospcode'])
+                        obj = {
+                            'fullname': p['name'] + '  ' + p['lname'],
+                            'cid': p['cid'],
+                            'birth': h.to_thai_date(p['birth']),
+                            'age': h.count_age(p['birth']),
+                            'sex': p['sex'],
+                            'address': h.get_address(request, p['hid'], r['hospcode']),
+                            'hospcode': r['hospcode'],
+                            'pid': r['pid'],
+                            'total': r['total']
+                        }
 
-            if rs:
-                rows = []
+                        rows.append(obj)
 
-                for r in rs:
-                    p = person.get_person_detail(r['pid'], r['hospcode'])
-                    obj = {
-                        'fullname': p['name'] + '  ' + p['lname'],
-                        'cid': p['cid'],
-                        'birth': h.to_thai_date(p['birth']),
-                        'age': h.count_age(p['birth']),
-                        'sex': p['sex'],
-                        'address': h.get_address(request, p['hid'], r['hospcode']),
-                        'hospcode': r['hospcode'],
-                        'pid': r['pid'],
-                        'total': r['total']
-                    }
-
-                    rows.append(obj)
-
-                return {'ok': 1, 'rows': rows}
+                    return {'ok': 1, 'rows': rows}
+                else:
+                    return {'ok': 0, 'msg': 'ไม่พบรายการ'}
             else:
-                return {'ok': 0, 'msg': 'ไม่พบรายการ'}
-        else:
-            return {'ok': 0, 'msg': 'Invalid token key.'}
+                return {'ok': 0, 'msg': 'Invalid token key.'}
 
 
 @view_config(route_name='reports_anc_coverages_total', request_method='POST', renderer='json')
@@ -1029,51 +993,48 @@ def reports_anc_12weeks_index(request):
 @view_config(route_name='reports_anc_12ws_list', renderer='json', request_method='POST')
 def reports_anc_12ws_list(request):
     if 'logged' not in request.session:
-        return HTTPFound(location='/signin')
+        return {'ok': 0, 'msg': 'Please login.'}
+    else:
+        if request.is_xhr:  # is ajax request
+            csrf_token = request.params['csrf_token']
+            is_token = (csrf_token == unicode(request.session.get_csrf_token()))
 
-    if request.session['user_type'] == '1':
-        return HTTPFound(location='/admins')
+            if is_token:
 
-    if request.is_xhr:  # is ajax request
-        csrf_token = request.params['csrf_token']
-        is_token = (csrf_token == unicode(request.session.get_csrf_token()))
+                anc = AncModel(request)
+                person = PersonModel(request)
 
-        if is_token:
+                start = request.params['start']
+                stop = request.params['stop']
 
-            anc = AncModel(request)
-            person = PersonModel(request)
+                limit = int(stop) - int(start)
 
-            start = request.params['start']
-            stop = request.params['stop']
+                rs = anc.get_anc_12ws_list(request.session['hospcode'], int(start), int(limit))
 
-            limit = int(stop) - int(start)
+                if rs:
+                    rows = []
 
-            rs = anc.get_anc_12ws_list(request.session['hospcode'], int(start), int(limit))
+                    for r in rs:
+                        p = person.get_person_detail(r['pid'], r['hospcode'])
+                        obj = {
+                            'fullname': p['name'] + '  ' + p['lname'],
+                            'cid': p['cid'],
+                            'birth': h.to_thai_date(p['birth']),
+                            'age': h.count_age(p['birth']),
+                            'sex': p['sex'],
+                            'address': h.get_address(request, p['hid'], r['hospcode']),
+                            'hospcode': r['hospcode'],
+                            'pid': r['pid'],
+                            'gravida': r['gravida']
+                        }
 
-            if rs:
-                rows = []
+                        rows.append(obj)
 
-                for r in rs:
-                    p = person.get_person_detail(r['pid'], r['hospcode'])
-                    obj = {
-                        'fullname': p['name'] + '  ' + p['lname'],
-                        'cid': p['cid'],
-                        'birth': h.to_thai_date(p['birth']),
-                        'age': h.count_age(p['birth']),
-                        'sex': p['sex'],
-                        'address': h.get_address(request, p['hid'], r['hospcode']),
-                        'hospcode': r['hospcode'],
-                        'pid': r['pid'],
-                        'gravida': r['gravida']
-                    }
-
-                    rows.append(obj)
-
-                return {'ok': 1, 'rows': rows}
+                    return {'ok': 1, 'rows': rows}
+                else:
+                    return {'ok': 0, 'msg': 'ไม่พบรายการ'}
             else:
-                return {'ok': 0, 'msg': 'ไม่พบรายการ'}
-        else:
-            return {'ok': 0, 'msg': 'Invalid token key.'}
+                return {'ok': 0, 'msg': 'Invalid token key.'}
 
 
 @view_config(route_name='reports_anc_12ws_total', request_method='POST', renderer='json')

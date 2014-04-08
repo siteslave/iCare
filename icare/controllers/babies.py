@@ -29,22 +29,22 @@ def index_view(request):
 @view_config(route_name='babies_get_total', renderer='json')
 def get_list_total(request):
     if 'logged' not in request.session:
-        return HTTPFound(location='/signin')
-
-    csrf_token = request.params['csrf_token']
-    is_token = (csrf_token == unicode(request.session.get_csrf_token()))
-
-    if is_token:
-
-        babies = BabiesModel(request)
-
-        try:
-            total = babies.get_list_total()
-            return {'ok': 1, 'total': total}
-        except Exception as e:
-            return {'ok': 0, 'msg': e.message}
+        return {'ok': 0, 'msg': 'Please login.'}
     else:
-        return {'ok': 0, 'msg': 'Not ajax request'}
+        csrf_token = request.params['csrf_token']
+        is_token = (csrf_token == unicode(request.session.get_csrf_token()))
+
+        if is_token:
+
+            babies = BabiesModel(request)
+
+            try:
+                total = babies.get_list_total()
+                return {'ok': 1, 'total': total}
+            except Exception as e:
+                return {'ok': 0, 'msg': e.message}
+        else:
+            return {'ok': 0, 'msg': 'Not ajax request'}
 
 
 @view_config(route_name='babies_get_total_by_birth', renderer='json')
@@ -74,7 +74,7 @@ def get_list_total_by_birth(request):
 @view_config(route_name='babies_get_list', request_method='POST', renderer='json')
 def get_list(request):
     if 'logged' not in request.session:
-        return HTTPFound(location='/signin')
+        return {'ok': 0, 'msg': 'Please login.'}
     else:
         if request.is_xhr:  # is ajax request
             csrf_token = request.params['csrf_token']
@@ -188,7 +188,7 @@ def get_list_by_birth(request):
 @view_config(route_name='babies_search', request_method='POST', renderer='json')
 def search(request):
     if 'logged' not in request.session:
-        return HTTPFound(location='/signin')
+        return {'ok': 0, 'msg': 'Please login.'}
     else:
         if request.is_xhr:  # is ajax request
             csrf_token = request.params['csrf_token']
@@ -241,7 +241,7 @@ def search(request):
 @view_config(route_name='babies_get_care', request_method='POST', renderer='json')
 def get_care(request):
     if 'logged' not in request.session:
-        return HTTPFound(location='/signin')
+        return {'ok': 0, 'msg': 'Please login.'}
     else:
         if request.is_xhr:  # is ajax request
             csrf_token = request.params['csrf_token']
@@ -262,8 +262,7 @@ def get_care(request):
                             'bcplace_code': r['bcplace'],
                             'bcplace_name': h.get_hospital_name(request, r['bcplace']),
                             'bcareresult': r['bcareresult'],
-                            'food': r['food'],
-
+                            'food': r['food']
                         }
 
                         rows.append(obj)
@@ -279,7 +278,7 @@ def get_care(request):
 @view_config(route_name='babies_get_care_all', request_method='POST', renderer='json')
 def get_care_all(request):
     if 'logged' not in request.session:
-        return HTTPFound(location='/signin')
+        return {'ok': 0, 'msg': 'Please login.'}
     else:
         if request.is_xhr:  # is ajax request
             csrf_token = request.params['csrf_token']
@@ -311,12 +310,14 @@ def get_care_all(request):
                     return {'ok': 0, 'msg': u'ไม่พบข้อมูล'}
             else:
                 return {'ok': 0, 'msg': "No token found."}
+        else:
+            return {'ok': 0, 'msg': "No ajax"}
 
 
 @view_config(route_name='babies_get_newborn', request_method='POST', renderer='json')
 def get_newborn(request):
     if 'logged' not in request.session:
-        return HTTPFound(location='/signin')
+        return {'ok': 0, 'msg': 'Please login.'}
     else:
         if request.is_xhr:  # is ajax request
             csrf_token = request.params['csrf_token']
@@ -355,3 +356,5 @@ def get_newborn(request):
                     return {'ok': 0, 'msg': u'ไม่พบข้อมูล'}
             else:
                 return {'ok': 0, 'msg': "No token found."}
+        else:
+            return {'ok': 0, 'msg': "No ajax."}

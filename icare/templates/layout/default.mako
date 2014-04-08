@@ -75,7 +75,7 @@
                 <li><a href="${request.route_url('mch_index')}"><i class="fa fa-user-md fa-fw"></i> ทะเบียนหญิงคลอด/ดูแลหลังคลอด</a></li>
                 <li><a href="${request.route_url('babies_index')}"><i class="fa fa-suitcase fa-fw"></i> ทะเบียนเด็กแรกเกิด/ดูแลหลังคลอด</a></li>
                 <li class="divider"></li>
-                <li><a href="${request.route_url('labor_other_index')}"><i class="fa fa-suitcase fa-fw"></i> ตรวจสอบข้อมูลการคลอดจากโรงพยาบาล</a></li>
+                <li><a href="${request.route_url('labor_other_index')}"><i class="fa fa-search fa-fw"></i> ตรวจสอบข้อมูลการคลอดจากโรงพยาบาล</a></li>
 <li class="divider"></li>
                   <li class="dropdown-header">VACCINES SERVICES</li>
                   <li><a href="${request.route_url('wbc02_index')}"><i class="fa fa-check fa-fw"></i> วัคซีนและโภชนาการเด็ก 0-2 ปี</a></li>

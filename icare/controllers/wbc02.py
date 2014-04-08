@@ -29,31 +29,31 @@ def index_view(request):
 @view_config(route_name='wbc02_get_total', renderer='json')
 def get_list_total(request):
     if 'logged' not in request.session:
-        return HTTPFound(location='/signin')
-
-    csrf_token = request.params['csrf_token']
-    is_token = (csrf_token == unicode(request.session.get_csrf_token()))
-
-    if is_token:
-
-        wbc = Wbc02Model(request)
-
-        start_date = h.jsdate_to_string(request.params['start_date'])
-        end_date = h.jsdate_to_string(request.params['end_date'])
-
-        try:
-            total = wbc.get_list_total(request.session['hospcode'], start_date, end_date)
-            return {'ok': 1, 'total': total}
-        except Exception as e:
-            return {'ok': 0, 'msg': e.message}
+        return {'ok': 0, 'msg': 'Please login.'}
     else:
-        return {'ok': 0, 'msg': 'Not ajax request'}
+        csrf_token = request.params['csrf_token']
+        is_token = (csrf_token == unicode(request.session.get_csrf_token()))
+
+        if is_token:
+
+            wbc = Wbc02Model(request)
+
+            start_date = h.jsdate_to_string(request.params['start_date'])
+            end_date = h.jsdate_to_string(request.params['end_date'])
+
+            try:
+                total = wbc.get_list_total(request.session['hospcode'], start_date, end_date)
+                return {'ok': 1, 'total': total}
+            except Exception as e:
+                return {'ok': 0, 'msg': e.message}
+        else:
+            return {'ok': 0, 'msg': 'Not ajax request'}
 
 
 @view_config(route_name='wbc02_get_list', request_method='POST', renderer='json')
 def get_list(request):
     if 'logged' not in request.session:
-        return HTTPFound(location='/signin')
+        return {'ok': 0, 'msg': 'Please login.'}
     else:
         if request.is_xhr:  # is ajax request
             csrf_token = request.params['csrf_token']
@@ -112,34 +112,34 @@ def get_list(request):
 @view_config(route_name='wbc02_get_total_by_vid', renderer='json')
 def get_list_total_by_vid(request):
     if 'logged' not in request.session:
-        return HTTPFound(location='/signin')
-
-    csrf_token = request.params['csrf_token']
-    is_token = (csrf_token == unicode(request.session.get_csrf_token()))
-
-    if is_token:
-
-        wbc = Wbc02Model(request)
-
-        start_date = h.jsdate_to_string(request.params['start_date'])
-        end_date = h.jsdate_to_string(request.params['end_date'])
-        vid = request.params['vid']
-
-        hid = wbc.get_hid_from_village(request.session['hospcode'], vid)
-
-        try:
-            total = wbc.get_list_total_by_vid(request.session['hospcode'], start_date, end_date, hid)
-            return {'ok': 1, 'total': total}
-        except Exception as e:
-            return {'ok': 0, 'msg': e.message}
+        return {'ok': 0, 'msg': 'Please login.'}
     else:
-        return {'ok': 0, 'msg': 'Not ajax request'}
+        csrf_token = request.params['csrf_token']
+        is_token = (csrf_token == unicode(request.session.get_csrf_token()))
+
+        if is_token:
+
+            wbc = Wbc02Model(request)
+
+            start_date = h.jsdate_to_string(request.params['start_date'])
+            end_date = h.jsdate_to_string(request.params['end_date'])
+            vid = request.params['vid']
+
+            hid = wbc.get_hid_from_village(request.session['hospcode'], vid)
+
+            try:
+                total = wbc.get_list_total_by_vid(request.session['hospcode'], start_date, end_date, hid)
+                return {'ok': 1, 'total': total}
+            except Exception as e:
+                return {'ok': 0, 'msg': e.message}
+        else:
+            return {'ok': 0, 'msg': 'Not ajax request'}
 
 
 @view_config(route_name='wbc02_get_list_by_vid', request_method='POST', renderer='json')
 def get_list_by_vid(request):
     if 'logged' not in request.session:
-        return HTTPFound(location='/signin')
+        return {'ok': 0, 'msg': 'Please login.'}
     else:
         if request.is_xhr:  # is ajax request
             csrf_token = request.params['csrf_token']
@@ -200,7 +200,7 @@ def get_list_by_vid(request):
 @view_config(route_name='wbc02_get_vaccines', request_method='POST', renderer='json')
 def get_vaccines(request):
     if 'logged' not in request.session:
-        return HTTPFound(location='/signin')
+        return {'ok': 0, 'msg': 'Please login.'}
     else:
         if request.is_xhr:  # is ajax request
             csrf_token = request.params['csrf_token']
@@ -268,120 +268,120 @@ def get_vaccines(request):
 @view_config(route_name='wbc02_search_visit', renderer='json')
 def search_visit(request):
     if 'logged' not in request.session:
-        return HTTPFound(location='/signin')
-
-    csrf_token = request.params['csrf_token']
-    is_token = (csrf_token == unicode(request.session.get_csrf_token()))
-
-    if is_token:
-
-        wbc = Wbc02Model(request)
-        mch = MchModel(request)
-
-        cid = request.params['cid']
-
-        rs = wbc.search_visit(cid)
-
-        if rs:
-            rows = []
-            for r in rs:
-                obj = {
-                    'code': r['vaccinetype'],
-                    'name': h.get_vaccine_name(request, r['vaccinetype']),
-                    'hospcode': r['vaccineplace'],
-                    'hospname': h.get_hospital_name(request, r['vaccineplace']),
-                    'date_serv': h.to_thai_date(r['date_serv']),
-                    'appoint': mch.count_appointment(r['pid'], r['hospcode'], r['seq']),
-                    'seq': r['seq'],
-                    'hospcode': r['hospcode'],
-                    'pid': r['pid']
-                }
-
-                rows.append(obj)
-            return {'ok': 1, 'rows': rows}
-        else:
-            return {'ok': 0, 'msg': u'ไม่พบรายการ'}
+        return {'ok': 0, 'msg': 'Please login.'}
     else:
-        return {'ok': 0, 'msg': 'Not ajax request'}
+        csrf_token = request.params['csrf_token']
+        is_token = (csrf_token == unicode(request.session.get_csrf_token()))
+
+        if is_token:
+
+            wbc = Wbc02Model(request)
+            mch = MchModel(request)
+
+            cid = request.params['cid']
+
+            rs = wbc.search_visit(cid)
+
+            if rs:
+                rows = []
+                for r in rs:
+                    obj = {
+                        'code': r['vaccinetype'],
+                        'name': h.get_vaccine_name(request, r['vaccinetype']),
+                        'hospcode': r['vaccineplace'],
+                        'hospname': h.get_hospital_name(request, r['vaccineplace']),
+                        'date_serv': h.to_thai_date(r['date_serv']),
+                        'appoint': mch.count_appointment(r['pid'], r['hospcode'], r['seq']),
+                        'seq': r['seq'],
+                        'hospcode': r['hospcode'],
+                        'pid': r['pid']
+                    }
+
+                    rows.append(obj)
+                return {'ok': 1, 'rows': rows}
+            else:
+                return {'ok': 0, 'msg': u'ไม่พบรายการ'}
+        else:
+            return {'ok': 0, 'msg': 'Not ajax request'}
 
 
 @view_config(route_name='wbc02_get_nutrition', renderer='json')
 def get_nutrition(request):
     if 'logged' not in request.session:
-        return HTTPFound(location='/signin')
-
-    csrf_token = request.params['csrf_token']
-    is_token = (csrf_token == unicode(request.session.get_csrf_token()))
-
-    if is_token:
-
-        wbc = Wbc02Model(request)
-
-        cid = request.params['cid']
-
-        rs = wbc.get_nutrition(cid)
-
-        if rs:
-            rows = []
-            for r in rs:
-                obj = {
-                    'nutritionplace_code': r['nutritionplace'],
-                    'nutritionplace_name': h.get_hospital_name(request, r['nutritionplace']),
-                    'date_serv': h.to_thai_date(r['date_serv']),
-                    'weight': r['weight'],
-                    'height': r['height'],
-                    'headcircum': r['headcircum'],
-                    'childdevelop': r['childdevelop'],
-                    'food': r['food'],
-                    'bottle': r['bottle']
-                }
-
-                rows.append(obj)
-
-            return {'ok': 1, 'rows': rows}
-        else:
-            return {'ok': 0, 'msg': u'ไม่พบรายการ'}
+        return {'ok': 0, 'msg': 'Please login.'}
     else:
-        return {'ok': 0, 'msg': 'Not ajax request'}
+        csrf_token = request.params['csrf_token']
+        is_token = (csrf_token == unicode(request.session.get_csrf_token()))
+
+        if is_token:
+
+            wbc = Wbc02Model(request)
+
+            cid = request.params['cid']
+
+            rs = wbc.get_nutrition(cid)
+
+            if rs:
+                rows = []
+                for r in rs:
+                    obj = {
+                        'nutritionplace_code': r['nutritionplace'],
+                        'nutritionplace_name': h.get_hospital_name(request, r['nutritionplace']),
+                        'date_serv': h.to_thai_date(r['date_serv']),
+                        'weight': r['weight'],
+                        'height': r['height'],
+                        'headcircum': r['headcircum'],
+                        'childdevelop': r['childdevelop'],
+                        'food': r['food'],
+                        'bottle': r['bottle']
+                    }
+
+                    rows.append(obj)
+
+                return {'ok': 1, 'rows': rows}
+            else:
+                return {'ok': 0, 'msg': u'ไม่พบรายการ'}
+        else:
+            return {'ok': 0, 'msg': 'Not ajax request'}
 
 
 @view_config(route_name='wbc02_get_nutrition_owner', renderer='json')
 def get_nutrition_owner(request):
     if 'logged' not in request.session:
-        return HTTPFound(location='/signin')
-
-    csrf_token = request.params['csrf_token']
-    is_token = (csrf_token == unicode(request.session.get_csrf_token()))
-
-    if is_token:
-
-        wbc = Wbc02Model(request)
-
-        pid = request.params['pid']
-        hospcode = request.params['hospcode']
-
-        rs = wbc.get_nutrition_owner(pid, hospcode)
-
-        if rs:
-            rows = []
-            for r in rs:
-                obj = {
-                    'nutritionplace_code': r['nutritionplace'],
-                    'nutritionplace_name': h.get_hospital_name(request, r['nutritionplace']),
-                    'date_serv': h.to_thai_date(r['date_serv']),
-                    'weight': r['weight'],
-                    'height': r['height'],
-                    'headcircum': r['headcircum'],
-                    'childdevelop': r['childdevelop'],
-                    'food': r['food'],
-                    'bottle': r['bottle']
-                }
-
-                rows.append(obj)
-
-            return {'ok': 1, 'rows': rows}
-        else:
-            return {'ok': 0, 'msg': u'ไม่พบรายการ'}
+        return {'ok': 0, 'msg': 'Please login.'}
     else:
-        return {'ok': 0, 'msg': 'Not ajax request'}
+        csrf_token = request.params['csrf_token']
+        is_token = (csrf_token == unicode(request.session.get_csrf_token()))
+
+        if is_token:
+
+            wbc = Wbc02Model(request)
+
+            pid = request.params['pid']
+            hospcode = request.params['hospcode']
+
+            rs = wbc.get_nutrition_owner(pid, hospcode)
+
+            if rs:
+                rows = []
+                for r in rs:
+                    obj = {
+                        'nutritionplace_code': r['nutritionplace'],
+                        'nutritionplace_name': h.get_hospital_name(request, r['nutritionplace']),
+                        'date_serv': h.to_thai_date(r['date_serv']),
+                        'weight': r['weight'],
+                        'height': r['height'],
+                        'headcircum': r['headcircum'],
+                        'childdevelop': r['childdevelop'],
+                        'food': r['food'],
+                        'bottle': r['bottle']
+                    }
+
+                    rows.append(obj)
+
+                return {'ok': 1, 'rows': rows}
+            else:
+                return {'ok': 0, 'msg': u'ไม่พบรายการ'}
+        else:
+            return {'ok': 0, 'msg': 'Not ajax request'}
 

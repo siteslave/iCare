@@ -144,7 +144,7 @@ class ICHelper:
 
     def get_labor_hospital_list(self, request):
 
-        rs = request.db['ref_owners'].find()
+        rs = request.db['ref_owners'].find().sort('hospcode', pymongo.ASCENDING)
         if rs:
             rows = []
             for r in rs:

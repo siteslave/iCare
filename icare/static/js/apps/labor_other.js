@@ -171,6 +171,7 @@ $(function() {
                         '<td class="text-center">' + v.cid + '</td>' +
                         '<td>' + v.fullname + '</td>' +
                         '<td class="text-center">' + v.age.year + '</td>' +
+                        '<td class="text-center">' + v.gravida + '</td>' +
                         '<td class="text-center">' + v.bdate + '</td>' +
                         '<td>' + v.house + ' ' + v.address + '</td>' +
                         '<td class="text-center"><div class="btn-group">' +
@@ -190,7 +191,7 @@ $(function() {
             app.set_runtime();
 
         } else {
-            $('#tbl_list > tbody').append('<tr><td colspan="8">ไม่พบรายการ</td></tr>');
+            $('#tbl_list > tbody').append('<tr><td colspan="9">ไม่พบรายการ</td></tr>');
         }
     };
 

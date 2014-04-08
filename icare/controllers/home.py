@@ -17,28 +17,28 @@ h = ICHelper()
 @view_config(route_name='home_remove_latlng', renderer='json')
 def remove_latlng(request):
     if 'logged' not in request.session:
-        return HTTPFound(location='/signin')
+        return {'ok': 0, 'msg': 'Please login.'}
+    else:
+        csrf_token = request.params['csrf_token']
+        is_token = (csrf_token == unicode(request.session.get_csrf_token()))
 
-    csrf_token = request.params['csrf_token']
-    is_token = (csrf_token == unicode(request.session.get_csrf_token()))
+        if is_token:
+            home = HomeModel(request)
 
-    if is_token:
-        home = HomeModel(request)
+            hospcode = request.params['hospcode']
+            hid = request.params['hid']
 
-        hospcode = request.params['hospcode']
-        hid = request.params['hid']
+            try:
+                home.remove_latlng(hospcode, hid)
+                return {'ok': 1}
+            except:
+                return {'ok': 0, 'msg': u'ไม่สามารถลบรายการได้'}
 
-        try:
-            home.remove_latlng(hospcode, hid)
-            return {'ok': 1}
-        except:
-            return {'ok': 0, 'msg': u'ไม่สามารถลบรายการได้'}
-            
 
 @view_config(route_name='home_save_latlng', request_method='POST', renderer='json')
 def save_latlng(request):
     if 'logged' not in request.session:
-        return HTTPFound(location='/signin')
+        return {'ok': 0, 'msg': 'Please login.'}
     else:
         if request.is_xhr:  # is ajax request
             lat = request.params['lat']

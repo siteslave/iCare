@@ -45,22 +45,22 @@ def map_view(request):
 @view_config(route_name='mch_get_list_total', renderer='json')
 def get_list_total(request):
     if 'logged' not in request.session:
-        return HTTPFound(location='/signin')
-
-    csrf_token = request.params['csrf_token']
-    is_token = (csrf_token == unicode(request.session.get_csrf_token()))
-
-    if is_token:
-
-        mch = MchModel(request)
-
-        try:
-            total = mch.get_list_total(request.session['hospcode'])
-            return {'ok': 1, 'total': total}
-        except Exception as e:
-            return {'ok': 0, 'msg': e.message}
+        return {'ok': 0, 'msg': 'Please login.'}
     else:
-        return {'ok': 0, 'msg': 'Not ajax request'}
+        csrf_token = request.params['csrf_token']
+        is_token = (csrf_token == unicode(request.session.get_csrf_token()))
+
+        if is_token:
+
+            mch = MchModel(request)
+
+            try:
+                total = mch.get_list_total(request.session['hospcode'])
+                return {'ok': 1, 'total': total}
+            except Exception as e:
+                return {'ok': 0, 'msg': e.message}
+        else:
+            return {'ok': 0, 'msg': 'Not ajax request'}
 
 
 @view_config(route_name='mch_get_list_total_by_birth', renderer='json')
@@ -90,7 +90,7 @@ def get_list_total_by_birth(request):
 @view_config(route_name='mch_get_list', request_method='POST', renderer='json')
 def get_list(request):
     if 'logged' not in request.session:
-        return HTTPFound(location='/signin')
+        return {'ok': 0, 'msg': 'Please login.'}
     else:
         if request.is_xhr:  # is ajax request
             csrf_token = request.params['csrf_token']
@@ -203,7 +203,7 @@ def get_list_by_birth(request):
 @view_config(route_name='mch_search', request_method='POST', renderer='json')
 def search(request):
     if 'logged' not in request.session:
-        return HTTPFound(location='/signin')
+        return {'ok': 0, 'msg': 'Please login.'}
     else:
         if request.is_xhr:  # is ajax request
             csrf_token = request.params['csrf_token']
@@ -256,7 +256,7 @@ def search(request):
 @view_config(route_name='mch_get_postnatal', request_method='POST', renderer='json')
 def get_postnatal(request):
     if 'logged' not in request.session:
-        return HTTPFound(location='/signin')
+        return {'ok': 0, 'msg': 'Please login.'}
     else:
         if request.is_xhr:  # is ajax request
 
@@ -299,7 +299,7 @@ def get_postnatal(request):
 @view_config(route_name='mch_get_postnatal_all', request_method='POST', renderer='json')
 def get_postnatal_all(request):
     if 'logged' not in request.session:
-        return HTTPFound(location='/signin')
+        return {'ok': 0, 'msg': 'Please login.'}
     else:
         if request.is_xhr:  # is ajax request
 
@@ -345,7 +345,7 @@ def get_postnatal_all(request):
 @view_config(route_name='mch_get_appointment', request_method='POST', renderer='json')
 def get_appointment(request):
     if 'logged' not in request.session:
-        return HTTPFound(location='/signin')
+        return {'ok': 0, 'msg': 'Please login.'}
     else:
         if request.is_xhr:  # is ajax request
 

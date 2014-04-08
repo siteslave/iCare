@@ -40,29 +40,29 @@ def index_view(request):
 @view_config(route_name='employer_get_total', renderer='json')
 def get_total(request):
     if 'logged' not in request.session:
-        return HTTPFound(location='/signin')
-
-    csrf_token = request.params['csrf_token']
-    is_token = (csrf_token == unicode(request.session.get_csrf_token()))
-
-    if is_token:
-
-        emp = EmployersModel(request)
-        try:
-            total = emp.get_total(request.session['owner'])
-
-            return {'ok': 1, 'total': total}
-
-        except Exception as e:
-            return {'ok': 0, 'msg': e.message}
+        return {'ok': 0, 'msg': 'Please login.'}
     else:
-        return {'ok': 0, 'msg': 'Not ajax request'}
+        csrf_token = request.params['csrf_token']
+        is_token = (csrf_token == unicode(request.session.get_csrf_token()))
 
-        
+        if is_token:
+
+            emp = EmployersModel(request)
+            try:
+                total = emp.get_total(request.session['owner'])
+
+                return {'ok': 1, 'total': total}
+
+            except Exception as e:
+                return {'ok': 0, 'msg': e.message}
+        else:
+            return {'ok': 0, 'msg': 'Not ajax request'}
+
+
 @view_config(route_name='employer_detail', request_method='POST', renderer='json')
 def get_detail(request):
     if 'logged' not in request.session:
-        return HTTPFound(location='/signin')
+        return {'ok': 0, 'msg': 'Please login.'}
     else:
         #If ajax request
         if request.is_xhr:
@@ -103,14 +103,15 @@ def get_detail(request):
                 
             else:
                 return {'ok': 0, 'msg': u'กรุณาระบุ id'}
+        else:
+            return {'ok': 0, 'msg': 'Not ajax.'}
 
         
 @view_config(route_name='employer_search', request_method='POST', renderer='json')
 def search(request):
     if 'logged' not in request.session:
-        return HTTPFound(location='/signin')
+        return {'ok': 0, 'msg': 'Please login.'}
     else:
-
         if request.is_xhr:  # is ajax request
             query = request.params['query']
             emp = EmployersModel(request)
@@ -156,11 +157,12 @@ def search(request):
             
         else:
             return {'ok': 0, 'msg': 'Not ajax request'}
-                    
+
+
 @view_config(route_name='employer_get_list', request_method='POST', renderer='json')
 def get_list(request):
     if 'logged' not in request.session:
-        return HTTPFound(location='/signin')
+        return {'ok': 0, 'msg': 'Please login.'}
     else:
 
         if request.is_xhr:  # is ajax request
@@ -211,7 +213,7 @@ def get_list(request):
 @view_config(route_name="employer_save_new", request_method="POST", renderer="json")
 def save_new(request):
     if "logged" not in request.session:
-        return HTTPFound(location="/signin")
+        return {'ok': 0, 'msg': 'Please login.'}
     else:
         # Check if ajax request
         if request.is_xhr:
@@ -282,7 +284,7 @@ def save_new(request):
 @view_config(route_name="employer_save_meeting", request_method="POST", renderer="json")
 def save_meetings(request):
     if "logged" not in request.session:
-        return HTTPFound(location="/signin")
+        return {'ok': 0, 'msg': 'Please login.'}
     else:
         # Call employers model
         emp = EmployersModel(request)
@@ -321,7 +323,7 @@ def save_meetings(request):
 @view_config(route_name="employer_get_meeting", request_method="POST", renderer="json")
 def get_meetings(request):
     if "logged" not in request.session:
-        return HTTPFound(location="/signin")
+        return {'ok': 0, 'msg': 'Please login.'}
     else:
         # Call employers model
         emp = EmployersModel(request)
@@ -357,7 +359,7 @@ def get_meetings(request):
 @view_config(route_name="employer_remove_meeting", request_method="POST", renderer="json")
 def remove_meetings(request):
     if "logged" not in request.session:
-        return HTTPFound(location="/signin")
+        return {'ok': 0, 'msg': 'Please login.'}
     else:
         # Call employers model
         emp = EmployersModel(request)
@@ -373,7 +375,7 @@ def remove_meetings(request):
 @view_config(route_name='employer_get_topics', request_method='POST', renderer='json')
 def get_topics(request):
     if 'logged' not in request.session:
-        return HTTPFound(location='/signin')
+        return {'ok': 0, 'msg': 'Please login.'}
     else:
 
         if request.is_xhr:  # is ajax request
@@ -404,7 +406,7 @@ def get_topics(request):
 @view_config(route_name="employer_save_topic", request_method="POST", renderer="json")
 def save_topic(request):
     if "logged" not in request.session:
-        return HTTPFound(location="/signin")
+        return {'ok': 0, 'msg': 'Please login.'}
     else:
         # Call employers model
         emp = EmployersModel(request)
@@ -435,7 +437,7 @@ def save_topic(request):
 @view_config(route_name="employer_remove_topic", request_method="POST", renderer="json")
 def remove_topic(request):
     if "logged" not in request.session:
-        return HTTPFound(location="/signin")
+        return {'ok': 0, 'msg': 'Please login.'}
     else:
         # Call employers model
         emp = EmployersModel(request)

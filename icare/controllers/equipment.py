@@ -31,7 +31,7 @@ def index_view(request):
 @view_config(route_name='equipment_services', renderer='equipment_services.mako')
 def service_view(request):
     if 'logged' not in request.session:
-        return HTTPFound(location='/signin')
+        return {'ok': 0, 'msg': 'Please login.'}
     else:
         if request.session['user_type'] == '1':
             return HTTPFound(location='/admins')
@@ -48,7 +48,7 @@ def service_view(request):
 @view_config(route_name="save_equipment", request_method='POST', renderer='json')
 def save_view(request):
     if 'logged' not in request.session:
-        return HTTPFound(location='/signin')
+        return {'ok': 0, 'msg': 'Please login.'}
     else:
 
         csrf_token = request.params['csrf_token']
@@ -90,7 +90,7 @@ def save_view(request):
 @view_config(route_name="equipment_save_service", request_method='POST', renderer='json')
 def save_service_view(request):
     if 'logged' not in request.session:
-        return HTTPFound(location='/signin')
+        return {'ok': 0, 'msg': 'Please login.'}
     else:
 
         csrf_token = request.params['csrf_token']
@@ -140,71 +140,111 @@ def save_service_view(request):
 @view_config(route_name='equipment_get_detail', request_method='POST', renderer='json')
 def get_equipment_detail(request):
     if 'logged' not in request.session:
-        return HTTPFound(location='/signin')
+        return {'ok': 0, 'msg': 'Please login.'}
+    else:
+        csrf_token = request.params['csrf_token']
+        equipment_id = request.params['id']
 
-    csrf_token = request.params['csrf_token']
-    equipment_id = request.params['id']
+        is_token = (csrf_token == unicode(request.session.get_csrf_token()))
 
-    is_token = (csrf_token == unicode(request.session.get_csrf_token()))
+        if is_token:
+            equipment = EquipmentModel(request)
 
-    if is_token:
-        equipment = EquipmentModel(request)
+            rs = equipment.get_detail(equipment_id)
 
-        rs = equipment.get_detail(equipment_id)
+            if rs:
+                obj = {
+                    'name': rs['name'],
+                    'durable_goods_number': rs['durable_goods_number'],
+                    'serial': rs['serial']
+                }
 
-        if rs:
-            obj = {
-                'name': rs['name'],
-                'durable_goods_number': rs['durable_goods_number'],
-                'serial': rs['serial']
-            }
+                return {'ok': 1, 'rows': obj}
+            else:
+                return {'ok': 0, 'msg': 'Record not found'}
 
-            return {'ok': 1, 'rows': obj}
         else:
-            return {'ok': 0, 'msg': 'Record not found'}
+            return {'ok': 0, 'msg': 'Invalid token key.'}
 
 
 @view_config(route_name='equipment_remove_service', request_method='POST', renderer='json')
 def remove_service(request):
     if 'logged' not in request.session:
-        return HTTPFound(location='/signin')
-
-    csrf_token = request.params['csrf_token']
-    service_id = request.params['sid']
-    equipment_id = request.params['eqid']
-
-    is_token = (csrf_token == unicode(request.session.get_csrf_token()))
-
-    if is_token:
-        equipment = EquipmentModel(request)
-
-        equipment.remove_service(equipment_id, service_id)
-
-        return {'ok': 1}
+        return {'ok': 0, 'msg': 'Please login.'}
     else:
-        return {'ok': 0, 'msg': 'Token key invalid'}
+        csrf_token = request.params['csrf_token']
+        service_id = request.params['sid']
+        equipment_id = request.params['eqid']
+
+        is_token = (csrf_token == unicode(request.session.get_csrf_token()))
+
+        if is_token:
+            equipment = EquipmentModel(request)
+
+            equipment.remove_service(equipment_id, service_id)
+
+            return {'ok': 1}
+        else:
+            return {'ok': 0, 'msg': 'Token key invalid'}
 
 
 @view_config(route_name='equipment_get_service_detail', request_method='POST', renderer='json')
 def get_equipment_service_detail(request):
     if 'logged' not in request.session:
-        return HTTPFound(location='/signin')
+        return {'ok': 0, 'msg': 'Please login.'}
+    else:
+        csrf_token = request.params['csrf_token']
+        service_id = request.params['sid']
+        equipment_id = request.params['eqid']
 
-    csrf_token = request.params['csrf_token']
-    service_id = request.params['sid']
-    equipment_id = request.params['eqid']
+        is_token = (csrf_token == unicode(request.session.get_csrf_token()))
 
-    is_token = (csrf_token == unicode(request.session.get_csrf_token()))
+        if is_token:
+            equipment = EquipmentModel(request)
 
-    if is_token:
-        equipment = EquipmentModel(request)
+            rs = equipment.get_service_detail(equipment_id, service_id)
 
-        rs = equipment.get_service_detail(equipment_id, service_id)
+            if rs:
 
-        if rs:
+                for r in rs['services']:
+                    if str(r['_id']) == service_id:
+                        obj = {
+                            'id': str(r['_id']),
+                            'email': r['email'] if 'email' in r else '-',
+                            'telephone': r['telephone'] if 'telephone' in r else '-',
+                            'service_status': r['service_status'] if 'service_status' in r else '-',
+                            'service_type': r['service_type'] if 'service_type' in r else '-',
+                            'company': r['company'] if 'company' in r else '-',
+                            'service_date': r['service_date'] if 'service_date' in r else '-',
+                            'contact_name': r['contact_name'] if 'contact_name' in r else '-',
+                            'return_date': r['return_date'] if 'return_date' in r else '-',
+                        }
 
-            for r in rs['services']:
-                if str(r['_id']) == service_id:
+                return {'ok': 1, 'rows': obj}
+            else:
+                return {'ok': 0, 'msg': 'Record not found'}
+        else:
+            return {'ok': 0, 'msg': 'Invalid token.'}
+
+
+@view_config(route_name='equipment_get_service_list', request_method='POST', renderer='json')
+def get_service_list(request):
+    if 'logged' not in request.session:
+        return {'ok': 0, 'msg': 'Please login.'}
+    else:
+        csrf_token = request.params['csrf_token']
+        equipment_id = request.params['id']
+
+        is_token = (csrf_token == unicode(request.session.get_csrf_token()))
+
+        if is_token:
+
+            equipment = EquipmentModel(request)
+
+            rs = equipment.get_service_list(equipment_id)
+            rows = []
+            if rs:
+                for r in rs['services']:
                     obj = {
                         'id': str(r['_id']),
                         'email': r['email'] if 'email' in r else '-',
@@ -217,103 +257,68 @@ def get_equipment_service_detail(request):
                         'return_date': r['return_date'] if 'return_date' in r else '-',
                     }
 
-            return {'ok': 1, 'rows': obj}
+                    rows.append(obj)
+
+                #data = sorted(rows, key=lambda k: k['service_date'])
+
+                return {'ok': 1, 'rows': rows}
+            else:
+                return {'ok': 0, 'msg': 'Record not found'}
         else:
-            return {'ok': 0, 'msg': 'Record not found'}
-
-
-@view_config(route_name='equipment_get_service_list', request_method='POST', renderer='json')
-def get_service_list(request):
-    if 'logged' not in request.session:
-        return HTTPFound(location='/signin')
-
-    csrf_token = request.params['csrf_token']
-    equipment_id = request.params['id']
-
-    is_token = (csrf_token == unicode(request.session.get_csrf_token()))
-
-    if is_token:
-
-        equipment = EquipmentModel(request)
-
-        rs = equipment.get_service_list(equipment_id)
-        rows = []
-        if rs:
-            for r in rs['services']:
-                obj = {
-                    'id': str(r['_id']),
-                    'email': r['email'] if 'email' in r else '-',
-                    'telephone': r['telephone'] if 'telephone' in r else '-',
-                    'service_status': r['service_status'] if 'service_status' in r else '-',
-                    'service_type': r['service_type'] if 'service_type' in r else '-',
-                    'company': r['company'] if 'company' in r else '-',
-                    'service_date': r['service_date'] if 'service_date' in r else '-',
-                    'contact_name': r['contact_name'] if 'contact_name' in r else '-',
-                    'return_date': r['return_date'] if 'return_date' in r else '-',
-                }
-
-                rows.append(obj)
-
-            #data = sorted(rows, key=lambda k: k['service_date'])
-
-            return {'ok': 1, 'rows': rows}
-        else:
-            return {'ok': 0, 'msg': 'Record not found'}
-    else:
-        return {'ok': 0, 'msg': 'Not ajax request'}
+            return {'ok': 0, 'msg': 'Not ajax request'}
 
 
 @view_config(route_name='equipment_get_total', renderer='json')
 def get_total(request):
     if 'logged' not in request.session:
-        return HTTPFound(location='/signin')
-
-    csrf_token = request.params['csrf_token']
-    is_token = (csrf_token == unicode(request.session.get_csrf_token()))
-
-    if is_token:
-
-        equipment = EquipmentModel(request)
-
-        try:
-            total = equipment.get_total(request.session['hospcode'])
-
-            return {'ok': 1, 'total': total}
-
-        except Exception as e:
-            return {'ok': 0, 'msg': e.message}
+        return {'ok': 0, 'msg': 'Please login.'}
     else:
-        return {'ok': 0, 'msg': 'Not ajax request'}
+        csrf_token = request.params['csrf_token']
+        is_token = (csrf_token == unicode(request.session.get_csrf_token()))
+
+        if is_token:
+
+            equipment = EquipmentModel(request)
+
+            try:
+                total = equipment.get_total(request.session['hospcode'])
+
+                return {'ok': 1, 'total': total}
+
+            except Exception as e:
+                return {'ok': 0, 'msg': e.message}
+        else:
+            return {'ok': 0, 'msg': 'Not ajax request'}
 
 
 @view_config(route_name='equipment_remove', renderer='json')
 def remove(request):
     if 'logged' not in request.session:
-        return HTTPFound(location='/signin')
-
-    csrf_token = request.params['csrf_token']
-    is_token = (csrf_token == unicode(request.session.get_csrf_token()))
-
-    if is_token:
-        equipment_id = request.params['id']
-
-        equipment = EquipmentModel(request)
-
-        try:
-            equipment.remove(ObjectId(equipment_id))
-
-            return {'ok': 1}
-
-        except Exception as e:
-            return {'ok': 0, 'msg': e.message}
+        return {'ok': 0, 'msg': 'Please login.'}
     else:
-        return {'ok': 0, 'msg': 'Token failed'}
+        csrf_token = request.params['csrf_token']
+        is_token = (csrf_token == unicode(request.session.get_csrf_token()))
+
+        if is_token:
+            equipment_id = request.params['id']
+
+            equipment = EquipmentModel(request)
+
+            try:
+                equipment.remove(ObjectId(equipment_id))
+
+                return {'ok': 1}
+
+            except Exception as e:
+                return {'ok': 0, 'msg': e.message}
+        else:
+            return {'ok': 0, 'msg': 'Token failed'}
 
 
 @view_config(route_name='equipment_get_list', request_method='POST', renderer='json')
 def get_list(request):
     if 'logged' not in request.session:
-        return HTTPFound(location='/signin')
+        return {'ok': 0, 'msg': 'Please login.'}
     else:
 
         csrf_token = request.params['csrf_token']
@@ -354,7 +359,7 @@ def get_list(request):
 @view_config(route_name='equipment_search', request_method='POST', renderer='json')
 def search_equipment(request):
     if 'logged' not in request.session:
-        return HTTPFound(location='/signin')
+        return {'ok': 0, 'msg': 'Please login.'}
     else:
 
         csrf_token = request.params['csrf_token']
