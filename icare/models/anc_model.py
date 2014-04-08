@@ -660,7 +660,7 @@ class AncModel:
         rs = self.request.db['anc_coverages'].find({
                 'hospcode': hospcode,
                 'typearea': {'$in': ['1', '3']},
-                'total': 5
+                'total': {'$gte': 5}
         }).count()
 
         return rs
