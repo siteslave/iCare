@@ -97,7 +97,7 @@ $(function() {
             app.set_runtime();
         }
         else {
-            $('#tbl_anc_visit_list > tbody').append('<tr><td colspan="5">ไม่พบข้อมูล</td></td></tr>');
+            $('#tbl_anc_visit_list > tbody').append('<tr><td colspan="6">ไม่พบข้อมูล</td></td></tr>');
         }
     };
 
